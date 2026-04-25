@@ -1,0 +1,10 @@
+@import "tailwindcss";
+@import "./_typography.css";
+@import "./_colors.css";
+@import "./_semantics.css";
+@import "./_animations.css";
+
+body {
+  @apply bg-surface-base text-on-surface-base;
+  font-family: "Roboto Flex", roboto, sans-serif;
+}

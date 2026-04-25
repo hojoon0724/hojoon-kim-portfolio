@@ -1,0 +1,81 @@
+/* dark/light semantics defined here */
+:root {
+  --surface-heavy: var(--neutral-950);
+  --surface-base: var(--neutral-800);
+  --surface-light: var(--neutral-600);
+  --surface-light-hovered: var(--neutral-700);
+  --surface-inverted: var(--neutral-100);
+  --surface-accent: var(--primary-peak);
+  --surface-accent-hovered: var(--primary-300);
+
+  --text-color-on-surface-base: var(--neutral-100);
+  --text-color-on-surface-inverted: var(--neutral-800);
+  --text-color-on-surface-accent: var(--neutral-800);
+  --text-color-on-surface-accent-hovered: var(--neutral-800);
+
+  --accent-text-on-surface-base: var(--primary-peak);
+  --accent-text-on-surface-inverted: var(--primary-400);
+
+  @media (prefers-color-scheme: light) {
+    --surface-heavy: var(--neutral-30);
+    --surface-base: var(--neutral-100);
+    --surface-light: var(--neutral-200);
+    --surface-light-hovered: var(--neutral-300);
+    --surface-inverted: var(--neutral-800);
+    --surface-accent: var(--primary-200);
+    --surface-accent-hovered: var(--primary-400);
+
+    --text-color-on-surface-base: var(--neutral-800);
+    --text-color-on-surface-inverted: var(--neutral-100);
+    --text-color-on-surface-accent: var(--neutral-30);
+    --text-color-on-surface-accent-hovered: var(--neutral-30);
+
+    --accent-text-on-surface-base: var(--primary-400);
+    --accent-text-on-surface-inverted: var(--primary-peak);
+  }
+
+  --space-unit: 12px;
+  @media (min-width: 640px) {
+    --space-unit: 16px;
+  }
+  @media (min-width: 768px) {
+    --space-unit: 18px;
+  }
+  @media (min-width: 1024px) {
+    --space-unit: 20px;
+  }
+}
+
+/* semantic colors added to tw classes */
+@theme {
+  --color-accent: var(--primary-peak);
+  --color-on-accent: var(--neutral-900);
+
+  /* surfaces */
+  --color-surface-base: var(--surface-base);
+  --color-surface-inverted: var(--surface-inverted);
+  --color-surface-light: var(--surface-light);
+  --color-surface-light-hovered: var(--surface-light-hovered);
+  --color-surface-heavy: var(--surface-heavy);
+  --color-surface-accent: var(--surface-accent);
+  --color-surface-accent-hovered: var(--surface-accent-hovered);
+
+  /* text colors on surfaces */
+  --color-on-surface-heavy: var(--text-color-on-surface-base);
+  --color-on-surface-base: var(--text-color-on-surface-base);
+  --color-on-surface-light: var(--text-color-on-surface-base);
+  --color-on-surface-inverted: var(--text-color-on-surface-inverted);
+  --color-on-surface-accent: var(--text-color-on-surface-accent);
+  --color-on-surface-accent-hovered: var(--text-color-on-surface-accent-hovered);
+
+  --color-accent-on-surface-base: var(--accent-text-on-surface-base);
+  --color-accent-on-surface-inverted: var(--accent-text-on-surface-inverted);
+
+  --spacing-xs: calc(var(--space-unit) * 0.25);
+  --spacing-sm: calc(var(--space-unit) * 0.5);
+  --spacing-md: calc(var(--space-unit) * 0.75);
+  --spacing-lg: calc(var(--space-unit));
+  --spacing-xl: calc(var(--space-unit) * 1.25);
+  --spacing-2xl: calc(var(--space-unit) * 1.5);
+  --spacing-3xl: calc(var(--space-unit) * 2);
+}
