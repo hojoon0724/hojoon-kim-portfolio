@@ -39,7 +39,7 @@ export function NavBar() {
   return (
     <div className="nav-container fixed bottom-0 flex justify-end items-end w-full z-50 px-0 py-0 lg:bottom-auto lg:top-0 lg:px-0 lg:py-0">
       <div
-        className={`w-full max-w-7xl mx-auto lg:px-sm lg:py-md z-50 ease-[var(--bezier-movement-inertia-1000)] ${isMobileMenuOpen ? "translate-y-0 duration-500" : "translate-y-[calc(100%-var(--spacing-nav))] lg:translate-y-0 delay-100 duration-1500"} transition-transform`}
+        className={`w-full max-w-7xl mx-auto lg:px-sm lg:py-md z-50 ${isMobileMenuOpen ? "translate-y-0 duration-500 ease-[var(--bezier-movement-inertia-500)]" : "translate-y-[calc(100%-var(--spacing-nav))] lg:translate-y-0 delay-300 duration-1000 ease-[var(--bezier-movement-inertia-1000)]"} transition-transform`}
 
       >
         <nav
