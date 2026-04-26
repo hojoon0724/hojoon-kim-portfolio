@@ -1,10 +1,43 @@
 @import "tailwindcss";
-@import "./_typography.css";
 @import "./_colors.css";
-@import "./_semantics.css";
+@import "./_typography.css";
 @import "./_animations.css";
+@import "./_semantics.css";
 
 body {
   @apply bg-surface-base text-on-surface-base;
   font-family: "Roboto Flex", roboto, sans-serif;
+}
+
+main > :first-child {
+  @apply pt-md lg:pt-[calc(var(--spacing-nav)+(var(--spacing-md)*2))];
+}
+main > :last-child {
+  @apply pb-[calc(var(--spacing-nav)+(var(--spacing-md)*2))] lg:pb-md;
+}
+
+nav::after {
+  display: none;
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  border-radius: inherit;
+  box-sizing: border-box;
+  overflow: clip;
+  background: color-mix(in srgb, var(--color-on-surface-base) 30%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 100;
+  @media (min-width: 1024px) {
+    display: block;
+  }
 }

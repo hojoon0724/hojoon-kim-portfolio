@@ -1,0 +1,193 @@
+:root {
+  --bezier-fade: cubic-bezier(0, 0.3, 0.3, 1);
+
+  --bezier-movement-inertia-500: cubic-bezier(0.37, 0.9, 0.29, 1);
+  --bezier-movement-inertia-1000: cubic-bezier(0.44, 0.7, 0.12, 1);
+
+  --animation-200: 200ms;
+  --animation-500: 500ms;
+  --animation-1000: 1000ms;
+}
+@utility animation-none {
+  transform: none;
+  opacity: 1;
+  animation: none;
+}
+
+@utility animation-fade-in {
+  opacity: 0;
+  animation: fade-in var(--animation-500) var(--bezier-fade) forwards;
+}
+
+@utility animation-fade-out {
+  opacity: 1;
+  animation: fade-out var(--animation-500) var(--bezier-fade) forwards;
+}
+
+/* fade-in up */
+@utility animation-fade-in-up-8 {
+  opacity: 0;
+  transform: translateY(0px);
+  animation:
+    fade-in var(--animation-500) var(--bezier-fade) forwards,
+    slide-up-from-8 var(--animation-500) var(--bezier-movement-inertia-500) forwards;
+}
+@utility animation-fade-in-up-16 {
+  opacity: 0;
+  transform: translateY(16px);
+  animation:
+    fade-in var(--animation-500) var(--bezier-fade) forwards,
+    slide-up-from-16 var(--animation-500) var(--bezier-movement-inertia-500) forwards;
+}
+
+/* fade-in down */
+@utility animation-fade-in-down-8 {
+  opacity: 0;
+  transform: translateY(-8px);
+  animation:
+    fade-in var(--animation-500) var(--bezier-fade) forwards,
+    slide-down-from-8 var(--animation-500) var(--bezier-movement-inertia-500) forwards;
+}
+@utility animation-fade-in-down-16 {
+  opacity: 0;
+  transform: translateY(-16px);
+  animation:
+    fade-in var(--animation-500) var(--bezier-fade) forwards,
+    slide-down-from-16 var(--animation-500) var(--bezier-movement-inertia-500) forwards;
+}
+
+/* fade-out up */
+@utility animation-fade-out-up-8 {
+  opacity: 1;
+  transform: translateY(0);
+  animation:
+    fade-out var(--animation-500) var(--bezier-fade) forwards,
+    slide-up-to-8 var(--animation-500) var(--bezier-movement-inertia-500) forwards;
+}
+
+@utility animation-fade-out-up-16 {
+  opacity: 1;
+  transform: translateY(0);
+  animation:
+    fade-out var(--animation-500) var(--bezier-fade) forwards,
+    slide-up-to-16 var(--animation-500) var(--bezier-movement-inertia-500) forwards;
+}
+
+/* fade-out down */
+@utility animation-fade-out-down-8 {
+  opacity: 1;
+  transform: translateY(0);
+  animation:
+    fade-out var(--animation-500) var(--bezier-fade) forwards,
+    slide-down-to-8 var(--animation-500) var(--bezier-movement-inertia-500) forwards;
+}
+
+@utility animation-fade-out-down-16 {
+  opacity: 1;
+  transform: translateY(0);
+  animation:
+    fade-out var(--animation-500) var(--bezier-fade) forwards,
+    slide-down-to-16 var(--animation-500) var(--bezier-movement-inertia-500) forwards;
+}
+
+@utility animation-left-to-right {
+  animation: slide-left-to-right var(--animation-1000) var(--bezier-movement-inertia-1000) forwards;
+}
+/* duration | easing | delay | iteration-count | direction | fill-mode | play-state | name */
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes slide-up-from-8 {
+  from {
+    transform: translateY(8px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-up-from-16 {
+  from {
+    transform: translateY(16px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-down-from-8 {
+  from {
+    transform: translateY(-8px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+@keyframes slide-down-from-16 {
+  from {
+    transform: translateY(-16px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-up-to-8 {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes slide-up-to-16 {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-16px);
+  }
+}
+
+@keyframes slide-down-to-8 {
+  from {
+    transform: translateY(0px);
+  }
+  to {
+    transform: translateY(8px);
+  }
+}
+@keyframes slide-down-to-16 {
+  from {
+    transform: translateY(0px);
+  }
+  to {
+    transform: translateY(16px);
+  }
+}
+
+@keyframes slide-left-to-right {
+  from {
+    transform: translateX(0%);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}

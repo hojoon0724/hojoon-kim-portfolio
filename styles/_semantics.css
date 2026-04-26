@@ -1,17 +1,55 @@
 /* dark/light semantics defined here */
 :root {
+  /* dev mode test vars -- copy/paste to below */
+  --dark-mode-surface-heavy: var(--neutral-950);
+  --dark-mode-surface-base: var(--neutral-800);
+  --dark-mode-surface-light: var(--neutral-700);
+  --dark-mode-surface-light-hovered: var(--neutral-600);
+  --dark-mode-surface-inverted: var(--neutral-100);
+  --dark-mode-surface-accent: var(--primary-peak);
+  --dark-mode-surface-accent-hovered: var(--primary-300);
+
+  --dark-mode-text-color-on-surface-base: var(--neutral-100);
+  --dark-mode-text-color-on-surface-inverted: var(--neutral-800);
+  --dark-mode-text-color-on-surface-accent: var(--neutral-970);
+  --dark-mode-text-color-on-surface-accent-hovered: var(--neutral-970);
+  --dark-mode-text-color-on-surface-accent-peak: var(--neutral-970);
+
+  --dark-mode-accent-text-on-surface-base: var(--primary-peak);
+  --dark-mode-accent-text-on-surface-inverted: var(--primary-400);
+
+  --light-mode-surface-heavy: var(--neutral-30);
+  --light-mode-surface-base: var(--neutral-100);
+  --light-mode-surface-light: var(--neutral-200);
+  --light-mode-surface-light-hovered: var(--neutral-300);
+  --light-mode-surface-inverted: var(--neutral-800);
+  --light-mode-surface-accent: var(--primary-500);
+  --light-mode-surface-accent-hovered: var(--primary-600);
+
+  --light-mode-text-color-on-surface-base: var(--neutral-800);
+  --light-mode-text-color-on-surface-inverted: var(--neutral-100);
+  --light-mode-text-color-on-surface-accent: var(--neutral-30);
+  --light-mode-text-color-on-surface-accent-hovered: var(--neutral-30);
+  --light-mode-text-color-on-surface-accent-peak: var(--neutral-900);
+
+  --light-mode-accent-text-on-surface-base: var(--primary-400);
+  --light-mode-accent-text-on-surface-inverted: var(--primary-peak);
+}
+
+:root {
   --surface-heavy: var(--neutral-950);
   --surface-base: var(--neutral-800);
-  --surface-light: var(--neutral-600);
-  --surface-light-hovered: var(--neutral-700);
+  --surface-light: var(--neutral-700);
+  --surface-light-hovered: var(--neutral-600);
   --surface-inverted: var(--neutral-100);
   --surface-accent: var(--primary-peak);
   --surface-accent-hovered: var(--primary-300);
 
   --text-color-on-surface-base: var(--neutral-100);
   --text-color-on-surface-inverted: var(--neutral-800);
-  --text-color-on-surface-accent: var(--neutral-800);
-  --text-color-on-surface-accent-hovered: var(--neutral-800);
+  --text-color-on-surface-accent: var(--neutral-970);
+  --text-color-on-surface-accent-hovered: var(--neutral-970);
+  --text-color-on-surface-accent-peak: var(--neutral-970);
 
   --accent-text-on-surface-base: var(--primary-peak);
   --accent-text-on-surface-inverted: var(--primary-400);
@@ -22,19 +60,22 @@
     --surface-light: var(--neutral-200);
     --surface-light-hovered: var(--neutral-300);
     --surface-inverted: var(--neutral-800);
-    --surface-accent: var(--primary-200);
-    --surface-accent-hovered: var(--primary-400);
+    --surface-accent: var(--primary-500);
+    --surface-accent-hovered: var(--primary-600);
 
     --text-color-on-surface-base: var(--neutral-800);
     --text-color-on-surface-inverted: var(--neutral-100);
     --text-color-on-surface-accent: var(--neutral-30);
     --text-color-on-surface-accent-hovered: var(--neutral-30);
+    --text-color-on-surface-accent-peak: var(--neutral-900);
 
     --accent-text-on-surface-base: var(--primary-400);
     --accent-text-on-surface-inverted: var(--primary-peak);
   }
 
   --space-unit: 12px;
+  --nav-height: 3rem;
+
   @media (min-width: 640px) {
     --space-unit: 16px;
   }
@@ -48,8 +89,8 @@
 
 /* semantic colors added to tw classes */
 @theme {
-  --color-accent: var(--primary-peak);
-  --color-on-accent: var(--neutral-900);
+  --color-surface-accent-peak: var(--primary-peak);
+  --color-surface-accent-peak-hovered: var(--primary-300);
 
   /* surfaces */
   --color-surface-base: var(--surface-base);
@@ -67,6 +108,8 @@
   --color-on-surface-inverted: var(--text-color-on-surface-inverted);
   --color-on-surface-accent: var(--text-color-on-surface-accent);
   --color-on-surface-accent-hovered: var(--text-color-on-surface-accent-hovered);
+  --color-on-surface-accent-peak: var(--neutral-900);
+  --color-on-surface-accent-peak-hovered: var(--neutral-900);
 
   --color-accent-on-surface-base: var(--accent-text-on-surface-base);
   --color-accent-on-surface-inverted: var(--accent-text-on-surface-inverted);
@@ -78,4 +121,6 @@
   --spacing-xl: calc(var(--space-unit) * 1.25);
   --spacing-2xl: calc(var(--space-unit) * 1.5);
   --spacing-3xl: calc(var(--space-unit) * 2);
+
+  --spacing-nav: var(--nav-height);
 }

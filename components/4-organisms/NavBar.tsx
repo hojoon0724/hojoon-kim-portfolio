@@ -1,78 +1,179 @@
 "use client";
 
+import { Button, Icon } from "@/components/1-atoms";
 import { useState } from "react";
-import { Button, Icon } from "../1-atoms";
 
 export function NavBar() {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
   const navItems = [
     {
       name: "Work",
       href: "#work",
       isDropdown: true,
-      isCta: false,
       items: [
-        { name: "MOindi", href: "#moindi" },
-        { name: "enSRQ", href: "#ensrq" },
-        { name: "Rocket City New Music", href: "#rocket-city-new-music" },
-        { name: "Selected Works", href: "#selected-works" },
+        { name: "MOindi", href: "#moindi", backgroundColor: "", textColor: "" },
+        { name: "enSRQ", href: "#ensrq", backgroundColor: "", textColor: "" },
+        { name: "Rocket City New Music", href: "#rocket-city-new-music", backgroundColor: "", textColor: "" },
+        { name: "Selected Works", href: "#selected-works", backgroundColor: "", textColor: "" },
       ],
     },
     { name: "Contact", href: "#contact", isCta: true },
   ];
 
-  function Dropdown({ items }: { items: { name: string; href: string }[] }) {
-    return (
-      <ul
-        className={`dropdown mt-2xl mr-md absolute bg-surface-light backdrop-blur-lg rounded-lg shadow-lg shadow-gray-970/50 right-0 text-right ${isDropdownOpen ? "block" : "hidden"}`}
-      >
-        {items.map((subItem) => (
-          <li
-            key={subItem.name}
-            className="px-md py-xs transition-colors duration-200 text-on-surface-light hover:bg-surface-accent w-auto"
-          >
-            <a href={subItem.href} className="text-nowrap">
-              {subItem.name}
-            </a>
-          </li>
-        ))}
-      </ul>
-    );
-  }
+  // Flat index for each top-level navItem (accounts for subitems between them)
+  const flatItemIndices = (() => {
+    let idx = 0;
+    return navItems.map((item) => {
+      const start = idx;
+      idx += 1 + (item.items?.length ?? 0);
+      return start;
+    });
+  })();
+
+  // Total item count for reverse stagger calculation
+  const totalItemCount = navItems.reduce((sum, item) => sum + 1 + (item.items?.length ?? 0), 0);
+  const delayStep = 100;
 
   return (
-    <div className="nav-container w-full max-w-7xl mx-auto px-sm py-md sticky top-0 z-50">
-      <nav className="flex items-center justify-between bg-surface-heavy/60 text-on-surface-heavy backdrop-blur-lg rounded-lg w-full border-2 border-surface-inverted/40 h-12 overflow-clip">
-        <div className="logo text-xl font-semibold roboto-wide pl-md">Hojoon Kim</div>
-        <ul className="flex items-stretch h-full">
-          {navItems.map((item) => {
-            if (item.isCta) {
-              return (
-                <Button key={item.name} variant="filled" color="accent" text={item.name} size="small" url={item.href} className="h-full opacity-90 hover:opacity-100" />
-              );
-            } else {
-              return (
-                <li
-                  key={item.name}
-                  className="px-md transition-colors duration-200 relative cursor-pointer h-full flex items-center"
-                  onClick={() => setIsDropdownOpen((prev) => !prev)}
-                >
-                  <a href={item.href} className="flex items-center gap-sm text-right roboto-mono font-semibold">
-                    {item.name}
+    <div className="nav-container fixed bottom-0 flex justify-end items-end w-full z-50 px-0 py-0 lg:bottom-auto lg:top-0 lg:px-0 lg:py-0">
+      <div
+        className={`w-full max-w-7xl mx-auto lg:px-sm lg:py-md z-50 ease-[var(--bezier-movement-inertia-1000)] ${isMobileMenuOpen ? "translate-y-0 duration-500" : "translate-y-[calc(100%-var(--spacing-nav))] lg:translate-y-0 delay-100 duration-1500"} transition-transform`}
+
+      >
+        <nav
+          className={`flex items-start lg:items-center flex-col w-full lg:flex-row justify-start lg:justify-between backdrop-blur-lg rounded-t-lg lg:rounded-lg bg-surface-heavy/60 text-on-surface-heavy transition-transform duration-500 lg:h-nav h-auto lg:py-0 px-0 relative`}
+        >
+          <div className="nav-left flex items-center h-full w-full lg:w-auto">
+            <div className="lg:hidden">
+              <div className="mobile-menu-toggle-container h-nav w-nav bg-surface-accent-peak rounded-tl-lg flex items-center justify-center cursor-pointer">
+                <div className="icon-container h-8 w-8" onClick={() => setIsMobileMenuOpen((prev) => !prev)}>
+                  <Icon icon="interface.menu" color="on-surface-accent-peak" />
+                </div>
+              </div>
+            </div>
+            <div className="logo text-xl font-semibold roboto-wide pl-xl lg:pl-md">Hojoon Kim</div>
+          </div>
+
+          <ul className={`flex flex-col lg:justify-center items-center lg:flex-row lg:items-stretch h-full py-3xl lg:py-0 gap-lg lg:gap-0 w-fit lg:w-auto px-8 lg:px-0 transition-transform duration-500`}>
+            {navItems.map((item, index) => {
+              if (item.isCta) {
+                const flatIndex = flatItemIndices[index];
+                const reverseIndex = totalItemCount - 1 - flatIndex;
+                const mobileDelay = isMobileMenuOpen ? flatIndex * delayStep : reverseIndex * delayStep;
+                const mobileAnimationClass = isMobileMenuOpen
+                  ? "animation-fade-in-down-8"
+                  : "animation-fade-out-up-8";
+
+                return (
+                  <li
+                    key={item.name}
+                    className={`${mobileAnimationClass} lg:animation-none lg:opacity-100 h-full w-full`}
+                    style={{ animationDelay: `${mobileDelay}ms` }}
+                  >
+                    <Button
+                      variant="filled"
+                      color="peak"
+                      text={item.name}
+                      size="sm"
+                      url={item.href}
+                      className="h-full opacity-90 hover:opacity-100 lg:rounded-r-lg w-full"
+                    />
+                  </li>
+                );
+              } else if (item.isDropdown) {
+                const flatIndex = flatItemIndices[index];
+                const reverseIndex = totalItemCount - 1 - flatIndex;
+                const mobileDelay = isMobileMenuOpen ? flatIndex * delayStep : reverseIndex * delayStep;
+                const mobileAnimationClass = isMobileMenuOpen ? "animation-fade-in-down-8" : "animation-fade-out-up-8";
+
+                return (
+                  <li
+                    key={item.name}
+                    className={`dropdown-container h-full relative ${mobileAnimationClass} lg:animation-none lg:opacity-100`}
+                    style={{ animationDelay: `${mobileDelay}ms` }}
+                  >
                     <div
-                      className={`icon-container w-6 h-6 ${isDropdownOpen ? "-rotate-90" : ""} transition-transform duration-200`}
+                      className="dropdown-name h-full flex flex-row-reverse lg:flex-row justify-end -ml-7 items-center gap-sm cursor-pointer px-md"
+                      onClick={() => setOpenDropdown((prev) => (prev === item.name ? null : item.name))}
                     >
-                      <Icon icon="angle.angle-left" color="on-surface-heavy" />
+                      {item.name}
+                      <div
+                        className={`icon-container w-6 h-6 ${openDropdown === item.name ? "-rotate-90" : "-rotate-90 lg:rotate-0"} transition-transform duration-200`}
+                      >
+                        <Icon icon="angle.angle-left" color="on-surface-heavy" />
+                      </div>
                     </div>
-                  </a>
-                  {item.isDropdown && <Dropdown items={item.items} />}
-                </li>
-              );
-            }
-          })}
-        </ul>
-      </nav>
+
+                    <div
+                      className={`dropdown-menu-items-container lg:bg-surface-heavy overflow-hidden flex flex-col lg:absolute w-fit top-full right-0 min-h-0 transition-all duration-500 ease-[--bezier-movement-inertia-500] ${openDropdown === item.name ? "max-h-200" : "lg:max-h-0"}`}
+                    >
+                      {/* dropdown items */}
+                      {item.items?.map((subItem, i) => {
+                        // Flat index for this subitem globally
+                        const subItemFlatIndex = flatItemIndices[index] + 1 + i;
+                        const subItemReverseIndex = totalItemCount - 1 - subItemFlatIndex;
+                        const mobileDelay = isMobileMenuOpen
+                          ? subItemFlatIndex * delayStep
+                          : subItemReverseIndex * delayStep;
+
+                        // Desktop animation based on dropdown state
+                        const desktopSubItemCount = item.items?.length ?? 0;
+                        const desktopMaxDelay = Math.max(0, (desktopSubItemCount - 1) * delayStep);
+                        const desktopCurrentDelay = i * delayStep;
+                        const desktopStaggerDelay =
+                          openDropdown === item.name ? desktopCurrentDelay : desktopMaxDelay - desktopCurrentDelay;
+
+                        const mobileAnimationClass = isMobileMenuOpen
+                          ? "animation-fade-in-down-8"
+                          : "animation-fade-out-up-8";
+                        const desktopAnimationClass =
+                          openDropdown === item.name ? "lg:animation-fade-in-down-8" : "lg:animation-fade-out-up-8";
+
+                        return (
+                          <div
+                            key={subItem.name}
+                            className={`dropdown-menu-item px-6 w-full text-nowrap ${mobileAnimationClass} ${desktopAnimationClass} cursor-pointer py-2`}
+                            style={{ animationDelay: `${isMobileMenuOpen ? mobileDelay : desktopStaggerDelay}ms` }}
+                            onClick={() => setOpenDropdown(null)}
+                          >
+                            {subItem.name}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </li>
+                );
+              } else {
+                const flatIndex = flatItemIndices[index];
+                const reverseIndex = totalItemCount - 1 - flatIndex;
+                const mobileDelay = isMobileMenuOpen ? flatIndex * delayStep : reverseIndex * delayStep;
+                const mobileAnimationClass = isMobileMenuOpen ? "animation-fade-in-down-8" : "animation-fade-out-up-8";
+
+                return (
+                  <li
+                    key={item.name}
+                    className={`px-md transition-colors duration-200 relative cursor-pointer h-auto lg:h-12 flex flex-col items-center w-fit lg:w-auto justify-center ${mobileAnimationClass} lg:animation-none lg:opacity-100`}
+                    style={{ animationDelay: `${mobileDelay}ms` }}
+                    onClick={() => setOpenDropdown((prev) => (prev === item.name ? null : item.name))}
+                  >
+                    {/* normal item */}
+                    <a
+                      href={item.href}
+                      className="roboto-mono font-semibold w-full h-full flex items-center justify-start lg:justify-end min-h-8 lg:min-h-0"
+                    >
+                      <div className="item-container flex flex-row-reverse lg:flex-row items-center gap-sm text-center -ml-8 lg:ml-0">
+                        {item.name}
+                      </div>
+                    </a>
+                  </li>
+                );
+              }
+            })}{" "}
+          </ul>
+        </nav>
+      </div>
     </div>
   );
 }

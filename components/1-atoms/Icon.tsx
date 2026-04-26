@@ -1,11 +1,12 @@
 import { SVG_ICONS } from "@/data";
+import { VariantTypes } from "@/types/common-types";
 
 interface IconProps {
   className?: string;
   icon: string;
   color?: string;
   onButton?: boolean;
-  onButtonVariant?: "filled" | "outline" | "ghost";
+  onButtonVariant?: VariantTypes;
 }
 
 export function Icon({

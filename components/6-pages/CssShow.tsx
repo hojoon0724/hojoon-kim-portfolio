@@ -3,6 +3,115 @@ import { Section } from "@/components/1-atoms";
 export function CssShow() {
   return (
     <>
+      <Section className="text-test-container grid grid-cols-2 font-semibold roboto-base" fullWidth>
+        <Section
+          className="text-test-container flex flex-col bg-(--dark-mode-surface-base) text-(--dark-mode-text-color-on-surface-base)"
+          fullWidth
+        >
+          <div className="dark-mode-samples w-full flex flex-col gap-4 py-md">
+            <div className="section-title text-4xl px-md">Dark Mode</div>
+            <div className="bg-(--dark-mode-surface-heavy) mx-3xl px-lg pb-12 pt-lg -outline-offset-4 outline-4 outline-(--dark-mode-text-color-on-surface-heavy)">
+              <div className="text-(--dark-mode-text-color-on-surface-heavy)">Text on Heavy</div>
+              <div className="text-(--dark-mode-accent-text-on-surface-base)">Accent on base</div>
+              <div className="text-(--dark-mode-accent-text-on-surface-inverted)">Accent on inverted</div>
+            </div>
+            <div className="bg-(--dark-mode-surface-base) mx-3xl px-lg pb-12 pt-lg -outline-offset-4 outline-4 outline-(--dark-mode-text-color-on-surface-base)">
+              <div className="text-(--dark-mode-text-color-on-surface-base)">Text on Base</div>
+              <div className="text-(--dark-mode-accent-text-on-surface-base)">Accent on base</div>
+              <div className="text-(--dark-mode-accent-text-on-surface-inverted)">Accent on inverted</div>
+            </div>
+            <div className="bg-(--dark-mode-surface-light) mx-3xl px-lg pb-12 pt-lg -outline-offset-4 outline-4 outline-(--dark-mode-text-color-on-surface-light)">
+              <div className="text-(--dark-mode-text-color-on-surface-light)">Text on Light</div>
+              <div className="text-(--dark-mode-accent-text-on-surface-base)">Accent on base</div>
+              <div className="text-(--dark-mode-accent-text-on-surface-inverted)">Accent on inverted</div>
+            </div>
+            <div className="bg-(--dark-mode-surface-light-hovered) mx-3xl px-lg pb-12 pt-lg -outline-offset-4 outline-4 outline-(--dark-mode-text-color-on-surface-light-hovered)">
+              <div className="text-(--dark-mode-text-color-on-surface-light-hovered)">Text on Light Hovered</div>
+              <div className="text-(--dark-mode-accent-text-on-surface-base)">Accent on base</div>
+              <div className="text-(--dark-mode-accent-text-on-surface-inverted)">Accent on inverted</div>
+            </div>
+            <div className="bg-(--dark-mode-surface-inverted) mx-3xl px-lg pb-12 pt-lg -outline-offset-4 outline-4 outline-(--dark-mode-text-color-on-surface-inverted)">
+              <div className="text-(--dark-mode-text-color-on-surface-inverted)">Text on Inverted</div>
+              <div className="text-(--dark-mode-accent-text-on-surface-base)">Accent on base</div>
+              <div className="text-(--dark-mode-accent-text-on-surface-inverted)">Accent on inverted</div>
+            </div>
+            <div className="bg-(--dark-mode-surface-accent) mx-3xl px-lg pb-12 pt-lg -outline-offset-4 outline-4 outline-(--dark-mode-text-color-on-surface-accent)">
+              <div className="text-(--dark-mode-text-color-on-surface-accent)">Text on Accent</div>
+              <div className="text-(--dark-mode-accent-text-on-surface-base)">Accent on base</div>
+              <div className="text-(--dark-mode-accent-text-on-surface-inverted)">Accent on inverted</div>
+            </div>
+            <div className="bg-(--dark-mode-surface-accent-hovered) mx-3xl px-lg pb-12 pt-lg -outline-offset-4 outline-4 outline-(--dark-mode-text-color-on-surface-accent-hovered)">
+              <div className="text-(--dark-mode-text-color-on-surface-accent-hovered)">Text on Accent Hovered</div>
+              <div className="text-(--dark-mode-accent-text-on-surface-base)">Accent on base</div>
+              <div className="text-(--dark-mode-accent-text-on-surface-inverted)">Accent on inverted</div>
+            </div>
+            <div className="bg-(--color-surface-accent-peak) mx-3xl px-lg pb-12 pt-lg -outline-offset-4 outline-4 outline-(--dark-mode-text-primary-peak)">
+              <div className="text-(--text-color-on-surface-accent-peak)">Text on Peak</div>
+              <div className="text-(--dark-mode-accent-text-on-surface-base)">Accent on base</div>
+              <div className="text-(--dark-mode-accent-text-on-surface-inverted)">Accent on inverted</div>
+            </div>
+            <div className="bg-surface-accent-peak-hovered mx-3xl px-lg pb-12 pt-lg -outline-offset-4 outline-4 outline-(--dark-mode-text-primary-peak)">
+              <div className="text-on-surface-accent-peak-hovered">Text on Peak Hovered</div>
+              <div className="text-(--dark-mode-accent-text-on-surface-base)">Accent on base</div>
+              <div className="text-(--dark-mode-accent-text-on-surface-inverted)">Accent on inverted</div>
+            </div>
+          </div>
+        </Section>
+        <Section
+          className="text-test-container flex flex-col bg-(--light-mode-surface-base) text-(--light-mode-text-color-on-surface-base)"
+          fullWidth
+        >
+          <div className="light-mode-samples w-full flex flex-col gap-4 py-md">
+            <div className="section-title text-4xl px-md">Light Mode</div>
+            <div className="bg-(--light-mode-surface-heavy) mx-3xl px-lg pb-12 pt-lg -outline-offset-4 outline-4 outline-(--light-mode-text-color-on-surface-heavy)">
+              <div className="text-(--light-mode-text-color-on-surface-heavy)">Text on Heavy</div>
+              <div className="text-(--light-mode-accent-text-on-surface-base)">Accent on base</div>
+              <div className="text-(--light-mode-accent-text-on-surface-inverted)">Accent on inverted</div>
+            </div>
+            <div className="bg-(--light-mode-surface-base) mx-3xl px-lg pb-12 pt-lg -outline-offset-4 outline-4 outline-(--light-mode-text-color-on-surface-base)">
+              <div className="text-(--light-mode-text-color-on-surface-base)">Text on Base</div>
+              <div className="text-(--light-mode-accent-text-on-surface-base)">Accent on base</div>
+              <div className="text-(--light-mode-accent-text-on-surface-inverted)">Accent on inverted</div>
+            </div>
+            <div className="bg-(--light-mode-surface-light) mx-3xl px-lg pb-12 pt-lg -outline-offset-4 outline-4 outline-(--light-mode-text-color-on-surface-light)">
+              <div className="text-(--light-mode-text-color-on-surface-light)">Text on Light</div>
+              <div className="text-(--light-mode-accent-text-on-surface-base)">Accent on base</div>
+              <div className="text-(--light-mode-accent-text-on-surface-inverted)">Accent on inverted</div>
+            </div>
+            <div className="bg-(--light-mode-surface-light-hovered) mx-3xl px-lg pb-12 pt-lg -outline-offset-4 outline-4 outline-(--light-mode-text-color-on-surface-light-hovered)">
+              <div className="text-(--light-mode-text-color-on-surface-light-hovered)">Text on Light Hovered</div>
+              <div className="text-(--light-mode-accent-text-on-surface-base)">Accent on base</div>
+              <div className="text-(--light-mode-accent-text-on-surface-inverted)">Accent on inverted</div>
+            </div>
+            <div className="bg-(--light-mode-surface-inverted) mx-3xl px-lg pb-12 pt-lg -outline-offset-4 outline-4 outline-(--light-mode-text-color-on-surface-inverted)">
+              <div className="text-(--light-mode-text-color-on-surface-inverted)">Text on Inverted</div>
+              <div className="text-(--light-mode-accent-text-on-surface-base)">Accent on base</div>
+              <div className="text-(--light-mode-accent-text-on-surface-inverted)">Accent on inverted</div>
+            </div>
+            <div className="bg-(--light-mode-surface-accent) mx-3xl px-lg pb-12 pt-lg -outline-offset-4 outline-4 outline-(--light-mode-text-color-on-surface-accent)">
+              <div className="text-(--light-mode-text-color-on-surface-accent)">Text on Accent</div>
+              <div className="text-(--light-mode-accent-text-on-surface-base)">Accent on base</div>
+              <div className="text-(--light-mode-accent-text-on-surface-inverted)">Accent on inverted</div>
+            </div>
+            <div className="bg-(--light-mode-surface-accent-hovered) mx-3xl px-lg pb-12 pt-lg -outline-offset-4 outline-4 outline-(--light-mode-text-color-on-surface-accent-hovered)">
+              <div className="text-(--light-mode-text-color-on-surface-accent-hovered)">Text on Accent Hovered</div>
+              <div className="text-(--light-mode-accent-text-on-surface-base)">Accent on base</div>
+              <div className="text-(--light-mode-accent-text-on-surface-inverted)">Accent on inverted</div>
+            </div>
+            <div className="bg-(--color-surface-accent-peak) mx-3xl px-lg pb-12 pt-lg -outline-offset-4 outline-4 outline-(--light-mode-text-primary-peak)">
+              <div className="text-(--text-color-on-surface-accent-peak)">Text on Peak</div>
+              <div className="text-(--light-mode-accent-text-on-surface-base)">Accent on base</div>
+              <div className="text-(--light-mode-accent-text-on-surface-inverted)">Accent on inverted</div>
+            </div>
+            <div className="bg-surface-accent-peak-hovered mx-3xl px-lg pb-12 pt-lg -outline-offset-4 outline-4 outline-(--dark-mode-text-primary-peak)">
+              <div className="text-on-surface-accent-peak-hovered">Text on Peak Hovered</div>
+              <div className="text-(--dark-mode-accent-text-on-surface-base)">Accent on base</div>
+              <div className="text-(--dark-mode-accent-text-on-surface-inverted)">Accent on inverted</div>
+            </div>
+          </div>
+        </Section>
+      </Section>
+
       <Section className="my-4" fullWidth>
         <div className="surface-divs grid grid-cols-4">
           <div className="surface-heavy bg-surface-heavy h-20 flex flex-col justify-center items-center">
