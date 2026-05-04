@@ -1,3 +1,5 @@
 export * from "./Button";
-export * from "./Section";
 export * from "./Icon";
+export * from "./MenuSvg";
+export * from "./ScrollRevealText";
+export * from "./Section";

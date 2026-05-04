@@ -1,11 +1,12 @@
 "use client";
 
-import { Button, Icon } from "@/components/1-atoms";
+import { Button, Icon, MenuSvg } from "@/components/1-atoms";
 import { useState } from "react";
 
 export function NavBar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [openDropdown, setOpenDropdown] = useState<string | null>();
+  const [hoveredDropdownItem, setHoveredDropdownItem] = useState<string | null>(null);
 
   const navItems = [
     {
@@ -13,10 +14,28 @@ export function NavBar() {
       href: "#work",
       isDropdown: true,
       items: [
-        { name: "MOindi", href: "#moindi", backgroundColor: "", textColor: "" },
-        { name: "enSRQ", href: "#ensrq", backgroundColor: "", textColor: "" },
-        { name: "Rocket City New Music", href: "#rocket-city-new-music", backgroundColor: "", textColor: "" },
-        { name: "Selected Works", href: "#selected-works", backgroundColor: "", textColor: "" },
+        {
+          text: "MOindi",
+          href: "#moindi",
+          svg: "moindi",
+          fill: "hsl(30, 100%, 50%)",
+        },
+        {
+          text: "enSRQ",
+          href: "#ensrq",
+          svg: "ensrq",
+          fill: "oklch(0.7774 0.24 230)",
+        },
+        {
+          text: "Rocket City New Music",
+          href: "#rocket-city-new-music",
+          svg: "rcnm",
+          fill: "#fc3d21",
+        },
+        {
+          text: "Selected Works",
+          href: "#selected-works",
+        },
       ],
     },
     { name: "Contact", href: "#contact", isCta: true },
@@ -40,7 +59,6 @@ export function NavBar() {
     <div className="nav-container fixed bottom-0 flex justify-end items-end w-full z-50 px-0 py-0 lg:bottom-auto lg:top-0 lg:px-0 lg:py-0">
       <div
         className={`w-full max-w-7xl mx-auto lg:px-sm lg:py-md z-50 ${isMobileMenuOpen ? "translate-y-0 duration-500 ease-[var(--bezier-movement-inertia-500)]" : "translate-y-[calc(100%-var(--spacing-nav))] lg:translate-y-0 delay-300 duration-1000 ease-[var(--bezier-movement-inertia-1000)]"} transition-transform`}
-
       >
         <nav
           className={`flex items-start lg:items-center flex-col w-full lg:flex-row justify-start lg:justify-between backdrop-blur-lg rounded-t-lg lg:rounded-lg bg-surface-heavy/60 text-on-surface-heavy transition-transform duration-500 lg:h-nav h-auto lg:py-0 px-0 relative`}
@@ -56,15 +74,15 @@ export function NavBar() {
             <div className="logo text-xl font-semibold roboto-wide pl-xl lg:pl-md">Hojoon Kim</div>
           </div>
 
-          <ul className={`flex flex-col lg:justify-center items-center lg:flex-row lg:items-stretch h-full py-3xl lg:py-0 gap-lg lg:gap-0 w-fit lg:w-auto px-8 lg:px-0 transition-transform duration-500`}>
+          <ul
+            className={`flex flex-col lg:justify-center items-center lg:flex-row lg:items-stretch h-full py-3xl lg:py-0 gap-lg lg:gap-0 w-fit lg:w-auto px-8 lg:px-0 transition-transform duration-500`}
+          >
             {navItems.map((item, index) => {
               if (item.isCta) {
                 const flatIndex = flatItemIndices[index];
                 const reverseIndex = totalItemCount - 1 - flatIndex;
                 const mobileDelay = isMobileMenuOpen ? flatIndex * delayStep : reverseIndex * delayStep;
-                const mobileAnimationClass = isMobileMenuOpen
-                  ? "animation-fade-in-down-8"
-                  : "animation-fade-out-up-8";
+                const mobileAnimationClass = isMobileMenuOpen ? "animation-fade-in-down-8" : "animation-fade-out-up-8";
 
                 return (
                   <li
@@ -130,15 +148,28 @@ export function NavBar() {
                           : "animation-fade-out-up-8";
                         const desktopAnimationClass =
                           openDropdown === item.name ? "lg:animation-fade-in-down-8" : "lg:animation-fade-out-up-8";
-
+                        const subItemHoverKey = `${item.name}-${subItem.text}`;
+                        const isSubItemHovered = hoveredDropdownItem === subItemHoverKey;
                         return (
                           <div
-                            key={subItem.name}
-                            className={`dropdown-menu-item px-6 w-full text-nowrap ${mobileAnimationClass} ${desktopAnimationClass} cursor-pointer py-2`}
-                            style={{ animationDelay: `${isMobileMenuOpen ? mobileDelay : desktopStaggerDelay}ms` }}
-                            onClick={() => setOpenDropdown(null)}
+                            key={subItem.text}
+                            className={`dropdown-menu-item min-w-[200px] h-[40px] flex justify-start items-center text-nowrap ${mobileAnimationClass} ${desktopAnimationClass} cursor-pointer duration-200`}
+                            style={{
+                              animationDelay: `${isMobileMenuOpen ? mobileDelay : desktopStaggerDelay}ms`,
+                              backgroundColor: isSubItemHovered ? subItem.fill : "",
+                            }}
+                            onMouseEnter={() => setHoveredDropdownItem(subItemHoverKey)}
+                            onMouseLeave={() => setHoveredDropdownItem(null)}
+                            onClick={() => {
+                              setHoveredDropdownItem(null);
+                              setOpenDropdown(null);
+                            }}
                           >
-                            {subItem.name}
+                            {subItem.svg ? (
+                              <MenuSvg icon={subItem.svg} fill={isSubItemHovered ? "surface-base-heavy" : subItem.fill} />
+                            ) : (
+                              <div className="sub-item-text px-2.5 hover:bg-on-surface-heavy hover:text-surface-heavy w-full h-full flex justify-start items-center">{subItem.text}</div>
+                            )}
                           </div>
                         );
                       })}

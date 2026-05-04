@@ -9,7 +9,7 @@ body {
   font-family: "Roboto Flex", roboto, sans-serif;
 }
 
-main > :first-child {
+main > :first-child:not(.no-main-spacing) {
   @apply pt-md lg:pt-[calc(var(--spacing-nav)+(var(--spacing-md)*2))];
 }
 main > :last-child {
