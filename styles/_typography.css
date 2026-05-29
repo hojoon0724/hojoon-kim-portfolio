@@ -1,27 +1,32 @@
-.roboto-flex {
+@utility roboto-flex {
   font-family: "Roboto Flex", roboto, sans-serif;
 }
 
-.roboto-base {
+@utility roboto-base {
   font-variation-settings: "wdth" 116;
 }
 
-.roboto-wide {
-  font-family: "Roboto Flex", roboto, sans-serif;
-  font-variation-settings:
+@utility roboto-wide {
+    font-family: "Roboto Flex", roboto, sans-serif;
+    font-variation-settings:
     "YTAS" 700,
     "wdth" 151;
-  /* "GRAD" | "XOPQ" | "XTRA" | "YOPQ" | "YTAS" | "YTDE" | "YTFI" | "YTLC" | "YTUC" | "opsz" | "slnt" | "wdth"; */
-  /* GRAD - thickness w/o changing spacing */
-  /* XOPQ/YOPQ - thick/thin lines */
-  /* XTRA - counter width */
-  /* YTUC - upper case  | YTLC - lower case */
-  /* opsz - optical size */
-  /* YTAS - ascender height */
-  /* YTDE - descender depth */
-  /* YTFI - figure height */
-}
+    /* "GRAD" | "XOPQ" | "XTRA" | "YOPQ" | "YTAS" | "YTDE" | "YTFI" | "YTLC" | "YTUC" | "opsz" | "slnt" | "wdth"; */
+    /* GRAD - thickness w/o changing spacing */
+    /* XOPQ/YOPQ - thick/thin lines */
+    /* XTRA - counter width */
+    /* YTUC - upper case  | YTLC - lower case */
+    /* opsz - optical size */
+    /* YTAS - ascender height */
+    /* YTDE - descender depth */
+    /* YTFI - figure height */
+  }
+  
+@utility roboto-mono {
+    font-family: "Roboto Mono", monospace;
+  }
 
-.roboto-mono {
-  font-family: "Roboto Mono", monospace;
+  
+h1 {
+  @apply roboto-wide text-5xl;
 }

@@ -1,13 +1,13 @@
 import { ColorTypes, SizeTypes, VariantTypes } from "@/types/common-types";
 
 interface ButtonProps {
-  className?: string;
-  variant: VariantTypes;
-  color: ColorTypes;
-  disabled?: boolean;
   text: string;
+  className?: string;
+  variant?: VariantTypes;
+  color?: ColorTypes;
+  disabled?: boolean;
   type?: "button" | "submit" | "reset";
-  size: SizeTypes;
+  size?: SizeTypes;
   url?: string;
   removePadding?: boolean;
   onClick?: () => void;
@@ -17,12 +17,12 @@ export function Button({
   variant = "filled",
   color = "accent",
   disabled = false,
+  size = "md",
   text,
   type,
   url,
   className,
   removePadding,
-  size,
   onClick,
 }: ButtonProps) {
   const baseButtonClass =
