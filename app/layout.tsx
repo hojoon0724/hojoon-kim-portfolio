@@ -5,7 +5,7 @@ import { Roboto_Flex, Roboto_Mono } from "next/font/google";
 
 const robotoFlex = Roboto_Flex({
   subsets: ["latin"],
-  axes: ["opsz", "wdth", "YTAS"],
+  axes: ["opsz", "wdth", "YTAS", "XOPQ", "YOPQ"],
   //  "GRAD" | "XOPQ" | "XTRA" | "YOPQ" | "YTAS" | "YTDE" | "YTFI" | "YTLC" | "YTUC" | "opsz" | "slnt" | "wdth"
   variable: "--font-roboto-flex",
 });
@@ -18,6 +18,10 @@ const robotoMono = Roboto_Mono({
 export const metadata: Metadata = {
   title: "Hojoon Kim",
   description: "Designer and software developer creating products, brands, and media across tech, film, and music.",
+    icons: {
+    icon: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
+  },
 };
 
 export default function RootLayout({

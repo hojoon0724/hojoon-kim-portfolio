@@ -5,8 +5,7 @@
 @import "./_animations.css";
 
 body {
-  @apply bg-surface-base text-on-surface-base;
-  font-family: "Roboto Flex", roboto, sans-serif;
+  @apply bg-surface-base text-on-surface-base roboto-flex; 
 }
 
 main > :first-child:not(.no-main-spacing) {

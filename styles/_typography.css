@@ -1,5 +1,6 @@
 @utility roboto-flex {
   font-family: "Roboto Flex", roboto, sans-serif;
+  font-variation-settings: "wdth" 120;
 }
 
 @utility roboto-base {
@@ -7,26 +8,43 @@
 }
 
 @utility roboto-wide {
-    font-family: "Roboto Flex", roboto, sans-serif;
-    font-variation-settings:
+  font-family: "Roboto Flex", roboto, sans-serif;
+  font-variation-settings:
     "YTAS" 700,
     "wdth" 151;
-    /* "GRAD" | "XOPQ" | "XTRA" | "YOPQ" | "YTAS" | "YTDE" | "YTFI" | "YTLC" | "YTUC" | "opsz" | "slnt" | "wdth"; */
-    /* GRAD - thickness w/o changing spacing */
-    /* XOPQ/YOPQ - thick/thin lines */
-    /* XTRA - counter width */
-    /* YTUC - upper case  | YTLC - lower case */
-    /* opsz - optical size */
-    /* YTAS - ascender height */
-    /* YTDE - descender depth */
-    /* YTFI - figure height */
-  }
-  
-@utility roboto-mono {
-    font-family: "Roboto Mono", monospace;
-  }
+  /* "GRAD" | "XOPQ" | "XTRA" | "YOPQ" | "YTAS" | "YTDE" | "YTFI" | "YTLC" | "YTUC" | "opsz" | "slnt" | "wdth"; */
+  /* GRAD - thickness w/o changing spacing */
+  /* XOPQ/YOPQ - thick/thin lines */
+  /* XTRA - counter width */
+  /* YTUC - upper case  | YTLC - lower case */
+  /* opsz - optical size */
+  /* YTAS - ascender height */
+  /* YTDE - descender depth */
+  /* YTFI - figure height */
+}
 
-  
+@utility roboto-logo {
+  font-family: "Roboto Flex", roboto, sans-serif;
+  font-variation-settings:
+    "YTAS" 700,
+    "XOPQ" 175,
+    "wdth" 151,
+    "YOPQ" 60;
+  /* "GRAD" | "XOPQ" | "XTRA" | "YOPQ" | "YTAS" | "YTDE" | "YTFI" | "YTLC" | "YTUC" | "opsz" | "slnt" | "wdth"; */
+  /* GRAD - thickness w/o changing spacing */
+  /* XOPQ/YOPQ - thick/thin lines */
+  /* XTRA - counter width */
+  /* YTUC - upper case  | YTLC - lower case */
+  /* opsz - optical size */
+  /* YTAS - ascender height */
+  /* YTDE - descender depth */
+  /* YTFI - figure height */
+}
+
+@utility roboto-mono {
+  font-family: "Roboto Mono", monospace;
+}
+
 h1 {
-  @apply roboto-wide text-5xl;
+  @apply roboto-logo text-5xl;
 }
