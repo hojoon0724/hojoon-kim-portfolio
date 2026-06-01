@@ -5,7 +5,7 @@
 @import "./_animations.css";
 
 body {
-  @apply bg-surface-base text-on-surface-base roboto-flex; 
+  @apply bg-surface-base text-on-base roboto-flex; 
 }
 
 main > :first-child:not(.no-main-spacing) {
@@ -24,7 +24,7 @@ nav::after {
   border-radius: inherit;
   box-sizing: border-box;
   overflow: clip;
-  background: color-mix(in srgb, var(--color-on-surface-base) 30%, transparent);
+  background: color-mix(in srgb, var(--color-on-base) 30%, transparent);
   backdrop-filter: blur(16px);
   -webkit-mask:
     linear-gradient(#000 0 0) content-box,

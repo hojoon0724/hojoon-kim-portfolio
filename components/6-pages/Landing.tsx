@@ -1,45 +1,53 @@
 "use client";
 
 // import { Button } from "@/components/1-atoms";
-import Image from "next/image";
+import { LandingIcon, ScrollRevealText } from "@/components/1-atoms";
+import { useEffect, useState } from "react";
 
-export function Landing() {
+export function Landing({ landingIconAnimationDuration = 1000 }: { landingIconAnimationDuration?: number }) {
+  const [showText, setShowText] = useState(false);
+  const descriptionText =
+    "Designer and software developer creating products, brands, and media across tech, film, and music.";
+
+  useEffect(() => {
+    const delayMs = Math.max(0, landingIconAnimationDuration);
+
+    if (delayMs === 0) {
+      setShowText(true);
+      return;
+    }
+
+    setShowText(false);
+    const timeoutId = window.setTimeout(() => {
+      setShowText(true);
+    }, delayMs);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [landingIconAnimationDuration]);
+
   return (
-    <div className="landing-container flex flex-col gap-2xl items-center justify-center h-dvh w-full no-main-spacing">
-      <h1>Hojoon Kim</h1>
-      <div className="flex gap-6">
-        <div className="hotel flex gap-2">
-          <div className="w-3 h-3 drop-shadow-lg rounded-full bg-[#f9f6f0]"></div>
-          <div className="w-3 h-3 drop-shadow-lg rounded-full bg-[#f9f6f0]"></div>
-          <div className="w-3 h-3 drop-shadow-lg rounded-full bg-[#a84430]"></div>
-          <div className="w-3 h-3 drop-shadow-lg rounded-full bg-[#a84430]"></div>
-        </div>
-        <div className="kilo flex gap-2">
-          <div className="w-10 h-3 drop-shadow-lg rounded-full bg-[#f4b71e]"></div>
-          <div className="w-3 h-3 drop-shadow-lg rounded-full bg-[#1b2e4b]"></div>
-          <div className="w-10 h-3 drop-shadow-lg rounded-full bg-[#1b2e4b]"></div>
-        </div>
+    <div className="landing-container flex flex-col items-center justify-center h-dvh w-full no-main-spacing px-md">
+      <h1>
+        <ScrollRevealText
+          className="max-w-prose text-center text-balance"
+          revealBy="letter"
+          staggerMs={80}
+          text="Hojoon Kim"
+        />
+      </h1>
+      <LandingIcon initialAnimationDuration={landingIconAnimationDuration} />
+      <div className="max-w-prose min-h-[3.5rem] text-center text-balance">
+        {showText ? (
+          <ScrollRevealText
+            className="max-w-prose text-center text-balance"
+            revealBy="word"
+            staggerMs={80}
+            text={descriptionText}
+          />
+        ) : (
+          <p className="invisible">{descriptionText}</p>
+        )}
       </div>
-      <p className="max-w-[400px] text-center">
-        Designer and software developer creating products, brands, and media across tech, film, and music.
-      </p>
-      {/* <div className="nautical-container flex">
-        <div className="hotel">
-          <Image src="/svg/hk-hotel.svg" alt="nautical flag hotel" width={60} height={60} />
-        </div>
-        <div className="kilo">
-          <Image src="/svg/hk-kilo.svg" alt="nautical flag kilo" width={60} height={60} />
-        </div>
-      </div> */}
-      {/* <Button
-        text="contact"
-        variant="filled"
-        color="accent"
-        size="sm"
-        onClick={() => {
-          window.location.href = "mailto:contact@hojoonkim.com";
-        }}
-      /> */}
     </div>
   );
 }

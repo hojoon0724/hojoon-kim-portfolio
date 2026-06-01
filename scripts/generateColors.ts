@@ -6,8 +6,8 @@ import { dirname, resolve } from "node:path";
 const baseLumaArray = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9];
 const extendedLumaArray = [0.03, 0.05, ...baseLumaArray, 0.95, 0.97];
 
-const primaryHue = 145.6;
-const fixedChroma = 0.015;
+const primaryHue = 235;
+const fixedChroma = 0.01;
 
 function normalizeHue(hue: number): number {
   const normalized = hue % 360;

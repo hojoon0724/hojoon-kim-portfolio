@@ -61,7 +61,7 @@ export function NavBar() {
         className={`w-full max-w-7xl mx-auto lg:px-sm lg:py-md z-50 ${isMobileMenuOpen ? "translate-y-0 duration-500 ease-[var(--bezier-movement-inertia-500)]" : "translate-y-[calc(100%-var(--spacing-nav))] lg:translate-y-0 delay-300 duration-1000 ease-[var(--bezier-movement-inertia-1000)]"} transition-transform`}
       >
         <nav
-          className={`flex items-start lg:items-center flex-col w-full lg:flex-row justify-start lg:justify-between backdrop-blur-lg rounded-t-lg lg:rounded-lg bg-surface-heavy/60 text-on-surface-heavy transition-transform duration-500 lg:h-nav h-auto lg:py-0 px-0 relative`}
+          className={`flex items-start lg:items-center flex-col w-full lg:flex-row justify-start lg:justify-between backdrop-blur-lg rounded-t-lg lg:rounded-lg bg-surface-heavy/60 text-on-heavy transition-transform duration-500 lg:h-nav h-auto lg:py-0 px-0 relative`}
         >
           <div className="nav-left flex items-center h-full w-full lg:w-auto">
             <div className="lg:hidden">
@@ -166,9 +166,14 @@ export function NavBar() {
                             }}
                           >
                             {subItem.svg ? (
-                              <MenuSvg icon={subItem.svg} fill={isSubItemHovered ? "surface-base-heavy" : subItem.fill} />
+                              <MenuSvg
+                                icon={subItem.svg}
+                                fill={isSubItemHovered ? "surface-base-heavy" : subItem.fill}
+                              />
                             ) : (
-                              <div className="sub-item-text px-2.5 hover:bg-on-surface-heavy hover:text-surface-heavy w-full h-full flex justify-start items-center">{subItem.text}</div>
+                              <div className="sub-item-text px-2.5 hover:bg-on-surface-heavy hover:text-surface-heavy w-full h-full flex justify-start items-center">
+                                {subItem.text}
+                              </div>
                             )}
                           </div>
                         );

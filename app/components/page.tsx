@@ -3,8 +3,8 @@ import { AnimationGallery, AtomsGallery, CssShow, IconsGallery } from "@/compone
 export default function ComponentsGallery() {
   return (
     <>
-      <AnimationGallery />
       <CssShow />
+      <AnimationGallery />
       <AtomsGallery />
       <IconsGallery />
     </>

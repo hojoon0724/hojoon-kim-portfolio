@@ -1,81 +1,105 @@
 /* dark/light semantics defined here */
 :root {
   /* dev mode test vars -- copy/paste to below */
-  --dark-mode-surface-heavy: var(--neutral-950);
-  --dark-mode-surface-base: var(--neutral-800);
-  --dark-mode-surface-light: var(--neutral-700);
-  --dark-mode-surface-light-hovered: var(--neutral-600);
+  --dark-mode-surface-heavy: var(--neutral-900);
+  --dark-mode-surface-base: var(--neutral-700);
+  --dark-mode-surface-light: var(--neutral-600);
+  --dark-mode-surface-feather: var(--neutral-500);
   --dark-mode-surface-inverted: var(--neutral-100);
-  --dark-mode-surface-accent: var(--primary-peak);
-  --dark-mode-surface-accent-hovered: var(--primary-300);
+  --dark-mode-surface-primary: var(--color-primary-peak);
+  --dark-mode-surface-secondary: var(--secondary-200);
 
-  --dark-mode-text-color-on-surface-base: var(--neutral-100);
-  --dark-mode-text-color-on-surface-inverted: var(--neutral-800);
-  --dark-mode-text-color-on-surface-accent: var(--neutral-970);
-  --dark-mode-text-color-on-surface-accent-hovered: var(--neutral-970);
-  --dark-mode-text-color-on-surface-accent-peak: var(--neutral-970);
+  --dark-mode-text-on-base: var(--neutral-100);
+  --dark-mode-text-on-inverted: var(--neutral-800);
+  --dark-mode-text-on-primary: var(--neutral-800);
+  --dark-mode-text-on-secondary: var(--neutral-800);
 
-  --dark-mode-accent-text-on-surface-base: var(--primary-peak);
-  --dark-mode-accent-text-on-surface-inverted: var(--primary-400);
+  --dark-mode-line-on-base: var(--neutral-100);
+  --dark-mode-line-on-inverted: var(--primary-300);
+  --dark-mode-line-on-primary: var(--neutral-100);
+  --dark-mode-line-on-secondary: var(--neutral-100);
+
+  --dark-mode-primary-text: var(--color-primary-peak);
+  --dark-mode-primary-text-on-inverted: var(--primary-400);
+  --dark-mode-secondary-text: var(--secondary-200);
 
   --light-mode-surface-heavy: var(--neutral-30);
   --light-mode-surface-base: var(--neutral-100);
   --light-mode-surface-light: var(--neutral-200);
-  --light-mode-surface-light-hovered: var(--neutral-300);
-  --light-mode-surface-inverted: var(--neutral-800);
-  --light-mode-surface-accent: var(--primary-500);
-  --light-mode-surface-accent-hovered: var(--primary-600);
+  --light-mode-surface-feather: var(--neutral-300);
+  --light-mode-surface-inverted: var(--neutral-700);
+  --light-mode-surface-primary: var(--primary-300);
+  --light-mode-surface-secondary: var(--secondary-200);
 
-  --light-mode-text-color-on-surface-base: var(--neutral-800);
-  --light-mode-text-color-on-surface-inverted: var(--neutral-100);
-  --light-mode-text-color-on-surface-accent: var(--neutral-30);
-  --light-mode-text-color-on-surface-accent-hovered: var(--neutral-30);
-  --light-mode-text-color-on-surface-accent-peak: var(--neutral-900);
+  --light-mode-text-on-base: var(--neutral-800);
+  --light-mode-text-on-inverted: var(--neutral-100);
+  --light-mode-text-on-primary: var(--neutral-800);
+  --light-mode-text-on-secondary: var(--neutral-800);
 
-  --light-mode-accent-text-on-surface-base: var(--primary-400);
-  --light-mode-accent-text-on-surface-inverted: var(--primary-peak);
+  --light-mode-line-on-base: var(--neutral-800);
+  --light-mode-line-on-inverted: var(--color-primary-peak);
+  --light-mode-line-on-primary: var(--neutral-800);
+  --light-mode-line-on-secondary: var(--neutral-800);
+
+  --light-mode-primary-text: var(--color-primary-peak);
+  --light-mode-primary-text-on-inverted: var(--primary-400);
+  --light-mode-secondary-text: var(--secondary-400);
 }
 
 :root {
-  --surface-heavy: var(--neutral-950);
-  --surface-base: var(--neutral-800);
-  --surface-light: var(--neutral-700);
-  --surface-light-hovered: var(--neutral-600);
+  --surface-heavy: var(--neutral-900);
+  --surface-base: var(--neutral-700);
+  --surface-light: var(--neutral-600);
+  --surface-feather: var(--neutral-500);
   --surface-inverted: var(--neutral-100);
-  --surface-accent: var(--primary-peak);
-  --surface-accent-hovered: var(--primary-300);
+  --surface-primary: var(--color-primary-peak);
+  --surface-secondary: var(--secondary-200);
 
-  --text-color-on-surface-base: var(--neutral-100);
-  --text-color-on-surface-inverted: var(--neutral-800);
-  --text-color-on-surface-accent: var(--neutral-970);
-  --text-color-on-surface-accent-hovered: var(--neutral-970);
-  --text-color-on-surface-accent-peak: var(--neutral-970);
+  --text-on-base: var(--neutral-100);
+  --text-on-inverted: var(--neutral-800);
+  --text-on-primary: var(--neutral-800);
+  --text-on-secondary: var(--neutral-800);
 
-  --accent-text-on-surface-base: var(--primary-peak);
-  --accent-text-on-surface-inverted: var(--primary-400);
+  --line-on-base: var(--neutral-100);
+  --line-on-inverted: var(--primary-300);
+  --line-on-primary: var(--neutral-100);
+  --line-on-secondary: var(--neutral-100);
 
+  --primary-text: var(--color-primary-peak);
+  --primary-text-on-inverted: var(--primary-400);
+  --secondary-text: var(--secondary-200);
+
+  --kilo-blue-var: var(--primary-400);
+  
   @media (prefers-color-scheme: light) {
     --surface-heavy: var(--neutral-30);
     --surface-base: var(--neutral-100);
     --surface-light: var(--neutral-200);
-    --surface-light-hovered: var(--neutral-300);
-    --surface-inverted: var(--neutral-800);
-    --surface-accent: var(--primary-500);
-    --surface-accent-hovered: var(--primary-600);
+    --surface-feather: var(--neutral-300);
+    --surface-inverted: var(--neutral-700);
+    --surface-primary: var(--primary-300);
+    --surface-secondary: var(--secondary-200);
+    
+    --text-on-base: var(--neutral-800);
+    --text-on-inverted: var(--neutral-100);
+    --text-on-primary: var(--neutral-800);
+    --text-on-secondary: var(--neutral-800);
+    
+    --line-on-base: var(--neutral-800);
+    --line-on-inverted: var(--color-primary-peak);
+    --line-on-primary: var(--neutral-800);
+    --line-on-secondary: var(--neutral-800);
+    
+    --primary-text: var(--color-primary-peak);
+    --secondary-text: var(--secondary-400);
+    --primary-text-on-inverted: var(--primary-400);
 
-    --text-color-on-surface-base: var(--neutral-800);
-    --text-color-on-surface-inverted: var(--neutral-100);
-    --text-color-on-surface-accent: var(--neutral-30);
-    --text-color-on-surface-accent-hovered: var(--neutral-30);
-    --text-color-on-surface-accent-peak: var(--neutral-900);
-
-    --accent-text-on-surface-base: var(--primary-400);
-    --accent-text-on-surface-inverted: var(--primary-peak);
+    --kilo-blue-var: var(--primary-700);
   }
-
+  
   --space-unit: 12px;
   --nav-height: 3rem;
-
+  
   @media (min-width: 640px) {
     --space-unit: 16px;
   }
@@ -89,30 +113,40 @@
 
 /* semantic colors added to tw classes */
 @theme {
-  --color-surface-accent-peak: var(--primary-peak);
-  --color-surface-accent-peak-hovered: var(--primary-300);
+  --color-surface-primary-peak: var(--color-primary-peak);
 
   /* surfaces */
   --color-surface-base: var(--surface-base);
   --color-surface-inverted: var(--surface-inverted);
   --color-surface-light: var(--surface-light);
-  --color-surface-light-hovered: var(--surface-light-hovered);
+  --color-surface-feather: var(--surface-feather);
   --color-surface-heavy: var(--surface-heavy);
-  --color-surface-accent: var(--surface-accent);
-  --color-surface-accent-hovered: var(--surface-accent-hovered);
+  --color-surface-primary: var(--surface-primary);
+  --color-surface-secondary: var(--surface-secondary);
 
   /* text colors on surfaces */
-  --color-on-surface-heavy: var(--text-color-on-surface-base);
-  --color-on-surface-base: var(--text-color-on-surface-base);
-  --color-on-surface-light: var(--text-color-on-surface-base);
-  --color-on-surface-inverted: var(--text-color-on-surface-inverted);
-  --color-on-surface-accent: var(--text-color-on-surface-accent);
-  --color-on-surface-accent-hovered: var(--text-color-on-surface-accent-hovered);
-  --color-on-surface-accent-peak: var(--neutral-900);
-  --color-on-surface-accent-peak-hovered: var(--neutral-900);
+  --color-on-heavy: var(--text-on-base);
+  --color-on-base: var(--text-on-base);
+  --color-on-light: var(--text-on-base);
+  --color-on-inverted: var(--text-on-inverted);
+  --color-on-primary: var(--text-on-primary);
+  --color-on-secondary: var(--text-on-secondary);
 
-  --color-accent-on-surface-base: var(--accent-text-on-surface-base);
-  --color-accent-on-surface-inverted: var(--accent-text-on-surface-inverted);
+  --color-primary: var(--surface-primary);
+  --color-secondary: var(--surface-secondary);
+
+  --color-primary-text: var(--primary-text);
+  --color-secondary-text: var(--secondary-text);
+
+  --color-line-on-base: var(--line-on-base);
+  --color-line-on-inverted: var(--line-on-inverted);
+  --color-line-on-primary: var(--line-on-primary);
+  --color-line-on-secondary: var(--line-on-secondary);
+
+  --color-primary-on-base: var(--primary-text);
+  --color-primary-on-inverted: var(--primary-text-on-inverted);
+
+  --kilo-blue: var(--kilo-blue-var);
 
   --spacing-xs: calc(var(--space-unit) * 0.25);
   --spacing-sm: calc(var(--space-unit) * 0.5);

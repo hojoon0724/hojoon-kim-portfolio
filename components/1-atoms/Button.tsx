@@ -15,7 +15,7 @@ interface ButtonProps {
 
 export function Button({
   variant = "filled",
-  color = "accent",
+  color = "primary",
   disabled = false,
   size = "md",
   text,
@@ -30,25 +30,24 @@ export function Button({
 
   const classMap = {
     filled: {
-      accent:
-        "bg-surface-accent text-on-surface-accent border-transparent hover:bg-surface-accent-hovered hover:text-on-surface-accent-hovered hover:border-transparent",
-      secondary:
-        "bg-surface-light text-on-surface-light border-transparent hover:bg-surface-light-hovered hover:text-on-surface-light-hovered hover:border-transparent",
-      peak: "bg-surface-accent-peak text-on-surface-accent-peak border-transparent hover:bg-surface-accent-peak-hovered hover:text-on-surface-accent-peak-hovered hover:border-transparent",
+      primary: "bg-surface-primary text-on-primary border-transparent",
+      secondary: "bg-surface-secondary text-on-secondary border-transparent",
+      tertiary: "bg-surface-inverted text-on-inverted border-transparent",
     },
     outline: {
-      accent:
-        "bg-transparent text-accent-on-surface-base border-accent-on-surface-base hover:bg-surface-accent-hovered hover:text-on-surface-accent-hovered hover:border-accent",
+      primary:
+        "bg-transparent text-primary border-primary hover:bg-surface-primary hover:text-on-primary hover:border-primary",
       secondary:
-        "bg-transparent text-on-surface-light border-surface-inverted hover:bg-surface-light hover:text-on-surface-base/70 hover:border-on-surface-base/70",
-      peak: "bg-transparent text-peak-on-surface-base border-peak-on-surface-base hover:bg-surface-accent-peak-hovered hover:text-on-surface-accent-peak-hovered hover:border-peak",
+        "bg-transparent text-on-surface-base border-secondary hover:bg-surface-secondary hover:text-on-secondary hover:border-secondary",
+      tertiary: "bg-transparent text-on-base border-surface-inverted hover:bg-surface-inverted hover:text-on-inverted",
     },
     ghost: {
-      accent:
-        "border-transparent bg-transparent text-accent-on-surface-base hover:border-transparent hover:bg-surface-accent-hovered hover:text-on-surface-accent",
+      primary:
+        "border-transparent bg-transparent text-primary hover:border-transparent hover:bg-surface-primary hover:text-on-primary",
       secondary:
-        "border-transparent bg-transparent text-on-surface-base hover:border-transparent hover:bg-surface-light hover:text-on-surface-light",
-      peak: "border-transparent bg-transparent text-peak-on-surface-base hover:border-transparent hover:bg-surface-accent-peak-hovered hover:text-on-surface-accent-peak",
+        "border-transparent bg-transparent text-secondary-text hover:border-transparent hover:bg-surface-secondary hover:text-on-secondary",
+      tertiary:
+        "border-transparent bg-transparent text-on-base hover:border-transparent hover:bg-surface-inverted hover:text-on-inverted",
     },
   };
 
