@@ -92,7 +92,7 @@ export function NavBar() {
                   >
                     <Button
                       variant="filled"
-                      color="peak"
+                      color="primary"
                       text={item.name}
                       size="sm"
                       url={item.href}
