@@ -1,4 +1,4 @@
-import { NavBar } from "@/components/4-organisms";
+// import { NavBar } from "@/components/4-organisms";
 import "@/styles/globals.css";
 import { Metadata } from "next";
 import { Roboto_Flex, Roboto_Mono } from "next/font/google";
@@ -39,7 +39,7 @@ export default function RootLayout({
       <body
         className={`${robotoFlex.variable} ${robotoMono.variable} relative h-full min-h-screen antialiased`}
       >
-        <NavBar />
+        {/* <NavBar /> */}
         <main>{children}</main>
       </body>
     </html>

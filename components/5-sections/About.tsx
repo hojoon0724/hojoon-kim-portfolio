@@ -49,13 +49,13 @@ export function About({
           fullWidth
         >
           <div className="background-container absolute h-full w-full bg-gray-800 opacity-90"></div>
-          <div className="banner-content nav-padding gap-xl p-xl flex w-full max-w-5xl flex-col justify-between md:flex-row items-start md:items-end">
+          <div className="banner-content nav-padding gap-xl p-xl flex w-full max-w-7xl flex-col items-start justify-between md:flex-row md:items-center">
             <h1 className="text">
               <ScrollRevealText
                 className="max-w-prose text-left text-balance"
                 revealBy="letter"
                 staggerMs={80}
-                text="About"
+                text="Hojoon Kim"
                 wrap={false}
               />
             </h1>
