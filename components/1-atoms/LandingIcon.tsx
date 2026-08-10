@@ -11,15 +11,18 @@ const morseCode = [
   [1, 0, 1],
 ] as const;
 
-const letterStartIndices = morseCode.reduce<number[]>((starts, letter, letterIndex) => {
-  if (letterIndex === 0) {
-    starts.push(0);
-    return starts;
-  }
+const letterStartIndices = morseCode.reduce<number[]>(
+  (starts, letter, letterIndex) => {
+    if (letterIndex === 0) {
+      starts.push(0);
+      return starts;
+    }
 
-  starts.push(starts[letterIndex - 1] + morseCode[letterIndex - 1].length);
-  return starts;
-}, []);
+    starts.push(starts[letterIndex - 1] + morseCode[letterIndex - 1].length);
+    return starts;
+  },
+  [],
+);
 
 const morseSegments = morseCode.flatMap((letter, letterIndex) => {
   const startIndex = letterStartIndices[letterIndex];
@@ -37,9 +40,11 @@ const morseSegments = morseCode.flatMap((letter, letterIndex) => {
 });
 
 const totalUnits =
-  morseSegments.reduce<number>((sum, segment) => sum + segment.units, 0) + letterPauseUnits * (morseCode.length - 1);
+  morseSegments.reduce<number>((sum, segment) => sum + segment.units, 0) +
+  letterPauseUnits * (morseCode.length - 1);
 
-const createVisibilityState = (isVisible: boolean) => morseSegments.map(() => isVisible);
+const createVisibilityState = (isVisible: boolean) =>
+  morseSegments.map(() => isVisible);
 const createStretchState = (stretchDash: boolean) =>
   morseSegments.map((segment) => (segment.bit === 1 ? stretchDash : false));
 
@@ -51,23 +56,39 @@ export function LandingIcon({
   startAnimation?: boolean;
 }) {
   const [iconColors, setIconColors] = useState(hotelColors);
-  const [visibleSegments, setVisibleSegments] = useState<boolean[]>(() => createVisibilityState(!startAnimation));
-  const [stretchedDashes, setStretchedDashes] = useState<boolean[]>(() => createStretchState(!startAnimation));
+  const [visibleSegments, setVisibleSegments] = useState<boolean[]>(() =>
+    createVisibilityState(!startAnimation),
+  );
+  const [stretchedDashes, setStretchedDashes] = useState<boolean[]>(() =>
+    createStretchState(!startAnimation),
+  );
 
-  const unitMs = Math.max(80, Math.floor(initialAnimationDuration / totalUnits));
+  const unitMs = Math.max(
+    80,
+    Math.floor(initialAnimationDuration / totalUnits),
+  );
 
   useEffect(() => {
     if (!startAnimation) {
-      setVisibleSegments(createVisibilityState(true));
-      setStretchedDashes(createStretchState(true));
-      return;
-    }
+      const timeoutId = window.setTimeout(() => {
+        setVisibleSegments(createVisibilityState(true));
+        setStretchedDashes(createStretchState(true));
+      }, 0);
 
-    setVisibleSegments(createVisibilityState(false));
-    setStretchedDashes(createStretchState(false));
+      return () => {
+        window.clearTimeout(timeoutId);
+      };
+    }
 
     let elapsedMs = 0;
     const timeouts: number[] = [];
+
+    timeouts.push(
+      window.setTimeout(() => {
+        setVisibleSegments(createVisibilityState(false));
+        setStretchedDashes(createStretchState(false));
+      }, 0),
+    );
 
     morseSegments.forEach((segment, index) => {
       timeouts.push(
@@ -95,7 +116,8 @@ export function LandingIcon({
       elapsedMs += segment.units * unitMs;
 
       const isLetterBoundary =
-        index < morseSegments.length - 1 && segment.letterIndex !== morseSegments[index + 1].letterIndex;
+        index < morseSegments.length - 1 &&
+        segment.letterIndex !== morseSegments[index + 1].letterIndex;
       if (isLetterBoundary) {
         elapsedMs += letterPauseUnits * unitMs;
       }
@@ -108,7 +130,9 @@ export function LandingIcon({
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      setIconColors((prev) => (prev === hotelColors ? kiloColors : hotelColors));
+      setIconColors((prev) =>
+        prev === hotelColors ? kiloColors : hotelColors,
+      );
     }, 5000);
 
     return () => clearInterval(intervalId);
@@ -128,7 +152,7 @@ export function LandingIcon({
     return (
       <div
         key={`segment-${index}`}
-        className={`${isDash && isStretched ? "w-10" : "w-3"} h-3 drop-shadow-lg rounded-full origin-center ${colorClass}`}
+        className={`${isDash && isStretched ? "w-10" : "w-3"} h-3 origin-center rounded-full drop-shadow-lg ${colorClass}`}
         style={{
           animation: startAnimation
             ? `landingIconScaleIn ${revealDurationMs}ms cubic-bezier(0.22, 1, 0.36, 1) both`
@@ -153,18 +177,28 @@ export function LandingIcon({
           }
         }
       `}</style>
-      <div className="flex gap-6 justify-center my-8">
+      <div className="my-8 flex justify-center gap-6">
         {morseCode.map((letter, letterIndex) => {
           const startIndex = letterStartIndices[letterIndex];
-          const hasVisibleSegment = letter.some((_, segmentIndex) => visibleSegments[startIndex + segmentIndex]);
+          const hasVisibleSegment = letter.some(
+            (_, segmentIndex) => visibleSegments[startIndex + segmentIndex],
+          );
 
           if (!hasVisibleSegment) {
             return null;
           }
 
           return (
-            <div key={`letter-${letterIndex}`} className={`${letterClassNames[letterIndex]} flex gap-2`}>
-              {letter.map((_, segmentIndex) => renderSegment(startIndex + segmentIndex, iconColors[letterIndex]))}
+            <div
+              key={`letter-${letterIndex}`}
+              className={`${letterClassNames[letterIndex]} flex gap-2`}
+            >
+              {letter.map((_, segmentIndex) =>
+                renderSegment(
+                  startIndex + segmentIndex,
+                  iconColors[letterIndex],
+                ),
+              )}
             </div>
           );
         })}

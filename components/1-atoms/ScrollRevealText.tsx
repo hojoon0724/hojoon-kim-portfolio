@@ -9,7 +9,7 @@ interface ScrollRevealTextProps {
   text: string;
   staggerMs?: number;
   threshold?: number;
-  children?: React.ReactNode;
+  wrap?: boolean;
 }
 
 export function ScrollRevealText({
@@ -19,7 +19,7 @@ export function ScrollRevealText({
   text,
   staggerMs = 60,
   threshold = 0.1,
-  children,
+  wrap = true,
 }: ScrollRevealTextProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   // one-shot mode: boolean
@@ -71,7 +71,7 @@ export function ScrollRevealText({
 
   return (
     <div ref={containerRef} className={`scroll-reveal-text-outer-container ${className ?? ""}`} aria-label={text}>
-      <div className="scroll-reveal-text-container">
+      <div className={`scroll-reveal-text-container ${wrap ? "flex-wrap" : "flex flex-nowrap"}`}>
         {units.map((unit, i) => {
           const isRevealed = progressWithScroll ? i < revealedCount : revealed;
           return (

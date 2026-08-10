@@ -2,59 +2,143 @@ import { Button, Section } from "@/components/1-atoms";
 
 export function AtomsGallery() {
   return (
-    <Section className="flex flex-col justify-center items-center w-full" fullWidth>
+    <Section
+      className="flex w-full flex-col items-center justify-center"
+      fullWidth
+    >
       <h1>Atoms</h1>
       <h2>Buttons</h2>
-      <div className="flex flex-col justify-center items-center gap-8">
-        <div className="sizes flex flex-col gap-4 items-start">
-          <div className="small flex gap-2 justify-center items-center">
-            <Button variant="filled" color="primary" text="primary filled" size="sm" />
-            <Button variant="filled" color="secondary" text="secondary filled" size="sm" />
-            <Button variant="filled" color="tertiary" text="tertiary filled" size="sm" />
+      <div className="flex flex-col items-center justify-center gap-8">
+        <div className="sizes flex flex-col items-start gap-4">
+          <div className="small flex items-center justify-center gap-2">
+            <Button
+              variant="filled"
+              color="accent"
+              text="primary filled"
+              size="sm"
+            />
+            <Button
+              variant="filled"
+              color="neutral"
+              text="neutral filled"
+              size="sm"
+            />
           </div>
-          <div className="medium flex gap-2 justify-center items-center">
-            <Button variant="filled" color="primary" text="primary filled" size="md" />
-            <Button variant="filled" color="secondary" text="secondary filled" size="md" />
-            <Button variant="filled" color="tertiary" text="tertiary filled" size="md" />
+          <div className="medium flex items-center justify-center gap-2">
+            <Button
+              variant="filled"
+              color="accent"
+              text="primary filled"
+              size="md"
+            />
+            <Button
+              variant="filled"
+              color="neutral"
+              text="neutral filled"
+              size="md"
+            />
           </div>
-          <div className="large flex gap-2 justify-center items-center">
-            <Button variant="filled" color="primary" text="primary filled" size="lg" />
-            <Button variant="filled" color="secondary" text="secondary filled" size="lg" />
-            <Button variant="filled" color="tertiary" text="tertiary filled" size="lg" />
+          <div className="large flex items-center justify-center gap-2">
+            <Button
+              variant="filled"
+              color="accent"
+              text="primary filled"
+              size="lg"
+            />
+            <Button
+              variant="filled"
+              color="neutral"
+              text="neutral filled"
+              size="lg"
+            />
           </div>
         </div>
-        <div className="sizes flex flex-col gap-4 items-start">
-          <div className="small flex gap-2 justify-center items-center">
-            <Button variant="outline" color="primary" text="primary outline" size="sm" />
-            <Button variant="outline" color="secondary" text="secondary outline" size="sm" />
-            <Button variant="outline" color="tertiary" text="tertiary outline" size="sm" />
+        <div className="sizes flex flex-col items-start gap-4">
+          <div className="small flex items-center justify-center gap-2">
+            <Button
+              variant="outline"
+              color="accent"
+              text="primary outline"
+              size="sm"
+            />
+            <Button
+              variant="outline"
+              color="neutral"
+              text="neutral outline"
+              size="sm"
+            />
           </div>
-          <div className="medium flex gap-2 justify-center items-center">
-            <Button variant="outline" color="primary" text="primary outline" size="md" />
-            <Button variant="outline" color="secondary" text="secondary outline" size="md" />
-            <Button variant="outline" color="tertiary" text="tertiary outline" size="md" />
+          <div className="medium flex items-center justify-center gap-2">
+            <Button
+              variant="outline"
+              color="accent"
+              text="primary outline"
+              size="md"
+            />
+            <Button
+              variant="outline"
+              color="neutral"
+              text="neutral outline"
+              size="md"
+            />
           </div>
-          <div className="large flex gap-2 justify-center items-center">
-            <Button variant="outline" color="primary" text="primary outline" size="lg" />
-            <Button variant="outline" color="secondary" text="secondary outline" size="lg" />
-            <Button variant="outline" color="tertiary" text="tertiary outline" size="lg" />
+          <div className="large flex items-center justify-center gap-2">
+            <Button
+              variant="outline"
+              color="accent"
+              text="primary outline"
+              size="lg"
+            />
+            <Button
+              variant="outline"
+              color="neutral"
+              text="neutral outline"
+              size="lg"
+            />
           </div>
         </div>
-        <div className="sizes flex flex-col gap-4 items-start">
-          <div className="small flex gap-2 justify-center items-center">
-            <Button variant="ghost" color="primary" text="primary ghost" size="sm" />
-            <Button variant="ghost" color="secondary" text="secondary ghost" size="sm" />
-            <Button variant="ghost" color="tertiary" text="tertiary ghost" size="sm" />
+        <div className="sizes flex flex-col items-start gap-4">
+          <div className="small flex items-center justify-center gap-2">
+            <Button
+              variant="ghost"
+              color="accent"
+              text="primary ghost"
+              size="sm"
+            />
+            <Button
+              variant="ghost"
+              color="neutral"
+              text="neutral ghost"
+              size="sm"
+            />
           </div>
-          <div className="medium flex gap-2 justify-center items-center">
-            <Button variant="ghost" color="primary" text="primary ghost" size="md" />
-            <Button variant="ghost" color="secondary" text="secondary ghost" size="md" />
-            <Button variant="ghost" color="tertiary" text="tertiary ghost" size="md" />
+          <div className="medium flex items-center justify-center gap-2">
+            <Button
+              variant="ghost"
+              color="accent"
+              text="primary ghost"
+              size="md"
+            />
+            <Button
+              variant="ghost"
+              color="neutral"
+              text="neutral ghost"
+              size="md"
+            />
           </div>
-          <div className="large flex gap-2 justify-center items-center">
-            <Button variant="ghost" color="primary" text="primary ghost" size="lg" />
-            <Button variant="ghost" color="secondary" text="secondary ghost" size="lg" />
-            <Button variant="ghost" color="tertiary" text="tertiary ghost" size="lg" />
+          <div className="large flex items-center justify-center gap-2">
+            <Button
+              variant="ghost"
+              color="accent"
+              text="primary ghost"
+              size="lg"
+            />
+            <Button
+              variant="ghost"
+              color="neutral"
+              text="neutral ghost"
+              size="lg"
+            />
           </div>
         </div>
       </div>

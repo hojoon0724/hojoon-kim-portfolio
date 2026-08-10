@@ -20,8 +20,10 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "baseline-browser-mapping": "^2.10.22",
-    "eslint": "^10",
+    "eslint": "^9",
     "eslint-config-next": "16.2.4",
+    "prettier": "^3.8.4",
+    "prettier-plugin-tailwindcss": "^0.8.0",
     "tailwindcss": "^4",
     "typescript": "^6"
   }

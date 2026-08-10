@@ -8,6 +8,10 @@ body {
   @apply bg-surface-base text-on-base roboto-flex; 
 }
 
+main {
+  @apply h-full;
+}
+
 main > :first-child:not(.no-main-spacing) {
   @apply pt-md lg:pt-[calc(var(--spacing-nav)+(var(--spacing-md)*2))];
 }
@@ -39,4 +43,16 @@ nav::after {
   @media (min-width: 1024px) {
     display: block;
   }
+}
+
+.nav-padding {
+  @apply pt-md lg:pt-[calc(var(--spacing-nav)+(var(--spacing-md)*2))];
+}
+
+.content-max-width {
+  @apply max-w-7xl px-md lg:px-lg mx-auto;
+}
+
+div{
+  /* @apply outline; */
 }

@@ -15,7 +15,7 @@ interface ButtonProps {
 
 export function Button({
   variant = "filled",
-  color = "primary",
+  color = "accent",
   disabled = false,
   size = "md",
   text,
@@ -30,23 +30,18 @@ export function Button({
 
   const classMap = {
     filled: {
-      primary: "bg-surface-primary text-on-primary border-transparent",
-      secondary: "bg-surface-secondary text-on-secondary border-transparent",
-      tertiary: "bg-surface-inverted text-on-inverted border-transparent",
+      accent: "bg-surface-accent text-on-accent border-transparent",
+      neutral: "bg-surface-inverted text-on-inverted border-transparent",
     },
     outline: {
-      primary:
-        "bg-transparent text-primary border-primary hover:bg-surface-primary hover:text-on-primary hover:border-primary",
-      secondary:
-        "bg-transparent text-on-surface-base border-secondary hover:bg-surface-secondary hover:text-on-secondary hover:border-secondary",
-      tertiary: "bg-transparent text-on-base border-surface-inverted hover:bg-surface-inverted hover:text-on-inverted",
+      accent:
+        "bg-transparent text-accent border-accent hover:bg-surface-accent hover:text-on-accent hover:border-accent",
+      neutral: "bg-transparent text-on-base border-surface-inverted hover:bg-surface-inverted hover:text-on-inverted",
     },
     ghost: {
-      primary:
-        "border-transparent bg-transparent text-primary hover:border-transparent hover:bg-surface-primary hover:text-on-primary",
-      secondary:
-        "border-transparent bg-transparent text-secondary-text hover:border-transparent hover:bg-surface-secondary hover:text-on-secondary",
-      tertiary:
+      accent:
+        "border-transparent bg-transparent text-accent hover:border-transparent hover:bg-surface-accent hover:text-on-accent",
+      neutral:
         "border-transparent bg-transparent text-on-base hover:border-transparent hover:bg-surface-inverted hover:text-on-inverted",
     },
   };

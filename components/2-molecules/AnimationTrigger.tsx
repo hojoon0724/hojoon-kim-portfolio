@@ -51,10 +51,10 @@ export function AnimationTrigger({
             disabled={animationState !== "completed"}
             text="reset"
             variant="filled"
-            color="secondary"
+            color="neutral"
             size="sm"
           />
-          <Button onClick={handleTrigger} disabled={isDisabled} text="play" variant="filled" color="primary" size="sm" />
+          <Button onClick={handleTrigger} disabled={isDisabled} text="play" variant="filled" color="accent" size="sm" />
         </div>
       </div>
       <div className="overflow-hidden pl-2 pr-26 py-2">
@@ -62,7 +62,7 @@ export function AnimationTrigger({
           key={animationKey}
           className={`${shouldApplyAnimation ? animationClass : startVisible ? "" : "invisible"}`}
         >
-          {children || <div className="w-24 h-12 bg-surface-primary border rounded" />}
+          {children || <div className="w-24 h-12 bg-surface-accent-on-inverted border rounded" />}
         </div>
       </div>
     </div>

@@ -6,15 +6,19 @@ import { dirname, resolve } from "node:path";
 const baseLumaArray = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9];
 const extendedLumaArray = [0.03, 0.05, ...baseLumaArray, 0.95, 0.97];
 
-const primaryHue = 235;
-const fixedChroma = 0.01;
+const primaryHue = 145.64;
+const fixedChroma = 0.03 ;
 
 function normalizeHue(hue: number): number {
   const normalized = hue % 360;
   return normalized < 0 ? normalized + 360 : normalized;
 }
 
-function oklchToLinearRgb(lightness: number, chroma: number, hue: number): [number, number, number] {
+function oklchToLinearRgb(
+  lightness: number,
+  chroma: number,
+  hue: number,
+): [number, number, number] {
   const hueRadians = (normalizeHue(hue) * Math.PI) / 180;
   const a = chroma * Math.cos(hueRadians);
   const b = chroma * Math.sin(hueRadians);
@@ -32,11 +36,22 @@ function oklchToLinearRgb(lightness: number, chroma: number, hue: number): [numb
 
 function isInGamut(r: number, g: number, b: number): boolean {
   const epsilon = 1e-7;
-  return r >= -epsilon && r <= 1 + epsilon && g >= -epsilon && g <= 1 + epsilon && b >= -epsilon && b <= 1 + epsilon;
+  return (
+    r >= -epsilon &&
+    r <= 1 + epsilon &&
+    g >= -epsilon &&
+    g <= 1 + epsilon &&
+    b >= -epsilon &&
+    b <= 1 + epsilon
+  );
 }
 
 // LMS → linear Display-P3 matrix (derived from Oklab LMS primaries → XYZ D65 → P3)
-function isInP3GamutOklch(lightness: number, chroma: number, hue: number): boolean {
+function isInP3GamutOklch(
+  lightness: number,
+  chroma: number,
+  hue: number,
+): boolean {
   const [l, m, s] = oklchToLinearRgb(lightness, chroma, hue);
   const r = 3.1279009 * l - 2.257195 * m + 0.129294 * s;
   const g = -1.0909852 * l + 2.4134438 * m - 0.3224586 * s;
@@ -60,14 +75,21 @@ function findMaxChromaForLightness(lightness: number, hue: number): number {
   return low;
 }
 
-function generateMaxChromaOklchColors(lumaArray: number[] = extendedLumaArray, hue: number): string[] {
+function generateMaxChromaOklchColors(
+  lumaArray: number[] = extendedLumaArray,
+  hue: number,
+): string[] {
   return lumaArray.map((lightness) => {
     const maxChroma = findMaxChromaForLightness(lightness, hue);
     return `oklch(${lightness.toFixed(3)} ${maxChroma.toFixed(4)} ${normalizeHue(hue).toFixed(1)})`;
   });
 }
 
-function generateOklchColors(lumaArray: number[] = extendedLumaArray, chroma: number, hue: number): string[] {
+function generateOklchColors(
+  lumaArray: number[] = extendedLumaArray,
+  chroma: number,
+  hue: number,
+): string[] {
   const normalizedHue = normalizeHue(hue);
   return lumaArray.map((lightness) => {
     const clampedLightness = Math.min(1, Math.max(0, lightness));
@@ -76,7 +98,10 @@ function generateOklchColors(lumaArray: number[] = extendedLumaArray, chroma: nu
   });
 }
 
-function findPeakChromaPointForHue(hue: number): { luma: number; chroma: number } {
+function findPeakChromaPointForHue(hue: number): {
+  luma: number;
+  chroma: number;
+} {
   const cache = new Map<number, number>();
   const evaluate = (lightness: number): number => {
     const clamped = Math.min(1, Math.max(0, lightness));
@@ -134,7 +159,11 @@ function getInverseLumaLabel(lightness: number): number {
   return 1000 - lumaScale;
 }
 
-function createPaletteCssVariableBlock(variablePrefix: string, lumaArray: number[], values: string[]): string {
+function createPaletteCssVariableBlock(
+  variablePrefix: string,
+  lumaArray: number[],
+  values: string[],
+): string {
   const entries = values.map((color, index) => {
     const luma = lumaArray[index] ?? 0;
     const suffix = getInverseLumaLabel(luma);
@@ -148,9 +177,21 @@ function createPaletteCssVariableBlock(variablePrefix: string, lumaArray: number
     .join("\n");
 }
 
-function buildCssFileContent(maxChromaValues: string[], fixedChromaValues: string[], hue: number): string {
-  const maxBlock = createPaletteCssVariableBlock(`primary`, extendedLumaArray, maxChromaValues);
-  const fixedBlock = createPaletteCssVariableBlock(`neutral`, extendedLumaArray, fixedChromaValues);
+function buildCssFileContent(
+  maxChromaValues: string[],
+  fixedChromaValues: string[],
+  hue: number,
+): string {
+  const maxBlock = createPaletteCssVariableBlock(
+    `primary`,
+    extendedLumaArray,
+    maxChromaValues,
+  );
+  const fixedBlock = createPaletteCssVariableBlock(
+    `neutral`,
+    extendedLumaArray,
+    fixedChromaValues,
+  );
   const peak = findPeakChromaPointForHue(hue);
   const peakColor = `oklch(${peak.luma.toFixed(3)} ${peak.chroma.toFixed(4)} ${normalizeHue(hue).toFixed(1)})`;
 
@@ -168,8 +209,16 @@ function buildCssFileContent(maxChromaValues: string[], fixedChromaValues: strin
 
 function writeGeneratedPaletteFile(hue: number, chroma: number): void {
   const maxChromaPalette = generateMaxChromaOklchColors(extendedLumaArray, hue);
-  const fixedChromaPalette = generateOklchColors(extendedLumaArray, chroma, hue);
-  const cssContent = buildCssFileContent(maxChromaPalette, fixedChromaPalette, hue);
+  const fixedChromaPalette = generateOklchColors(
+    extendedLumaArray,
+    chroma,
+    hue,
+  );
+  const cssContent = buildCssFileContent(
+    maxChromaPalette,
+    fixedChromaPalette,
+    hue,
+  );
 
   const outputPath = resolve(process.cwd(), "styles/generatedColors.css");
   mkdirSync(dirname(outputPath), { recursive: true });

@@ -1,4 +1,4 @@
-// import { NavBar } from "@/components/4-organisms";
+import { NavBar } from "@/components/4-organisms";
 import "@/styles/globals.css";
 import { Metadata } from "next";
 import { Roboto_Flex, Roboto_Mono } from "next/font/google";
@@ -17,8 +17,9 @@ const robotoMono = Roboto_Mono({
 
 export const metadata: Metadata = {
   title: "Hojoon Kim",
-  description: "Designer and software developer creating products, brands, and media across tech, film, and music.",
-    icons: {
+  description:
+    "Designer and software developer creating products, brands, and media across tech, film, and music.",
+  icons: {
     icon: "/favicon.ico",
     apple: "/apple-touch-icon.png",
   },
@@ -31,9 +32,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-      <body className={`${robotoFlex.variable} ${robotoMono.variable} antialiased relative min-h-screen`}>
-        {/* <NavBar /> */}
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, viewport-fit=cover"
+      />
+      <body
+        className={`${robotoFlex.variable} ${robotoMono.variable} relative h-full min-h-screen antialiased`}
+      >
+        <NavBar />
         <main>{children}</main>
       </body>
     </html>
