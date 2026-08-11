@@ -9,6 +9,7 @@ export const rcnm: CaseStudy = {
   description:
     "Co-founded and scaled a contemporary music organization by building the brand, fundraising and operations systems, production workflows, and audience experience from scratch.",
   thumbnail: "/assets/case-studies/rcnm/thumbnail.png",
+  backgroundImage: "/assets/case-studies/rcnm/background.png",
   position: "Co-founder",
   bulletPoints: [
     "Built the organization from 0 to 1 with constrained budget and time",

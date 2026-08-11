@@ -31,6 +31,7 @@ export type CaseStudy = {
   toolsIds: string[];
   date: string;
   thumbnail: string;
+  backgroundImage: string;
   roleTag: string;
   careerSignal: string;
   oneLiner: string;

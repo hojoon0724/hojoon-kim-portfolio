@@ -9,6 +9,7 @@ export const ensrq: CaseStudy = {
   description:
     "Led multi-year brand evolution and built a custom database-driven platform that unified public experience and admin workflows for a growing arts organization.",
   thumbnail: "/assets/case-studies/ensrq/thumbnail.png",
+  backgroundImage: "/assets/case-studies/ensrq/background.png",
   position: "Lead Brand & Product Designer",
   bulletPoints: [
     "Directed seasonal brand systems and a full 2025 rebrand",

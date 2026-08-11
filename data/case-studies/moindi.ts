@@ -9,6 +9,7 @@ export const moindi: CaseStudy = {
   description:
     "Started as a branding conversation, then stepped into a Director of Brand & Product role to define strategy, design the product, and build the Angular front end in close partnership with the CTO.",
   thumbnail: "/assets/case-studies/moindi/thumbnail.png",
+  backgroundImage: "/assets/case-studies/moindi/background.png",
   position: "Director of Brand & Product",
   bulletPoints: [
     "Reframed a branding request into a product-first roadmap",
