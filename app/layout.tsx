@@ -1,7 +1,7 @@
-import { NavBar } from "@/components/4-organisms";
 import "@/styles/globals.css";
 import { Metadata } from "next";
 import { Roboto_Flex, Roboto_Mono } from "next/font/google";
+import ScrollProvider from "./ScrollProvider";
 
 const robotoFlex = Roboto_Flex({
   subsets: ["latin"],
@@ -37,10 +37,11 @@ export default function RootLayout({
         content="width=device-width, initial-scale=1, viewport-fit=cover"
       />
       <body
-        className={`${robotoFlex.variable} ${robotoMono.variable} relative h-full min-h-screen antialiased`}
-      >
-        <NavBar />
-        <main>{children}</main>
+        className={`${robotoFlex.variable} ${robotoMono.variable} relative max-h-dvh antialiased transition-colors duration-500 `}
+      ><ScrollProvider>
+        <main className="h-dvh min-h-dvh">{children}</main>
+        </ScrollProvider>
+        {/* <NavBar /> */}
       </body>
     </html>
   );

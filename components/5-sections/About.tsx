@@ -1,5 +1,6 @@
 "use client";
 
+import { Ensrq, FocusFeatures, LaPhil, Moindi, Rcnm } from "@/components/5-sections";
 import { ScrollRevealText, Section } from "@/components/1-atoms";
 import { useEffect, useState } from "react";
 
@@ -44,11 +45,14 @@ export function About({
     return (
       <>
         <Section
-          className="about relative flex h-dvw max-h-none w-full flex-col items-center justify-end bg-gray-600 md:h-[75dvw] lg:h-[56.25dvw] lg:max-h-[60dvh]"
+          className="about relative flex h-[80dvh] max-h-none w-full shrink-0 snap-start flex-col items-center justify-end bg-gray-700"
+          data-snap-target
           id="about"
           fullWidth
         >
-          <div className="background-container absolute h-full w-full bg-gray-800 opacity-90"></div>
+          <div className="background-container absolute flex h-full w-full items-center justify-center">
+            [insert carousel here]
+          </div>
           <div className="banner-content nav-padding gap-xl p-xl flex w-full max-w-7xl flex-col items-start justify-between md:flex-row md:items-center">
             <h1 className="text">
               <ScrollRevealText
@@ -73,6 +77,13 @@ export function About({
               )}
             </div>
           </div>
+        </Section>
+        <Section className="work-summary shrink-0" fullWidth>
+          <Moindi />
+          <Rcnm />
+          <Ensrq />
+          <FocusFeatures />
+          <LaPhil />
         </Section>
       </>
     );

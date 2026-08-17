@@ -21,9 +21,9 @@ export function NavBar() {
   const delayStep = 100;
 
   return (
-    <div className="nav-container fixed bottom-0 z-50 flex w-full items-end justify-end px-0 py-0 lg:top-0 lg:bottom-auto lg:px-0 lg:py-0">
+    <div className="nav-container pointer-events-none fixed bottom-0 z-50 flex w-full items-end justify-end px-0 py-0 lg:pointer-events-auto lg:top-0 lg:bottom-auto lg:px-0 lg:py-0">
       <div
-        className={`lg:px-sm lg:py-md z-50 mx-auto w-full max-w-7xl ${isMobileMenuOpen ? "translate-y-0 duration-500 ease-[var(--bezier-movement-inertia-500)]" : "translate-y-[calc(100%-var(--spacing-nav))] delay-300 duration-1000 ease-[var(--bezier-movement-inertia-1000)] lg:translate-y-0"} transition-transform`}
+        className={`lg:px-sm lg:py-md z-50 mx-auto w-full max-w-7xl ${isMobileMenuOpen ? "translate-y-0 duration-500 ease-(--bezier-movement-inertia-500)" : "translate-y-[calc(100%-var(--spacing-nav))] delay-300 duration-1000 ease-(--bezier-movement-inertia-1000) lg:translate-y-0"} transition-transform`}
       >
         <nav
           className={`bg-surface-heavy/40 text-on-heavy lg:h-nav relative flex h-auto w-full flex-col items-start justify-start rounded-t-lg px-0 backdrop-blur-lg transition-transform duration-500 lg:flex-row lg:items-center lg:justify-between lg:rounded-lg lg:py-0`}
@@ -45,7 +45,7 @@ export function NavBar() {
           </div>
 
           <ul
-            className={`py-3xl gap-lg flex h-full w-fit w-full flex-col items-center px-8 transition-transform duration-500 lg:w-auto lg:flex-row lg:items-stretch lg:justify-center lg:gap-0 lg:pr-md lg:py-0`}
+            className={`py-3xl gap-lg lg:pr-md flex h-full w-full flex-col items-center px-8 transition-transform duration-500 lg:w-auto lg:flex-row lg:items-stretch lg:justify-center lg:gap-0 lg:py-0`}
           >
             {navItems.map((item, index) => {
               const flatIndex = index;

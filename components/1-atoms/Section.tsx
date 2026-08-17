@@ -1,15 +1,19 @@
-interface SectionProps {
-  className?: string;
+interface SectionProps extends React.HTMLAttributes<HTMLElement> {
   fullWidth?: boolean;
-  children?: React.ReactNode;
-  id?: string;
 }
 
-export function Section({ className, fullWidth, children, id }: SectionProps) {
+export function Section({
+  className,
+  fullWidth,
+  children,
+  ...rest
+}: SectionProps) {
   return (
-    <section id={id} className={`flex flex-col ${fullWidth ? "max-w-none" : "max-w-7xl mx-auto px-xl"} ${className}`}>
+    <section
+      className={`flex flex-col ${fullWidth ? "max-w-none" : "px-xl mx-auto max-w-7xl"} ${className}`}
+      {...rest}
+    >
       {children}
-      
     </section>
   );
 }
