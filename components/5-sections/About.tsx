@@ -1,13 +1,14 @@
 "use client";
 
-import { Ensrq, FocusFeatures, LaPhil, Moindi, Rcnm } from "@/components/5-sections";
 import { ScrollRevealText, Section } from "@/components/1-atoms";
 import { useEffect, useState } from "react";
 
 export function About({
   landingIconAnimationDuration = 200,
+  id = "about",
 }: {
   landingIconAnimationDuration?: number;
+  id?: string;
 }) {
   const [showText, setShowText] = useState(false);
   const descriptionText =
@@ -45,15 +46,13 @@ export function About({
     return (
       <>
         <Section
-          className="about relative flex h-[80dvh] max-h-none w-full shrink-0 snap-start flex-col items-center justify-end bg-gray-700"
+          className="about relative flex h-dvh max-h-none w-full shrink-0 snap-start flex-col items-center justify-center bg-gray-700"
           data-snap-target
-          id="about"
+          id={id}
           fullWidth
         >
-          <div className="background-container absolute flex h-full w-full items-center justify-center">
-            [insert carousel here]
-          </div>
-          <div className="banner-content nav-padding gap-xl p-xl flex w-full max-w-7xl flex-col items-start justify-between md:flex-row md:items-center">
+          <div className="background-container absolute flex h-full w-full items-center justify-center"></div>
+          <div className="banner-content nav-padding gap-xl p-xl pb-3xl flex w-full max-w-7xl flex-col items-start justify-between md:flex-row md:items-center">
             <h1 className="text">
               <ScrollRevealText
                 className="max-w-prose text-left text-balance"
@@ -77,13 +76,6 @@ export function About({
               )}
             </div>
           </div>
-        </Section>
-        <Section className="work-summary shrink-0" fullWidth>
-          <Moindi />
-          <Rcnm />
-          <Ensrq />
-          <FocusFeatures />
-          <LaPhil />
         </Section>
       </>
     );

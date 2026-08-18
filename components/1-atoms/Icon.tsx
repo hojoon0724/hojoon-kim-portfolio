@@ -12,7 +12,7 @@ interface IconProps {
 export function Icon({
   className,
   icon,
-  color = "on-surface-base",
+  color = "currentColor",
   onButton = false,
   onButtonVariant = "filled",
 }: IconProps) {
@@ -23,7 +23,7 @@ export function Icon({
     const raw: string = SVG_ICONS[category][iconName];
     const fillValue = onButton
       ? `fill="var(--button-${color}-${onButtonVariant}-text)"`
-      : `fill="var(--color-${color})"`;
+      : `fill="${color}"`;
     svgHtml = raw.replace(/fill=".*?"/g, fillValue);
   } catch {
     svgHtml = "?";

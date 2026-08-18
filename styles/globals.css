@@ -4,6 +4,10 @@
 @import "./_semantics.css";
 @import "./_animations.css";
 
+html {
+  @apply scroll-smooth;
+}
+
 body {
   @apply bg-surface-base text-on-base roboto-flex; 
 }

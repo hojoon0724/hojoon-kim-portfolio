@@ -1,0 +1,106 @@
+import { Icon, ScrollRevealText, Section } from "@/components/1-atoms";
+import type { ProjectOverviewData } from "@/data";
+import { projectOverviewData } from "@/data";
+import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
+
+interface ProjectOverviewProps {
+  projectId: string;
+}
+
+export function ProjectOverview({ projectId }: ProjectOverviewProps) {
+  const projectData = projectOverviewData.find(
+    (project: ProjectOverviewData) => project.id === projectId,
+  );
+
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const [startAnimation, setStartAnimation] = useState(false);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    let timeoutId: number | undefined;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          timeoutId = window.setTimeout(() => {
+            setStartAnimation(true);
+          }, 120);
+          return;
+        }
+
+        if (timeoutId) {
+          window.clearTimeout(timeoutId);
+          timeoutId = undefined;
+        }
+        setStartAnimation(false);
+      },
+      { threshold: 0.6 },
+    );
+
+    observer.observe(el);
+
+    return () => {
+      if (timeoutId) {
+        window.clearTimeout(timeoutId);
+      }
+      observer.disconnect();
+    };
+  }, []);
+
+  if (!projectData) {
+    return null; // or render a fallback UI
+  }
+  return (
+    <Section
+      className={`${projectId}-summary flex h-dvh w-screen shrink-0 snap-x snap-mandatory snap-start flex-row items-center justify-start overflow-x-scroll`}
+      data-snap-container
+      fullWidth
+      id={projectId}
+    >
+      <div
+        ref={sectionRef}
+        className={`${projectData.id}-slide-1 p-md gap-md flex h-dvh w-screen shrink-0 snap-start flex-col items-start justify-center ${projectData.backgroundClassName} ${projectData.textColorClassName}`}
+        data-snap-target
+      >
+        <div className="content-container gap-lg mx-auto flex w-full max-w-7xl flex-col items-start justify-center md:flex-row md:items-center">
+          <div className="logo-text-container flex-col items-start justify-center">
+            <div
+              className={`logo-container p-md my-2xl relative flex h-30 w-[75%] max-w-96 items-center justify-center ${projectData.textColorClassName} ${startAnimation ? "animation-fade-in-up-16" : "opacity-0"}`}
+            >
+              <Image
+                src={`/logos/${projectData.logoFileName}`}
+                alt={`${projectData.name} Logo`}
+                fill
+                sizes="(max-width: 768px) 50vw, 384px"
+                className="object-contain object-left"
+              />
+            </div>
+            <div className="role-tag-container mb-lg text-left text-balance">
+              <ScrollRevealText
+                className="role-tag roboto-narrow text-xl font-bold md:text-2xl"
+                text={projectData.roleTag}
+              />
+            </div>
+            <div className="description-container max-w-prose text-left text-balance">
+              <ScrollRevealText
+                className="description text-base"
+                text={projectData.description}
+                staggerMs={60}
+              />
+            </div>
+          </div>
+          <div
+            className={`icon-container h-24 w-24 ${projectData.textColorClassName} ${startAnimation ? "animation-fade-in-up-16 [animation-delay:300ms]" : "opacity-0"}`}
+          >
+            <Icon
+              icon="arrow.arrow-right"
+              className={`${projectData.textColorClassName}`}
+            />
+          </div>
+        </div>
+      </div>
+    </Section>
+  );
+}

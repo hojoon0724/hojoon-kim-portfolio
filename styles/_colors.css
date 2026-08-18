@@ -33,6 +33,37 @@
   --hotel-red: oklch(0.5 0.136 33);
   --kilo-yellow: oklch(0.8 0.1894 83);
   --kilo-blue: oklch(0.3 0.058 258.6);
+
+  --moindi-orange: oklch(0.7426 0.2198 51.16);
+
+  --rcnm-red-800: #c80000;
+  --rcnm-red-700: #d91207;
+  --rcnm-red-600: #e92b15;
+  --rcnm-red-500: #fc3d21;
+  --rcnm-red-400: #ff4e2e;
+  --rcnm-red-300: #ff5d3a;
+  --rcnm-red-200: #ff6c47;
+  --rcnm-blue-800: #001d6a;
+  --rcnm-blue-700: #002777;
+  --rcnm-blue-600: #003284;
+  --rcnm-blue-500: #0b3d91;
+  --rcnm-blue-400: #20489e;
+  --rcnm-blue-300: #2d54ac;
+  --rcnm-blue-200: #3b60ba;
+  --rcnm-white-800: #b5b2ac;
+  --rcnm-white-700: #c4bfb8;
+  --rcnm-white-600: #d2cdc6;
+  --rcnm-white-500: #e1dbd3;
+  --rcnm-white-400: #eee9e2;
+  --rcnm-white-300: #fcf8f0;
+  --rcnm-white-200: #fffffc;
+  --rcnm-black-800: #000000;
+  --rcnm-black-700: #000918;
+  --rcnm-black-600: #08101e;
+  --rcnm-black-500: #101823;
+  --rcnm-black-400: #202b38;
+  --rcnm-black-300: #2b3643;
+  --rcnm-black-200: #36414f;
 }
 
 @theme {
@@ -65,4 +96,35 @@
   --color-gray-900: var(--neutral-900);
   --color-gray-950: var(--neutral-950);
   --color-gray-970: var(--neutral-970);
+
+  --color-moindi-orange: var(--moindi-orange);
+
+  --color-rcnm-red-800: var(--rcnm-red-800);
+  --color-rcnm-red-700: var(--rcnm-red-700);
+  --color-rcnm-red-600: var(--rcnm-red-600);
+  --color-rcnm-red-500: var(--rcnm-red-500);
+  --color-rcnm-red-400: var(--rcnm-red-400);
+  --color-rcnm-red-300: var(--rcnm-red-300);
+  --color-rcnm-red-200: var(--rcnm-red-200);
+  --color-rcnm-blue-800: var(--rcnm-blue-800);
+  --color-rcnm-blue-700: var(--rcnm-blue-700);
+  --color-rcnm-blue-600: var(--rcnm-blue-600);
+  --color-rcnm-blue-500: var(--rcnm-blue-500);
+  --color-rcnm-blue-400: var(--rcnm-blue-400);
+  --color-rcnm-blue-300: var(--rcnm-blue-300);
+  --color-rcnm-blue-200: var(--rcnm-blue-200);
+  --color-rcnm-white-800: var(--rcnm-white-800);
+  --color-rcnm-white-700: var(--rcnm-white-700);
+  --color-rcnm-white-600: var(--rcnm-white-600);
+  --color-rcnm-white-500: var(--rcnm-white-500);
+  --color-rcnm-white-400: var(--rcnm-white-400);
+  --color-rcnm-white-300: var(--rcnm-white-300);
+  --color-rcnm-white-200: var(--rcnm-white-200);
+  --color-rcnm-black-800: var(--rcnm-black-800);
+  --color-rcnm-black-700: var(--rcnm-black-700);
+  --color-rcnm-black-600: var(--rcnm-black-600);
+  --color-rcnm-black-500: var(--rcnm-black-500);
+  --color-rcnm-black-400: var(--rcnm-black-400);
+  --color-rcnm-black-300: var(--rcnm-black-300);
+  --color-rcnm-black-200: var(--rcnm-black-200);
 }

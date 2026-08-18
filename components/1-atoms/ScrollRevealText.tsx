@@ -9,6 +9,7 @@ interface ScrollRevealTextProps {
   text: string;
   staggerMs?: number;
   threshold?: number;
+  resetOnLeave?: boolean;
   wrap?: boolean;
 }
 
@@ -19,6 +20,7 @@ export function ScrollRevealText({
   text,
   staggerMs = 60,
   threshold = 0.1,
+  resetOnLeave = true,
   wrap = true,
 }: ScrollRevealTextProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -28,7 +30,11 @@ export function ScrollRevealText({
   const [revealedCount, setRevealedCount] = useState(0);
 
   const units: string[] =
-    revealBy === "letter" ? text.split("") : revealBy === "line" ? text.split("\n") : text.split(" ");
+    revealBy === "letter"
+      ? text.split("")
+      : revealBy === "line"
+        ? text.split("\n")
+        : text.split(" ");
 
   // One-shot IntersectionObserver mode
   useEffect(() => {
@@ -39,14 +45,21 @@ export function ScrollRevealText({
       ([entry]) => {
         if (entry.isIntersecting) {
           setRevealed(true);
-          observer.disconnect();
+          if (!resetOnLeave) {
+            observer.disconnect();
+          }
+          return;
+        }
+
+        if (resetOnLeave) {
+          setRevealed(false);
         }
       },
       { threshold },
     );
     observer.observe(el);
     return () => observer.disconnect();
-  }, [progressWithScroll, threshold]);
+  }, [progressWithScroll, resetOnLeave, threshold]);
 
   // Scroll-progress mode: reveal units as element scrolls through viewport
   useEffect(() => {
@@ -58,9 +71,15 @@ export function ScrollRevealText({
       const rect = el.getBoundingClientRect();
       const vh = window.innerHeight;
       const visibleHeight = Math.min(rect.bottom, vh) - Math.max(rect.top, 0);
-      const visibleRatio = Math.min(1, Math.max(0, visibleHeight / rect.height));
+      const visibleRatio = Math.min(
+        1,
+        Math.max(0, visibleHeight / rect.height),
+      );
       const startThreshold = 0.2;
-      const progress = Math.min(1, Math.max(0, (visibleRatio - startThreshold) / (1 - startThreshold)));
+      const progress = Math.min(
+        1,
+        Math.max(0, (visibleRatio - startThreshold) / (1 - startThreshold)),
+      );
       setRevealedCount(Math.round(progress * units.length));
     };
 
@@ -70,8 +89,14 @@ export function ScrollRevealText({
   }, [progressWithScroll, units.length]);
 
   return (
-    <div ref={containerRef} className={`scroll-reveal-text-outer-container ${className ?? ""}`} aria-label={text}>
-      <div className={`scroll-reveal-text-container ${wrap ? "flex-wrap" : "flex flex-nowrap"}`}>
+    <div
+      ref={containerRef}
+      className={`scroll-reveal-text-outer-container ${className ?? ""}`}
+      aria-label={text}
+    >
+      <div
+        className={`scroll-reveal-text-container ${wrap ? "flex-wrap" : "flex flex-nowrap"}`}
+      >
         {units.map((unit, i) => {
           const isRevealed = progressWithScroll ? i < revealedCount : revealed;
           return (
@@ -85,7 +110,9 @@ export function ScrollRevealText({
                 transition: progressWithScroll
                   ? `opacity 150ms var(--bezier-fade), transform 150ms var(--bezier-movement-inertia-500)`
                   : `opacity 500ms var(--bezier-fade), transform 500ms var(--bezier-movement-inertia-500)`,
-                transitionDelay: progressWithScroll ? "0ms" : `${i * staggerMs}ms`,
+                transitionDelay: progressWithScroll
+                  ? "0ms"
+                  : `${i * staggerMs}ms`,
                 whiteSpace: revealBy === "letter" ? "pre" : "normal",
               }}
             >
