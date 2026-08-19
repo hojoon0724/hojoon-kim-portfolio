@@ -55,7 +55,7 @@ export const projectOverviewData: ProjectOverviewData[] = [
     textColorClassName: "text-gray-100",
     roleTag: "Live performance systems consultant",
     categories: [
-      "Motion",
+      "Motion Graphics",
       "Editorial",
       "Technology",
       "Lecture",
