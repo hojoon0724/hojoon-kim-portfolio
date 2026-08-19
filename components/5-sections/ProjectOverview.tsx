@@ -1,3 +1,5 @@
+"use client";
+
 import { Icon, ScrollRevealText, Section } from "@/components/1-atoms";
 import type { ProjectOverviewData } from "@/data";
 import { projectOverviewData } from "@/data";
@@ -90,9 +92,24 @@ export function ProjectOverview({ projectId }: ProjectOverviewProps) {
                 staggerMs={60}
               />
             </div>
+            <ScrollRevealText
+              className="categories-container mt-xl flex flex-wrap"
+              staggerMs={90}
+              delayMs={500}
+            >
+              {projectData.categories.map((category) => (
+                <span
+                  key={category}
+                  className="category-chip mr-2 mb-2 inline-block rounded-full bg-gray-200 px-3 py-1 text-sm roboto-narrow font-semibold text-gray-700"
+                >
+                  {category}
+                </span>
+              ))}
+            </ScrollRevealText>
           </div>
+
           <div
-            className={`icon-container h-24 w-24 ${projectData.textColorClassName} ${startAnimation ? "animation-fade-in-up-16 [animation-delay:300ms]" : "opacity-0"}`}
+            className={`icon-container h-24 w-full md:w-24 flex justify-end  ${projectData.textColorClassName} ${startAnimation ? "animation-fade-in-up-16 [animation-delay:800ms]" : "opacity-0"}`}
           >
             <Icon
               icon="arrow.arrow-right"
