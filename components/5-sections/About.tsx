@@ -1,7 +1,7 @@
 "use client";
 
 import { ScrollRevealText, Section } from "@/components/1-atoms";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 
 export function About({
   landingIconAnimationDuration = 200,
@@ -11,6 +11,9 @@ export function About({
   id?: string;
 }) {
   const [showText, setShowText] = useState(false);
+  const wasVisibleRef = useRef(false);
+  const revealTimeoutRef = useRef<number | null>(null);
+  const revealRafRef = useRef<number | null>(null);
   // const descriptionText =
   //   "Designer and software developer creating products, brands, and media across tech, film, and music helping teams turn early ideas into shipped products.";
 
@@ -121,33 +124,64 @@ export function About({
   }));
 
   useEffect(() => {
-    const delayMs = Math.max(0, landingIconAnimationDuration);
-    const timeoutIds: number[] = [];
+    const section = document.getElementById(id);
+    if (!section) return;
 
-    if (delayMs === 0) {
-      timeoutIds.push(
-        window.setTimeout(() => {
-          setShowText(true);
-        }, 0),
-      );
-    } else {
-      timeoutIds.push(
-        window.setTimeout(() => {
-          setShowText(false);
-        }, 0),
-      );
+    const clearPendingReveal = () => {
+      if (revealTimeoutRef.current !== null) {
+        window.clearTimeout(revealTimeoutRef.current);
+        revealTimeoutRef.current = null;
+      }
+      if (revealRafRef.current !== null) {
+        window.cancelAnimationFrame(revealRafRef.current);
+        revealRafRef.current = null;
+      }
+    };
 
-      timeoutIds.push(
-        window.setTimeout(() => {
+    const replayReveal = () => {
+      clearPendingReveal();
+      setShowText(false);
+
+      const delayMs = Math.max(0, landingIconAnimationDuration);
+      if (delayMs === 0) {
+        revealRafRef.current = window.requestAnimationFrame(() => {
           setShowText(true);
-        }, delayMs),
-      );
-    }
+        });
+        return;
+      }
+
+      revealTimeoutRef.current = window.setTimeout(() => {
+        setShowText(true);
+      }, delayMs);
+    };
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry) return;
+
+        if (entry.isIntersecting) {
+          if (!wasVisibleRef.current) {
+            wasVisibleRef.current = true;
+            replayReveal();
+          }
+          return;
+        }
+
+        wasVisibleRef.current = false;
+        clearPendingReveal();
+        setShowText(false);
+      },
+      { threshold: 0.6 },
+    );
+
+    observer.observe(section);
 
     return () => {
-      timeoutIds.forEach((timeoutId) => window.clearTimeout(timeoutId));
+      observer.disconnect();
+      clearPendingReveal();
+      wasVisibleRef.current = false;
     };
-  }, [landingIconAnimationDuration]);
+  }, [id, landingIconAnimationDuration]);
   {
     return (
       <>
@@ -169,14 +203,16 @@ export function About({
               />
             </h1>
 
-            <div className="min-h-14 max-w-prose font-mono text-left text-balance md:text-right">
+            <div className="min-h-14 max-w-prose text-left font-mono text-balance md:text-right">
               {animatedTokens.map((item, index) => (
                 <Fragment key={index}>
                   <span
                     className="inline-block"
                     style={{
                       opacity: showText ? 1 : 0,
-                      transform: showText ? "translateY(0)" : "translateY(12px)",
+                      transform: showText
+                        ? "translateY(0)"
+                        : "translateY(12px)",
                       transition:
                         "opacity 500ms var(--bezier-fade), transform 500ms var(--bezier-movement-inertia-500)",
                       transitionDelay: showText

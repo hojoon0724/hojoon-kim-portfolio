@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 
-export default function ScrollProvider({
+export function ScrollProvider({
   children,
 }: {
   children: React.ReactNode;

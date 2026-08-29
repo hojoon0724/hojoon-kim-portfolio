@@ -36,6 +36,8 @@
 
   --moindi-orange: oklch(0.7426 0.2198 51.16);
 
+  --laphil-blue: #009CDE;
+
   --rcnm-red-800: #c80000;
   --rcnm-red-700: #d91207;
   --rcnm-red-600: #e92b15;
@@ -127,4 +129,6 @@
   --color-rcnm-black-400: var(--rcnm-black-400);
   --color-rcnm-black-300: var(--rcnm-black-300);
   --color-rcnm-black-200: var(--rcnm-black-200);
+
+  --color-laphil-blue: var(--laphil-blue);
 }

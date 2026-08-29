@@ -16,10 +16,13 @@ main {
   @apply h-full;
 }
 
+
+/* 
 main > :first-child:not(.no-main-spacing) {
   @apply pt-md lg:pt-[calc(var(--spacing-nav)+(var(--spacing-md)*2))];
 }
-/* main > :last-child {
+  
+main > :last-child {
   @apply pb-[calc(var(--spacing-nav)+(var(--spacing-md)*2))] lg:pb-md;
 } */
 

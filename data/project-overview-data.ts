@@ -6,7 +6,9 @@ export interface ProjectOverviewData {
   backgroundClassName: string;
   textColorClassName: string;
   roleTag: string;
+  role: string;
   categories: string[];
+  heroImage: string;
 }
 
 export const projectOverviewData: ProjectOverviewData[] = [
@@ -19,14 +21,9 @@ export const projectOverviewData: ProjectOverviewData[] = [
     backgroundClassName: "bg-teal-800",
     textColorClassName: "",
     roleTag: "Designer who builds operational systems",
-    categories: [
-      "Brand",
-      "Campaigns",
-      "Art Direction",
-      "Print",
-      "Web",
-      "Code",
-    ],
+    role: "Brand Designer & Developer",
+    categories: ["Brand", "Campaigns", "Art Direction", "Print", "Web", "Code"],
+    heroImage: "",
   },
   {
     id: "focus-features",
@@ -37,6 +34,7 @@ export const projectOverviewData: ProjectOverviewData[] = [
     backgroundClassName: "bg-gray-800",
     textColorClassName: "text-gray-100",
     roleTag: "End-to-end awards campaign video production",
+    role: "Cinematographer & Producer",
     categories: [
       "Cinematography",
       "On-Set Production",
@@ -44,6 +42,7 @@ export const projectOverviewData: ProjectOverviewData[] = [
       "Technical Execution",
       "Media Management",
     ],
+    heroImage: "",
   },
   {
     id: "laphil",
@@ -51,9 +50,10 @@ export const projectOverviewData: ProjectOverviewData[] = [
     description:
       "Supporting live performance and audience-facing programs through media design, technical cueing, legacy-system problem solving, and bilingual artist communication.",
     logoFileName: "laphil-logo-white-on-dark.png",
-    backgroundClassName: "bg-[#009CDE]",
+    backgroundClassName: "bg-laphil-blue",
     textColorClassName: "text-gray-100",
     roleTag: "Live performance systems consultant",
+    role: "Media Designer & Technical Consultant",
     categories: [
       "Motion Graphics",
       "Editorial",
@@ -61,6 +61,7 @@ export const projectOverviewData: ProjectOverviewData[] = [
       "Lecture",
       "Translation",
     ],
+    heroImage: "",
   },
   {
     id: "moindi",
@@ -71,13 +72,9 @@ export const projectOverviewData: ProjectOverviewData[] = [
     backgroundClassName: "bg-moindi-orange",
     textColorClassName: "text-gray-950",
     roleTag: "Founding product, brand, and build lead",
-    categories: [
-      "Brand",
-      "Product",
-      "Systems",
-      "UX/UI",
-      "Code",
-    ],
+    role: "Director of Brand & Product",
+    categories: ["Brand", "Product", "Systems", "UX/UI", "Code"],
+    heroImage: "",
   },
   {
     id: "rcnm",
@@ -88,6 +85,7 @@ export const projectOverviewData: ProjectOverviewData[] = [
     backgroundClassName: "bg-rcnm-black-500",
     textColorClassName: "text-gray-100",
     roleTag: "0-to-1 founder and systems builder",
+    role: "Co-Founder",
     categories: [
       "Brand",
       "Database Design",
@@ -95,5 +93,6 @@ export const projectOverviewData: ProjectOverviewData[] = [
       "Lighting Design",
       "Video Production",
     ],
+    heroImage: "",
   },
 ];

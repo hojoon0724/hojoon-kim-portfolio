@@ -1,9 +1,9 @@
 "use client";
 
-import { Icon, ScrollRevealText, Section } from "@/components/1-atoms";
+import { Icon, Section } from "@/components/1-atoms";
+import { ProjectIntro, ProjectVitals } from "@/components/4-organisms";
 import type { ProjectOverviewData } from "@/data";
 import { projectOverviewData } from "@/data";
-import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 interface ProjectOverviewProps {
@@ -66,48 +66,10 @@ export function ProjectOverview({ projectId }: ProjectOverviewProps) {
         data-snap-target
       >
         <div className="content-container gap-lg mx-auto flex w-full max-w-4xl flex-col items-start justify-between md:flex-row md:items-center">
-          <div className="logo-text-container flex-col items-start justify-center">
-            <div
-              className={`logo-container p-md my-2xl relative flex h-30 w-[75%] max-w-96 items-center justify-center ${projectData.textColorClassName} ${startAnimation ? "animation-fade-in-up-16" : "opacity-0"}`}
-            >
-              <Image
-                src={`/logos/${projectData.logoFileName}`}
-                alt={`${projectData.name} Logo`}
-                fill
-                sizes="(max-width: 768px) 50vw, 384px"
-                className="object-contain object-left"
-                loading="eager"
-              />
-            </div>
-            <div className="role-tag-container mb-lg text-left text-balance opacity-100">
-              <ScrollRevealText
-                className="role-tag roboto-narrow text-xl font-bold md:text-2xl"
-                text={projectData.roleTag}
-              />
-            </div>
-            <div className="description-container max-w-prose text-left text-balance opacity-80">
-              <ScrollRevealText
-                className="description text-base"
-                text={projectData.description}
-                staggerMs={60}
-              />
-            </div>
-            <ScrollRevealText
-              className="categories-container -ml-1 mt-xl flex flex-wrap"
-              staggerMs={90}
-              delayMs={500}
-            >
-              {projectData.categories.map((category) => (
-                <span
-                  key={category}
-                  className={`category-chip roboto-narrow mr-2 mb-2 inline-block rounded-full bg-white px-3 py-1 text-sm font-semibold text-black opacity-70`}
-                >
-                  {category}
-                </span>
-              ))}
-            </ScrollRevealText>
-          </div>
-
+          <ProjectIntro
+            projectOverviewData={projectData}
+            startAnimation={startAnimation}
+          />
           <div
             className={`icon-container flex h-24 w-full justify-end md:w-24 ${projectData.textColorClassName} ${startAnimation ? "animation-fade-in-up-16 [animation-delay:800ms]" : "opacity-0"}`}
           >
@@ -118,10 +80,17 @@ export function ProjectOverview({ projectId }: ProjectOverviewProps) {
           </div>
         </div>
       </div>
-        <div className={`detail-1 p-md gap-md flex h-dvh w-screen shrink-0 snap-start flex-col items-start justify-center ${projectData.backgroundClassName} ${projectData.textColorClassName}`}
-        data-snap-target>
-          detail stuff here
-        </div>
+
+      {/* first scrolled */}
+      <ProjectVitals project={projectData} />
+
+      {/* second scrolled */}
+      <div
+        className={`detail-1 p-md gap-md flex h-dvh w-screen shrink-0 snap-start flex-col items-start justify-center ${projectData.backgroundClassName} ${projectData.textColorClassName}`}
+        data-snap-target
+      >
+        detail stuff here
+      </div>
     </Section>
   );
 }
