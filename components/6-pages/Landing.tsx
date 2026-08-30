@@ -1,7 +1,7 @@
 "use client";
 
 import { ScrollIndicator } from "@/components/2-molecules";
-import { About, ProjectOverview } from "@/components/5-sections";
+import { About, ContactPage, ProjectOverview } from "@/components/5-sections";
 import { useEffect, useRef, useState } from "react";
 
 interface VisibleSections {
@@ -25,7 +25,10 @@ export function Landing() {
     { id: "ensrq", label: "enSRQ", bgTone: "dark" },
     { id: "focus-features", label: "Focus Features", bgTone: "dark" },
     { id: "laphil", label: "LA Phil", bgTone: "bright" },
+    { id: "contact", label: "Contact", bgTone: "dark" },
   ];
+
+  const projectSections = visibleSections.slice(1, -1); // Exclude the first and last sections (About and Contact)
 
   // main function that runs when a section changes
   function setActiveSection(id: string) {
@@ -73,9 +76,10 @@ export function Landing() {
         showLabel={showLabel}
       />
       <About id="about" />
-      {visibleSections.slice(1).map((section) => (
+      {projectSections.map((section) => (
         <ProjectOverview key={section.id} projectId={section.id} />
       ))}
+      <ContactPage id="contact" />
     </>
   );
 }

@@ -29,6 +29,6 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts"
-  ],
+, "lib/nodemailer.js", "app/api/contact/route.js"  ],
   "exclude": ["node_modules"]
 }

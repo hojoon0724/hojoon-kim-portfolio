@@ -63,3 +63,8 @@ nav::after {
 div{
   /* @apply outline; */
 }
+
+input:autofill {
+  -webkit-box-shadow: 0 0 0px 0px var(--color-surface-heavy) inset;
+  -webkit-text-fill-color: var(--color-surface-accent);
+}
