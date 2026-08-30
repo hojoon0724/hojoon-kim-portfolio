@@ -1,3 +1,5 @@
+"use client";
+
 import { Button, Input, ScrollRevealText, Section } from "@/components/1-atoms";
 import { emailForm } from "@/lib/actions";
 import { useEffect, useRef, useState } from "react";
@@ -22,60 +24,32 @@ export function ContactPage({ id }: { id: string }) {
     }
   }, []);
 
-  const testing = true;
-  const testSendEmail = async () => {
-    return { success: false, message: "Yikes" };
-    // return { success: true, message: "Email sent successfully." };
-  };
-
   const handleChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleSubmit = (event: React.SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (testing) {
-      setSubmitting(true);
-      setTimeout(() => {
-        testSendEmail()
-          .then((res) => {
-            if (res.success) {
-              setFormStatus("success");
-              setTimeout(
-                () => setFormData({ name: "", email: "", message: "" }),
-                animationMs,
-              );
-            } else {
-              setFormStatus("error");
-            }
-          })
-          .catch((error) => {
-            console.error("Error sending email:", error);
-            setFormStatus("error");
-          })
-          .finally(() => {
-            setSubmitting(false);
-          });
-      }, 200);
-    } else {
-      setSubmitting(true);
-      emailForm(formData)
-        .then((res) => {
-          if (res.success) {
-            setFormStatus("success");
-            setFormData({ name: "", email: "", message: "" });
-          } else {
-            setFormStatus("error");
-          }
-        })
-        .catch((error) => {
-          console.error("Error sending email:", error);
+    setSubmitting(true);
+    emailForm(formData)
+      .then((res) => {
+        if (res.success) {
+          setFormStatus("success");
+          setTimeout(
+            () => setFormData({ name: "", email: "", message: "" }),
+            animationMs,
+          );
+        } else {
           setFormStatus("error");
-        })
-        .finally(() => {
-          setSubmitting(false);
-        });
-    }
+        }
+      })
+      .catch((error) => {
+        console.error("Error sending email:", error);
+        setFormStatus("error");
+      })
+      .finally(() => {
+        setSubmitting(false);
+      });
   };
 
   return (
