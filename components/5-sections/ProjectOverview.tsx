@@ -1,7 +1,7 @@
 "use client";
 
-import { Icon, Section } from "@/components/1-atoms";
-import { ProjectIntro, ProjectVitals } from "@/components/4-organisms";
+import { Section } from "@/components/1-atoms";
+import { ProjectIntro } from "@/components/4-organisms";
 import type { ProjectOverviewData } from "@/data";
 import { projectOverviewData } from "@/data";
 import { useEffect, useRef, useState } from "react";
@@ -70,27 +70,27 @@ export function ProjectOverview({ projectId }: ProjectOverviewProps) {
             projectOverviewData={projectData}
             startAnimation={startAnimation}
           />
-          <div
+          {/* <div
             className={`icon-container flex h-24 w-full justify-end md:w-24 ${projectData.textColorClassName} ${startAnimation ? "animation-fade-in-up-16 [animation-delay:800ms]" : "opacity-0"}`}
           >
             <Icon
               icon="arrow.arrow-right"
               className={`${projectData.textColorClassName}`}
             />
-          </div>
+          </div> */}
         </div>
       </div>
 
       {/* first scrolled */}
-      <ProjectVitals project={projectData} />
+      {/* <ProjectVitals project={projectData} /> */}
 
       {/* second scrolled */}
-      <div
+      {/* <div
         className={`detail-1 p-md gap-md flex h-dvh w-screen shrink-0 snap-start flex-col items-start justify-center ${projectData.backgroundClassName} ${projectData.textColorClassName}`}
         data-snap-target
       >
         detail stuff here
-      </div>
+      </div> */}
     </Section>
   );
 }
