@@ -15,7 +15,7 @@ export function About({
   const revealTimeoutRef = useRef<number | null>(null);
   const revealRafRef = useRef<number | null>(null);
   // const descriptionText =
-  //   "Designer and software developer creating products, brands, and media across tech, film, and music helping teams turn early ideas into shipped products.";
+  //   "Designer and software developer creating products, brands, and media across tech, music, and film helping teams turn early ideas into shipped products.";
 
   const coloredDescriptionArr = [
     {
@@ -203,7 +203,7 @@ export function About({
               />
             </h1>
 
-            <div className="min-h-14 max-w-prose text-left font-mono text-balance md:text-right">
+            <div className="roboto-mono min-h-14 max-w-prose text-left text-balance md:text-right">
               {animatedTokens.map((item, index) => (
                 <Fragment key={index}>
                   <span

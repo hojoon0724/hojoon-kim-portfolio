@@ -18,10 +18,29 @@ const robotoMono = Roboto_Mono({
 export const metadata: Metadata = {
   title: "Hojoon Kim",
   description:
-    "Designer and software developer creating products, brands, and media across tech, film, and music.",
+    "Designer and software developer creating products, brands, and media across tech, music, and film helping teams turn early ideas into shipped products.",
   icons: {
     icon: "/favicon.ico",
     apple: "/apple-touch-icon.png",
+  },
+
+  openGraph: {
+    title: "Hojoon Kim",
+    description:
+      "Designer and software developer creating products, brands, and media across tech, music, and film helping teams turn early ideas into shipped products.",
+    url: "https://hojoonkim.com",
+    siteName: "Hojoon Kim",
+    images: ["/hk-opengraph-image.png"],
+    locale: "en-US",
+    type: "website",
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title: "Hojoon Kim",
+    description:
+      "Designer and software developer creating products, brands, and media across tech, music, and film helping teams turn early ideas into shipped products.",
+    images: ["/hk-opengraph-image.png"],
   },
 };
 

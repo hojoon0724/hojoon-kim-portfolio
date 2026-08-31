@@ -63,13 +63,17 @@ export function ContactPage({ id }: { id: string }) {
         <div className="banner-content gap-xl p-md flex w-full max-w-5xl flex-col items-start justify-between md:flex-row md:items-start">
           <div className="title-text-container">
             <h1 className="text md:pr-lg">Contact</h1>
+            <p className="roboto-mono max-w-prose py-4 text-balance">
+              Have an early product, a complex creative project, or an idea that
+              needs to become real?
+            </p>
           </div>
 
           <div
             className={`form-container relative flex h-full w-full justify-start md:justify-end`}
           >
             <div
-              className={`message-container pointer-events-none absolute flex h-full w-full items-start justify-start py-4 font-mono text-lg md:justify-end md:text-right`}
+              className={`message-container roboto-mono pointer-events-none absolute flex h-full w-full items-start justify-start py-4 text-lg md:justify-end md:text-right`}
             >
               {formStatus === "success" && (
                 <ScrollRevealText
@@ -83,7 +87,7 @@ export function ContactPage({ id }: { id: string }) {
               )}
             </div>
             <form
-              className={`contact-form gap-md animation-1000 grid h-fit w-full overflow-hidden transition-all duration-500 ease-in-out ${formStatus === "success" ? "animation-fade-out-up-16 pointer-events-none" : ""}`}
+              className={`contact-form gap-xl animation-1000 grid h-fit w-full overflow-hidden transition-all duration-500 ease-in-out ${formStatus === "success" ? "animation-fade-out-up-16 pointer-events-none" : ""}`}
               onSubmit={handleSubmit}
             >
               <Input

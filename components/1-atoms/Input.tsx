@@ -36,7 +36,7 @@ export function Input({
     disabled,
     autoFocus: focus,
     value,
-    className: "peer w-full border-b px-2 pt-6 pb-2",
+    className: "peer w-full border-b px-0 pt-6 pb-2",
   };
 
   return (
@@ -57,7 +57,7 @@ export function Input({
         />
       )}
       <label
-        className="pointer-events-none absolute top-1/2 left-2 origin-top-left -translate-y-1/2 font-mono text-nowrap opacity-60 transition-all duration-300 peer-not-placeholder-shown:top-0 peer-not-placeholder-shown:origin-top-left peer-not-placeholder-shown:translate-y-0 peer-not-placeholder-shown:scale-75 peer-focus:top-0 peer-focus:origin-top-left peer-focus:translate-y-0 peer-focus:scale-75"
+        className="roboto-mono pointer-events-none absolute top-1/2 left-0 origin-top-left -translate-y-1/2 text-nowrap opacity-60 transition-all duration-300 peer-not-placeholder-shown:top-0 peer-not-placeholder-shown:origin-top-left peer-not-placeholder-shown:translate-y-0 peer-not-placeholder-shown:scale-75 peer-focus:top-0 peer-focus:origin-top-left peer-focus:translate-y-0 peer-focus:scale-75"
         htmlFor={id}
       >
         {label}

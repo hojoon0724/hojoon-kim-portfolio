@@ -32,7 +32,7 @@ export const projectOverviewData: ProjectOverviewData[] = [
       "Original footage for awards-season filmmaker and talent Q&As, delivered through a fully managed capture and secure media workflow.",
     logoFileName: "focus-logo-on-dark.png",
     backgroundClassName: "bg-gray-800",
-    textColorClassName: "text-gray-100",
+    textColorClassName: "text-white/90",
     roleTag: "End-to-end awards campaign video production",
     role: "Cinematographer & Producer",
     categories: [
@@ -51,7 +51,7 @@ export const projectOverviewData: ProjectOverviewData[] = [
       "Supporting live performance and audience-facing programs through media design, technical cueing, legacy-system problem solving, and bilingual artist communication.",
     logoFileName: "laphil-logo-white-on-dark.png",
     backgroundClassName: "bg-laphil-blue",
-    textColorClassName: "text-gray-100",
+    textColorClassName: "text-white/90",
     roleTag: "Live performance systems consultant",
     role: "Media Designer & Technical Consultant",
     categories: [
