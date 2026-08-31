@@ -10,6 +10,7 @@ export function ContactPage({ id }: { id: string }) {
     name: "",
     email: "",
     message: "",
+    website: "",
   });
   const [formStatus, setFormStatus] = useState<"idle" | "success" | "error">(
     "idle",
@@ -36,7 +37,8 @@ export function ContactPage({ id }: { id: string }) {
         if (res.success) {
           setFormStatus("success");
           setTimeout(
-            () => setFormData({ name: "", email: "", message: "" }),
+            () =>
+              setFormData({ name: "", email: "", message: "", website: "" }),
             animationMs,
           );
         } else {
@@ -110,6 +112,16 @@ export function ContactPage({ id }: { id: string }) {
                 label="Message"
                 value={formData.message}
                 onChange={(value) => handleChange("message", value)}
+              />
+              <input
+                type="text"
+                name="website"
+                value={formData.website ?? ""}
+                onChange={(e) => handleChange("website", e.target.value)}
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+                className="hidden"
               />
               <Button
                 type="submit"
