@@ -147,7 +147,7 @@ export function CaseStudyDev({ project }: CaseStudyDevProps) {
         return (
           <div
             key={key}
-            className="case-study-dev-row gap-xl px-xl grid grid-cols-[14ch_1fr] font-mono"
+            className="case-study-dev-row gap-xl px-xl roboto-mono grid grid-cols-[14ch_1fr]"
           >
             <div className="key text-left">{key}</div>
             <div className="value">{valueToRender}</div>

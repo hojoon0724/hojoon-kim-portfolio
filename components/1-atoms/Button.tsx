@@ -36,7 +36,8 @@ export function Button({
     outline: {
       accent:
         "bg-transparent text-accent border-accent hover:bg-surface-accent hover:text-on-accent hover:border-accent",
-      neutral: "bg-transparent text-on-base border-surface-inverted hover:bg-surface-inverted hover:text-on-inverted",
+      neutral:
+        "bg-transparent text-on-base border-surface-inverted hover:bg-surface-inverted hover:text-on-inverted",
     },
     ghost: {
       accent:
@@ -69,7 +70,12 @@ export function Button({
   const allClasses = `${baseButtonClass} ${variantClasses} ${sizeClasses} ${disabledClass} ${className}`;
 
   return (
-    <button type={type} disabled={disabled} className={allClasses} onClick={onClick}>
+    <button
+      type={type}
+      disabled={disabled}
+      className={allClasses}
+      onClick={onClick}
+    >
       {text}
     </button>
   );

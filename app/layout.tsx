@@ -1,7 +1,7 @@
-// import { NavBar } from "@/components/4-organisms";
 import "@/styles/globals.css";
 import { Metadata } from "next";
 import { Roboto_Flex, Roboto_Mono } from "next/font/google";
+import { ScrollProvider } from "./ScrollProvider";
 
 const robotoFlex = Roboto_Flex({
   subsets: ["latin"],
@@ -18,10 +18,29 @@ const robotoMono = Roboto_Mono({
 export const metadata: Metadata = {
   title: "Hojoon Kim",
   description:
-    "Designer and software developer creating products, brands, and media across tech, film, and music.",
+    "Designer and software developer creating products, brands, and media across tech, music, and film helping teams turn early ideas into shipped products.",
   icons: {
     icon: "/favicon.ico",
     apple: "/apple-touch-icon.png",
+  },
+
+  openGraph: {
+    title: "Hojoon Kim",
+    description:
+      "Designer and software developer creating products, brands, and media across tech, music, and film helping teams turn early ideas into shipped products.",
+    url: "https://hojoonkim.com",
+    siteName: "Hojoon Kim",
+    images: ["/hk-opengraph-image.png"],
+    locale: "en-US",
+    type: "website",
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title: "Hojoon Kim",
+    description:
+      "Designer and software developer creating products, brands, and media across tech, music, and film helping teams turn early ideas into shipped products.",
+    images: ["/hk-opengraph-image.png"],
   },
 };
 
@@ -37,10 +56,12 @@ export default function RootLayout({
         content="width=device-width, initial-scale=1, viewport-fit=cover"
       />
       <body
-        className={`${robotoFlex.variable} ${robotoMono.variable} relative h-full min-h-screen antialiased`}
+        className={`${robotoFlex.variable} ${robotoMono.variable} relative max-h-dvh antialiased transition-colors duration-500`}
       >
+        <ScrollProvider>
+          <main className="h-dvh min-h-dvh">{children}</main>
+        </ScrollProvider>
         {/* <NavBar /> */}
-        <main>{children}</main>
       </body>
     </html>
   );

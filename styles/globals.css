@@ -4,6 +4,10 @@
 @import "./_semantics.css";
 @import "./_animations.css";
 
+html {
+  @apply scroll-smooth;
+}
+
 body {
   @apply bg-surface-base text-on-base roboto-flex; 
 }
@@ -12,9 +16,10 @@ main {
   @apply h-full;
 }
 
-main > :first-child:not(.no-main-spacing) {
+/* main > :first-child:not(.no-main-spacing) {
   @apply pt-md lg:pt-[calc(var(--spacing-nav)+(var(--spacing-md)*2))];
 }
+  
 main > :last-child {
   @apply pb-[calc(var(--spacing-nav)+(var(--spacing-md)*2))] lg:pb-md;
 }
@@ -47,12 +52,23 @@ nav::after {
 
 .nav-padding {
   @apply pt-md lg:pt-[calc(var(--spacing-nav)+(var(--spacing-md)*2))];
-}
+} */
 
 .content-max-width {
   @apply max-w-7xl px-md lg:px-lg mx-auto;
 }
 
-div{
-  /* @apply outline; */
+div {
+  /* @apply outline-1; */
+}
+
+/* changes autofill input fields colors */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px var(--color-surface-heavy) inset;
+  -webkit-text-fill-color: var(--color-surface-accent);
 }

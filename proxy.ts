@@ -2,7 +2,7 @@ import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
 // Paths that should be hidden in production.
-const PREVIEW_ONLY_PATHS = ["/build", "/components", "/sticky"];
+const PREVIEW_ONLY_PATHS = ["/build", "/components", "/sticky", "/data"];
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
