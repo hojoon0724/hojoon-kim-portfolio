@@ -1,6 +1,6 @@
 "use client";
 
-import { ScrollRevealText, Section } from "@/components/1-atoms";
+import { Section, StaggeredTextReveal } from "@/components/1-atoms";
 import { Fragment, useEffect, useRef, useState } from "react";
 
 export function About({
@@ -194,7 +194,7 @@ export function About({
           <div className="background-container absolute flex h-full w-full items-center justify-center"></div>
           <div className="banner-content gap-xl p-md flex w-full max-w-5xl flex-col items-start justify-between md:flex-row md:items-center">
             <h1 className="text">
-              <ScrollRevealText
+              <StaggeredTextReveal
                 className="max-w-prose text-left text-balance"
                 revealBy="letter"
                 staggerMs={80}

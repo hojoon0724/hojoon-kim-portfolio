@@ -1,82 +1,37 @@
 "use client";
 
-import { Children, type ReactNode, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface ScrollRevealTextProps {
   className?: string;
-  children?: ReactNode;
-  delayMs?: number;
   revealBy?: "word" | "letter" | "line";
-  progressWithScroll?: boolean;
-  text?: string;
+  text: string;
   staggerMs?: number;
   threshold?: number;
-  resetOnLeave?: boolean;
   wrap?: boolean;
 }
 
 export function ScrollRevealText({
   className,
-  children,
-  delayMs = 0,
   revealBy = "word",
-  progressWithScroll = false,
   text,
   staggerMs = 60,
-  threshold = 0.1,
-  resetOnLeave = true,
+  threshold = 0.2,
   wrap = true,
 }: ScrollRevealTextProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  // one-shot mode: boolean
-  const [revealed, setRevealed] = useState(false);
-  // scroll-progress mode: how many units are revealed
   const [revealedCount, setRevealedCount] = useState(0);
 
-  const childItems = Children.toArray(children);
-  const hasChildren = childItems.length > 0;
-  const textToReveal = text ?? "";
-  const shouldRender = hasChildren || Boolean(textToReveal);
-
-  const textUnits: string[] = !textToReveal
+  const textUnits: string[] = !text
     ? []
     : revealBy === "letter"
-      ? textToReveal.split("")
+      ? text.split("")
       : revealBy === "line"
-        ? textToReveal.split("\n")
-        : textToReveal.split(" ");
+        ? text.split("\n")
+        : text.split(" ");
 
-  const revealItems = hasChildren ? childItems : textUnits;
-
-  // One-shot IntersectionObserver mode
   useEffect(() => {
-    if (progressWithScroll) return;
-    const el = containerRef.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setRevealed(true);
-          if (!resetOnLeave) {
-            observer.disconnect();
-          }
-          return;
-        }
-
-        if (resetOnLeave) {
-          setRevealed(false);
-        }
-      },
-      { threshold },
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, [progressWithScroll, resetOnLeave, threshold]);
-
-  // Scroll-progress mode: reveal units as element scrolls through viewport
-  useEffect(() => {
-    if (!progressWithScroll) return;
-    if (!shouldRender) return;
+    if (!textUnits.length) return;
     const el = containerRef.current;
     if (!el) return;
 
@@ -88,20 +43,24 @@ export function ScrollRevealText({
         1,
         Math.max(0, visibleHeight / rect.height),
       );
-      const startThreshold = 0.2;
+      const startThreshold = Math.min(0.95, Math.max(0, threshold));
       const progress = Math.min(
         1,
         Math.max(0, (visibleRatio - startThreshold) / (1 - startThreshold)),
       );
-      setRevealedCount(Math.round(progress * revealItems.length));
+      setRevealedCount(Math.round(progress * textUnits.length));
     };
 
     update();
     window.addEventListener("scroll", update, { passive: true });
-    return () => window.removeEventListener("scroll", update);
-  }, [progressWithScroll, revealItems.length, shouldRender]);
+    window.addEventListener("resize", update);
+    return () => {
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+    };
+  }, [textUnits.length, threshold]);
 
-  if (!shouldRender) {
+  if (!textUnits.length) {
     return null;
   }
 
@@ -109,35 +68,29 @@ export function ScrollRevealText({
     <div
       ref={containerRef}
       className={`scroll-reveal-text-outer-container ${className ?? ""}`}
-      aria-label={hasChildren ? undefined : textToReveal}
+      aria-label={text}
     >
       <div
         className={`scroll-reveal-text-container ${wrap ? "flex-wrap" : "flex flex-nowrap"}`}
       >
-        {revealItems.map((item, i) => {
-          const isRevealed = progressWithScroll ? i < revealedCount : revealed;
+        {textUnits.map((unit, i) => {
+          const isRevealed = i < revealedCount;
           return (
             <span
               key={i}
-              aria-hidden={hasChildren ? undefined : "true"}
+              aria-hidden="true"
               style={{
                 display: "inline-block",
                 opacity: isRevealed ? 1 : 0,
                 transform: isRevealed ? "translateY(0)" : "translateY(12px)",
-                transition: progressWithScroll
-                  ? `opacity 150ms var(--bezier-fade), transform 150ms var(--bezier-movement-inertia-500)`
-                  : `opacity 500ms var(--bezier-fade), transform 500ms var(--bezier-movement-inertia-500)`,
-                transitionDelay: progressWithScroll
-                  ? "0ms"
-                  : `${delayMs + i * staggerMs}ms`,
-                whiteSpace:
-                  !hasChildren && revealBy === "letter" ? "pre" : "normal",
+                transition:
+                  "opacity 150ms var(--bezier-fade), transform 150ms var(--bezier-movement-inertia-500)",
+                transitionDelay: `${i * staggerMs}ms`,
+                whiteSpace: revealBy === "letter" ? "pre" : "normal",
               }}
             >
-              {item}
-              {!hasChildren && revealBy === "word" && i < revealItems.length - 1
-                ? "\u00a0"
-                : ""}
+              {unit}
+              {revealBy === "word" && i < textUnits.length - 1 ? "\u00a0" : ""}
             </span>
           );
         })}

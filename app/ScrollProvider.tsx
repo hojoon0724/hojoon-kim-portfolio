@@ -137,6 +137,7 @@ export function ScrollProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <ScrollContext.Provider value={contextValue}>
+      {/* <div className="absolute">{JSON.stringify(contextValue)}</div> */}
       {children}
     </ScrollContext.Provider>
   );

@@ -14,7 +14,6 @@ export interface ProjectOverviewData {
 }
 
 export const projectOverviewData: ProjectOverviewData[] = [
-  
   {
     id: "moindi",
     name: "MOindi",
@@ -29,24 +28,22 @@ export const projectOverviewData: ProjectOverviewData[] = [
     heroImage: "",
     projectVitals: [
       {
-        key: "What",
-        value:
-          "A platform that would allow independent artists to sell equity in their music directly to fans and investors",
+        key: "Role",
+        value: "Brand Systems Designer & Builder",
       },
-      { key: "Role", value: "Director of Brand & Product" },
+      {
+        key: "Profile",
+        value:
+          "An early-stage platform that would allow independent artists to sell equity in their music directly to fans and investors",
+      },
       {
         key: "Goal",
         value:
           "Turn an early idea into a credible brand and working product for fundraising and private alpha",
       },
-      {
-        key: "Stage",
-        value:
-          "Early: no working product, established brand, or defined customer experience",
-      },
     ],
     storyMd:
-      "The founders came to me to build the brand and prepare the company to raise funding. The problem was, there was no product to brand yet, no working prototype, no market research, no customer journey, no product roadmap, and no clear definition of what the experience should be.\n\n**They needed a product first.**",
+      "## The Story\n\nThe founders came to me to build the brand and prepare the company to raise funding. The problem was, there was no product to brand yet, no working prototype, no market research, no customer journey, no product roadmap, and no clear definition of what the experience should be.\n\n**They needed a product first.**",
     calloutMd: "“The problem was, there was no product to brand yet.”",
   },
   {
@@ -69,24 +66,24 @@ export const projectOverviewData: ProjectOverviewData[] = [
     heroImage: "",
     projectVitals: [
       {
-        key: "What",
-        value:
-          "A contemporary classical music nonprofit built for immersive experiences",
-      },
-      {
         key: "Role",
         value: "Cofounder & Systems Builder",
       },
       {
+        key: "Profile",
+        value:
+          "A contemporary classical music nonprofit in Huntsville, AL that pairs new music with immersive lighting, video projection, and live production",
+      },
+      {
         key: "Goal",
         value:
-          "Build an organization and concert experience that made contemporary classical music feel engaging and accessible",
+          "Build the brand, systems, and production infrastructure needed to take a new organization from idea to functioning concert series",
       },
     ],
     storyMd:
-      "Classical concerts often assumed that the music could speak for itself. I believed that it doesn't have to. Why make it purposely boring and not take advantage of what other genres are doing? Contemporary Classical music could be presented like other mainstream concerts.\n\nBut there was one problem, there was no institution, team, brand, operating process, production playbook, or technical infrastructure, nothing. Not only did we have to produce the concerts, we had to build an entire organization's system from scratch.\n\n**The challenge was not simply putting on concerts. It was building the system that made them possible.**",
+      "## The Story\n\nRocket City New Music started with a shared idea: present contemporary classical music in a way that felt immersive, engaging, and worth coming back for.\n\nBut an idea for a concert series is not an organization. There was no brand, no website, no audience, no operational system, no production infrastructure, no financial records, no fundraising materials, and no established way to turn programming into a finished live experience.\n\nMy cofounder handled artistic programming and artist relationships. I had to build much of the rest.\n\n**This is what it took to turn an idea into a working organization**",
     calloutMd:
-      "“The challenge was not simply putting on concerts. It was building the system that made them possible.”",
+      "“The challenge was not simply putting on concerts. It was building the systems that made them possible.”",
   },
   {
     id: "ensrq",
@@ -101,24 +98,24 @@ export const projectOverviewData: ProjectOverviewData[] = [
     heroImage: "",
     projectVitals: [
       {
-        key: "What",
-        value:
-          "A long-running contemporary classical music series that needed a recognizable public identity and a digital system that could support each new season.",
-      },
-      {
         key: "Role",
         value: "Brand Systems Designer & Builder",
       },
       {
+        key: "Profile",
+        value:
+          "A contemporary classical music series based in Sarasota, FL started by artistic directors George Nickson and Samantha Bennett.",
+      },
+      {
         key: "Goal",
         value:
-          "Build a recognizable identity that could evolve with the series and support each new season.",
+          "Create a lasting brand identity, keep it consistent while making each season feel fresh, and build new systems as the organization grew",
       },
     ],
     storyMd:
-      "enSRQ began as a small contemporary classical music series in Sarasota with a name but no cohesive identity, visual system, or scalable way to present its work to audiences. I was initially hired to create the brand, but the relationship grew as the organization did.\n\nOver time, every new concert season introduced the same challenge: how do you make each season feel fresh and artistically specific without losing recognition, rebuilding everything from scratch, or creating more administrative work for a small nonprofit team?\n\n**The answer could not be just a new look. It needed to become a system.**",
+      "## The Story\n\nenSRQ began as a small contemporary classical music series in Sarasota with a name, but no cohesive identity, visual system, or reliable way to present its work to audiences.\n\nI was initially hired to create the brand. But the work came with an ongoing contradiction: every season needed a new look that reflected its own programming and personality, while the organization still needed to feel recognizable from one year to the next.\n\nAs the series grew, the visual system had to do more than hold those two ideas together. It also had to support an expanding set of audience-facing materials and the information behind them.\n\n**This is how I made that work for eight seasons and counting.**",
     calloutMd:
-      "“The answer could not be just a new look. It needed to become a system.”",
+      "“How do you keep a brand recognizable without making every season look the same?”",
   },
   {
     id: "focus-features",
@@ -140,27 +137,23 @@ export const projectOverviewData: ProjectOverviewData[] = [
     heroImage: "",
     projectVitals: [
       {
-        key: "What",
-        value:
-          "Original-footage capture for post-screening Q&As during awards season",
-      },
-      {
         key: "Role",
         value: "Independent Production & Technical Consultant",
       },
       {
-        key: "Challenge",
-        value: "Things can't go wrong and there is no second take.",
+        key: "Profile",
+        value:
+          "An independent film studio known for being a major player every Oscar season",
       },
       {
         key: "Goal",
         value:
-          "Capture and securely deliver clean original footage from live, one-time awards-season Q&As.",
+          "Independently capture, safeguard, and deliver usable original footage from live Q&As with no opportunity for retakes",
       },
     ],
     storyMd:
-      "Awards-season Q&As are live, tightly scheduled, and cannot be recreated. The venue, timing, panel format, available lighting, and physical constraints can change from one event to the next, but the original footage still has to be captured cleanly and delivered securely for the campaign team.\n\nI am brought in to own that part of the process. With no second take and often no dedicated production crew, I need to assess the room, anticipate technical problems, build redundancy into the setup, and make the right decisions before the first guest walks onstage.\n\n**The work has to disappear when it is done well.**",
-    calloutMd: "“The work has to disappear when it is done well.”",
+      "## The Story\n\nAwards-season Q&As are live, tightly scheduled, and cannot be recreated. The venue, timing, panel format, available lighting, and physical constraints can change from one event to the next, but the original footage still has to be captured cleanly and delivered securely for the campaign team.\n\nI am brought in to own that part of the process. There is no second take and no large production crew behind me. I need to assess the venue, pick the right gear, anticipate technical problems, build redundancy into the setup, and deliver no matter what.\n\n**This is how I make sure a one-time event is captured perfectly.**",
+    calloutMd: "“There is no second take.”",
   },
   {
     id: "laphil",
@@ -182,22 +175,22 @@ export const projectOverviewData: ProjectOverviewData[] = [
     heroImage: "",
     projectVitals: [
       {
-        key: "What",
-        value:
-          "A continuing set of specialized assignments for one of the country’s leading orchestras.",
-      },
-      {
         key: "Role",
         value: "Independent Consultant & Commissioned Artist",
       },
       {
+        key: "Profile",
+        value:
+          "A major performing-arts institution producing live orchestral experiences at the highest level",
+      },
+      {
         key: "Goal",
         value:
-          "Make specialized live-performance projects work clearly, reliably, and meaningfully for audiences.",
+          "Handle specialized creative and technical needs quickly, efficiently, and at the standard of a live performance institution",
       },
     ],
     storyMd:
-      "The Los Angeles Philharmonic does not bring me in for one repeatable service. I am called when a project sits outside a standard job description: a live presentation needs a reliable cue system the day before a performance, a decades-old electronic component needs to work again, a concert needs visuals that respond to its music, or a program needs a speaker who can make unfamiliar work accessible across languages.\n\nThe assignments are different, but the expectation is the same: understand the problem quickly, figure out what is actually needed, and make it work in front of a live audience.\n\n**The brief changes. The responsibility does not.**",
+      "## The Story\n\nThe Los Angeles Philharmonic does not bring me in for one repeatable service. I am called when a project sits outside a standard job description: a live presentation needs a reliable cue system the day before a performance, a decades-old electronic component needs to work again, a concert needs visuals that respond to its music, or a program needs a speaker who can make unfamiliar work accessible across languages.\n\nThe assignments are different, but the expectation is the same: understand the problem quickly, figure out what is actually needed, and make it work in front of a live audience.\n\n**Here are a few of the problems I was brought in to solve.**",
     calloutMd: "“The brief changes. The responsibility does not.”",
   },
 ];

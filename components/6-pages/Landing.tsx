@@ -12,11 +12,7 @@ interface VisibleSections {
 
 export function Landing() {
   const [sectionInView, setSectionInView] = useState("about");
-  const [showLabel, setShowLabel] = useState(false);
   const activeSectionRef = useRef("");
-  const labelTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  const showSectionLabelMs = 1200; // Duration to show the section label in milliseconds
 
   const visibleSections: VisibleSections[] = [
     { id: "about", label: "About", bgTone: "dark" },
@@ -36,17 +32,6 @@ export function Landing() {
 
     activeSectionRef.current = id;
     setSectionInView(id);
-    setShowLabel(true);
-
-    // cancel the prev hide timeout
-    if (labelTimeoutRef.current) {
-      clearTimeout(labelTimeoutRef.current);
-    }
-
-    // show the new section, then hide it
-    labelTimeoutRef.current = setTimeout(() => {
-      setShowLabel(false);
-    }, showSectionLabelMs);
   }
 
   useEffect(() => {
@@ -73,7 +58,6 @@ export function Landing() {
       <ScrollIndicator
         visibleSections={visibleSections}
         sectionInView={sectionInView}
-        showLabel={showLabel}
       />
       <About id="about" />
       {projectSections.map((section) => (

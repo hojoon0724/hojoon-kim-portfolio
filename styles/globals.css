@@ -12,10 +12,6 @@ body {
   @apply bg-surface-base text-on-base roboto-flex; 
 }
 
-main {
-  @apply h-full;
-}
-
 /* main > :first-child:not(.no-main-spacing) {
   @apply pt-md lg:pt-[calc(var(--spacing-nav)+(var(--spacing-md)*2))];
 }

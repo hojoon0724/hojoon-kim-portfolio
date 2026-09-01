@@ -3,7 +3,7 @@
 import { useScrollContext } from "@/app/ScrollProvider";
 import { Icon, Section } from "@/components/1-atoms";
 import { ProjectIntro } from "@/components/4-organisms";
-import { ExpandedProjectSummary } from "@/components/5-sections";
+import { ExpandedProjectSummary } from "@/components/4-organisms";
 import type { ProjectOverviewData } from "@/data";
 import { projectOverviewData } from "@/data";
 
@@ -41,7 +41,15 @@ export function ProjectOverview({ projectId }: ProjectOverviewProps) {
             startAnimation={startAnimation}
           />
           <div
-            className={`icon-container flex h-24 w-full justify-end md:w-24 ${projectData.textColorClassName} ${startAnimation ? "animation-fade-in-up-16 [animation-delay:800ms]" : "opacity-0"}`}
+            className={`icon-container flex h-24 w-full justify-end md:w-24 ${projectData.textColorClassName} ${startAnimation ? "animation-fade-in-up-16 [animation-delay:800ms] cursor-pointer" : "opacity-0"}`}
+            onClick={() => {
+              const nextSlide = document.querySelector(
+                `#${projectId} [data-animation-key="${projectData.id}-expanded-summary"]`,
+              );
+              if (nextSlide) {
+                nextSlide.scrollIntoView({ behavior: "smooth" });
+              }
+            }}
           >
             <Icon
               icon="arrow.arrow-right"
@@ -51,9 +59,8 @@ export function ProjectOverview({ projectId }: ProjectOverviewProps) {
         </div>
       </div>
 
-      {/* first scrolled */}
+      {/* Expanded Project Summary */}
       <ExpandedProjectSummary key={projectData.id} project={projectData} />
-      {/* <ProjectVitals project={projectData} /> */}
 
       {/* second scrolled */}
       {/* <div

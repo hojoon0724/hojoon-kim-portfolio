@@ -1,3 +1,5 @@
+import type { CSSProperties } from "react";
+
 interface InputProps {
   id: string;
   type: string;
@@ -9,6 +11,7 @@ interface InputProps {
   focus?: boolean;
   value?: string;
   className?: string;
+  style?: CSSProperties;
   textAreaRows?: number;
   onChange: (value: string) => void;
 }
@@ -24,6 +27,7 @@ export function Input({
   focus,
   value,
   className,
+  style,
   textAreaRows = 5,
   onChange,
 }: InputProps) {
@@ -42,6 +46,7 @@ export function Input({
   return (
     <div
       className={`floating-label-input-group relative flex h-full w-full flex-col ${className}`}
+      style={style}
     >
       {isTextArea ? (
         <textarea

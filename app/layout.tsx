@@ -5,8 +5,8 @@ import { ScrollProvider } from "./ScrollProvider";
 
 const robotoFlex = Roboto_Flex({
   subsets: ["latin"],
-  axes: ["opsz", "wdth", "YTAS", "XOPQ", "YOPQ"],
-  //  "GRAD" | "XOPQ" | "XTRA" | "YOPQ" | "YTAS" | "YTDE" | "YTFI" | "YTLC" | "YTUC" | "opsz" | "slnt" | "wdth"
+  axes: ["GRAD", "opsz", "wdth", "YTAS", "XOPQ", "YOPQ"],
+  //  axes: ["GRAD", "XOPQ", "XTRA", "YOPQ", "YTAS", "YTDE", "YTFI", "YTLC", "YTUC", "opsz", "slnt", "wdth"],
   variable: "--font-roboto-flex",
 });
 
@@ -59,7 +59,7 @@ export default function RootLayout({
         className={`${robotoFlex.variable} ${robotoMono.variable} relative max-h-dvh antialiased transition-colors duration-500`}
       >
         <ScrollProvider>
-          <main className="h-dvh min-h-dvh">{children}</main>
+          <main className="h-full min-h-dvh">{children}</main>
         </ScrollProvider>
         {/* <NavBar /> */}
       </body>

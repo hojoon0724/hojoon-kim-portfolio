@@ -17,15 +17,6 @@
   font-variation-settings:
     "YTAS" 700,
     "wdth" 151;
-  /* "GRAD" | "XOPQ" | "XTRA" | "YOPQ" | "YTAS" | "YTDE" | "YTFI" | "YTLC" | "YTUC" | "opsz" | "slnt" | "wdth"; */
-  /* GRAD - thickness w/o changing spacing */
-  /* XOPQ/YOPQ - thick/thin lines */
-  /* XTRA - counter width */
-  /* YTUC - upper case  | YTLC - lower case */
-  /* opsz - optical size */
-  /* YTAS - ascender height */
-  /* YTDE - descender depth */
-  /* YTFI - figure height */
 }
 
 @utility roboto-logo {
@@ -35,16 +26,33 @@
     "XOPQ" 175,
     "wdth" 151,
     "YOPQ" 60;
-  /* "GRAD" | "XOPQ" | "XTRA" | "YOPQ" | "YTAS" | "YTDE" | "YTFI" | "YTLC" | "YTUC" | "opsz" | "slnt" | "wdth"; */
-  /* GRAD - thickness w/o changing spacing */
-  /* XOPQ/YOPQ - thick/thin lines */
-  /* XTRA - counter width */
-  /* YTUC - upper case  | YTLC - lower case */
-  /* opsz - optical size */
-  /* YTAS - ascender height */
-  /* YTDE - descender depth */
-  /* YTFI - figure height */
 }
+
+@utility roboto-logo-narrow {
+  font-family: "Roboto Flex", roboto, sans-serif;
+  font-variant-numeric: tabular-nums;
+  font-variation-settings:
+    "XOPQ" 175,
+    "YOPQ" 90,
+    "wdth" 50,
+    "opsz" 30,
+    "GRAD" -200;
+}
+
+/* font-variation-settings: */
+/* "wght" = 100 - 1000 // default: 400 --- weight */
+/* "wdth" = 25 - 151 // default: 100 --- width */
+/* "opsz" = 8 - 144 // default: 14 --- optical size */
+/* "GRAD" = -200 - 150 // default: 0 --- thickness w/o/ changing spacing */
+/* "slnt" = -10 - 0 // default: 0 --- slant */
+/* "XTRA" = 323 - 603 // default: 468 --- counter width*/
+/* "XOPQ" = 27 - 175 // default: 96 --- thick lines */
+/* "YOPQ" = 25 - 135 // default: 79 --- thin lines */
+/* "YTLC" = 416 - 570 // default: 514 --- lower case */
+/* "YTUC" = 528 - 760 // default: 712 --- upper case */
+/* "YTAS" = 649 - 854 // default: 750 --- ascender height */
+/* "YTDE" = -305 - -98 // default:-203 --- descender depth */
+/* "YTFI" = 560 - 788 // default: 738 --- figure height */
 
 @utility roboto-mono {
   font-family: "Roboto Mono", monospace;
@@ -53,3 +61,20 @@
 h1 {
   @apply roboto-logo text-4xl md:text-5xl;
 }
+
+h2 {
+  @apply roboto-wide text-2xl font-bold md:text-3xl;
+}
+
+h3 {
+  @apply roboto-logo-narrow text-xl font-normal md:text-2xl;
+}
+
+h4 {
+  @apply roboto-mono text-sm font-bold md:text-base;
+}
+
+h5 {
+  @apply roboto-narrow uppercase text-xs font-semibold md:text-sm tracking-wider;
+}
+

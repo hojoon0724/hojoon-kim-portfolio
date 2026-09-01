@@ -1,4 +1,5 @@
 import { ColorTypes, SizeTypes, VariantTypes } from "@/types/common-types";
+import type { CSSProperties } from "react";
 
 interface ButtonProps {
   text: string;
@@ -10,6 +11,7 @@ interface ButtonProps {
   size?: SizeTypes;
   url?: string;
   removePadding?: boolean;
+  style?: CSSProperties;
   onClick?: () => void;
 }
 
@@ -23,6 +25,7 @@ export function Button({
   url,
   className,
   removePadding,
+  style,
   onClick,
 }: ButtonProps) {
   const baseButtonClass =
@@ -74,6 +77,7 @@ export function Button({
       type={type}
       disabled={disabled}
       className={allClasses}
+      style={style}
       onClick={onClick}
     >
       {text}

@@ -6,4 +6,6 @@ export * from "./Markdown";
 export * from "./MenuSvg";
 export * from "./ScrollRevealText";
 export * from "./Section";
+export * from "./StaggeredReveal";
+export * from "./StaggeredTextReveal";
 export * from "./ToolIcon";
