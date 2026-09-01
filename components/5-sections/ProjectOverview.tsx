@@ -38,7 +38,6 @@ export function ProjectOverview({ projectId }: ProjectOverviewProps) {
         <div className="content-container gap-lg mx-auto flex w-full max-w-4xl flex-col items-start justify-between md:flex-row md:items-center">
           <ProjectIntro
             projectOverviewData={projectData}
-            startAnimation={startAnimation}
           />
           <div
             className={`icon-container flex h-24 w-full justify-end md:w-24 ${projectData.textColorClassName} ${startAnimation ? "animation-fade-in-up-16 [animation-delay:800ms] cursor-pointer" : "opacity-0"}`}
