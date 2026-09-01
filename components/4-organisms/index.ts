@@ -1,5 +1,4 @@
-export * from "./NavBarWithDropdown";
 export * from "./NavBar";
-export * from "./WorkGallery";
+export * from "./NavBarWithDropdown";
 export * from "./ProjectIntro";
-export * from "./ProjectVitals";
+export * from "./WorkGallery";

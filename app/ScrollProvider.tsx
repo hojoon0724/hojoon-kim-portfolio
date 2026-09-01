@@ -1,15 +1,22 @@
 "use client";
 
-import { useEffect } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 
-export function ScrollProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+const ScrollContext = createContext<{ activeTargetKey: string | null }>({
+  activeTargetKey: null,
+});
+
+export function useScrollContext() {
+  return useContext(ScrollContext);
+}
+
+export function ScrollProvider({ children }: { children: React.ReactNode }) {
+  const [activeTargetKey, setActiveTargetKey] = useState<string | null>(null);
+
   useEffect(() => {
     let frameId = 0;
     let activeColor = "";
+    let cachedTargetKey: string | null = null;
 
     const getTargets = () =>
       Array.from(document.querySelectorAll<HTMLElement>("[data-snap-target]"));
@@ -26,7 +33,7 @@ export function ScrollProvider({
       return width * height;
     };
 
-    const findActiveTarget = () => {
+    const findActiveTarget = (): HTMLElement | null => {
       const targets = getTargets();
       const centerX = window.innerWidth / 2;
       const centerY = window.innerHeight / 2;
@@ -34,12 +41,12 @@ export function ScrollProvider({
       let bestTarget: HTMLElement | null = null;
       let bestScore = Number.POSITIVE_INFINITY;
 
-      targets.forEach((target) => {
+      for (const target of targets) {
         const rect = target.getBoundingClientRect();
         const visibleArea = getVisibleArea(rect);
 
         if (visibleArea === 0) {
-          return;
+          continue;
         }
 
         const targetCenterX = rect.left + rect.width / 2;
@@ -53,7 +60,7 @@ export function ScrollProvider({
           bestScore = distance;
           bestTarget = target;
         }
-      });
+      }
 
       return bestTarget;
     };
@@ -63,7 +70,17 @@ export function ScrollProvider({
       const activeTarget = findActiveTarget();
 
       if (!activeTarget) {
+        if (cachedTargetKey !== null) {
+          cachedTargetKey = null;
+          setActiveTargetKey(null);
+        }
         return;
+      }
+
+      const nextTargetKey = activeTarget.dataset.animationKey ?? null;
+      if (nextTargetKey !== cachedTargetKey) {
+        cachedTargetKey = nextTargetKey;
+        setActiveTargetKey(nextTargetKey);
       }
 
       const backgroundColor =
@@ -112,8 +129,15 @@ export function ScrollProvider({
       window.removeEventListener("resize", queueSync);
       window.removeEventListener("scroll", queueSync);
       document.body.style.backgroundColor = "";
+      setActiveTargetKey(null);
     };
   }, []);
 
-  return children;
+  const contextValue = useMemo(() => ({ activeTargetKey }), [activeTargetKey]);
+
+  return (
+    <ScrollContext.Provider value={contextValue}>
+      {children}
+    </ScrollContext.Provider>
+  );
 }

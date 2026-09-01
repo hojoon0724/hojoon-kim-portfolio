@@ -1,10 +1,15 @@
 "use client";
 
+import { useScrollContext } from "@/app/ScrollProvider";
 import { Button, Input, ScrollRevealText, Section } from "@/components/1-atoms";
 import { emailForm } from "@/lib/actions";
 import { useEffect, useRef, useState } from "react";
 
 export function ContactPage({ id }: { id: string }) {
+  const { activeTargetKey } = useScrollContext();
+  const animationKey = `${id}-contact`;
+  const startAnimation = activeTargetKey === animationKey;
+
   const [submitting, setSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: "",

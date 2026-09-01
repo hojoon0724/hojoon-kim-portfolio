@@ -52,7 +52,7 @@ export function MoindiIntro() {
 
           <div className="landscape-text-container gap-md grid w-full grid-cols-1 md:grid-cols-[auto_1fr] items-center justify-center">
             <div className="landscape-section-title roboto-wide col-span-1 text-xl font-bold md:text-2xl">
-              The Landscape
+              The Story
             </div>
 
             <div className="text gap-md flex max-w-prose flex-col text-base text-pretty md:order-3 ">
