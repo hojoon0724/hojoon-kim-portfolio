@@ -9,6 +9,7 @@ export interface ProjectOverviewData {
   categories: string[];
   heroImage: string;
   projectVitals?: { key: string; value: string }[];
+  toolsUsed?: string[];
   storyMd?: string;
   calloutMd?: string;
 }
@@ -41,6 +42,16 @@ export const projectOverviewData: ProjectOverviewData[] = [
         value:
           "Turn an early idea into a credible brand and working product for fundraising and private alpha",
       },
+    ],
+    toolsUsed: [
+      "vs-code",
+      "angular",
+      "tailwind-css",
+      "firebase",
+      "jira",
+      "stripe",
+      "figma",
+      "slack",
     ],
     storyMd:
       "## The Story\n\nThe founders came to me to build the brand and prepare the company to raise funding. The problem was, there was no product to brand yet, no working prototype, no market research, no customer journey, no product roadmap, and no clear definition of what the experience should be.\n\n**They needed a product first.**",
@@ -80,6 +91,20 @@ export const projectOverviewData: ProjectOverviewData[] = [
           "Build the brand, systems, and production infrastructure needed to take a new organization from idea to functioning concert series",
       },
     ],
+    toolsUsed: [
+      "google-admin",
+      "google-workspace",
+      "notion",
+      "adobe-photoshop",
+      "adobe-illustrator",
+      "adobe-indesign",
+      "adobe-after-effects",
+      "final-cut-pro",
+      "grandma3",
+      "chamsys-magicq",
+      "etc-ion",
+      "lightkey",
+    ],
     storyMd:
       "## The Story\n\nRocket City New Music started with a shared idea: present contemporary classical music in a way that felt immersive, engaging, and worth coming back for.\n\nBut an idea for a concert series is not an organization. There was no brand, no website, no audience, no operational system, no production infrastructure, no financial records, no fundraising materials, and no established way to turn programming into a finished live experience.\n\nMy cofounder handled artistic programming and artist relationships. I had to build much of the rest.\n\n**This is what it took to turn an idea into a working organization**",
     calloutMd:
@@ -111,6 +136,18 @@ export const projectOverviewData: ProjectOverviewData[] = [
         value:
           "Create a lasting brand identity, keep it consistent while making each season feel fresh, and build new systems as the organization grew",
       },
+    ],
+    toolsUsed: [
+      "vs-code",
+      "vercel",
+      "nextjs",
+      "react",
+      "tailwind-css",
+      "mongodb",
+      "adobe-photoshop",
+      "adobe-illustrator",
+      "adobe-indesign",
+      "google-admin",
     ],
     storyMd:
       "## The Story\n\nenSRQ began as a small contemporary classical music series in Sarasota with a name, but no cohesive identity, visual system, or reliable way to present its work to audiences.\n\nI was initially hired to create the brand. But the work came with an ongoing contradiction: every season needed a new look that reflected its own programming and personality, while the organization still needed to feel recognizable from one year to the next.\n\nAs the series grew, the visual system had to do more than hold those two ideas together. It also had to support an expanding set of audience-facing materials and the information behind them.\n\n**This is how I made that work for eight seasons and counting.**",
@@ -151,6 +188,14 @@ export const projectOverviewData: ProjectOverviewData[] = [
           "Independently capture, safeguard, and deliver usable original footage from live Q&As with no opportunity for retakes",
       },
     ],
+    toolsUsed: [
+      "blackmagic-design",
+      "manfrotto",
+      "rode",
+      "sandisk",
+      "sony",
+      "zoom",
+    ],
     storyMd:
       "## The Story\n\nAwards-season Q&As are live, tightly scheduled, and cannot be recreated. The venue, timing, panel format, available lighting, and physical constraints can change from one event to the next, but the original footage still has to be captured cleanly and delivered securely for the campaign team.\n\nI am brought in to own that part of the process. There is no second take and no large production crew behind me. I need to assess the venue, pick the right gear, anticipate technical problems, build redundancy into the setup, and deliver no matter what.\n\n**This is how I make sure a one-time event is captured perfectly.**",
     calloutMd: "“There is no second take.”",
@@ -189,6 +234,7 @@ export const projectOverviewData: ProjectOverviewData[] = [
           "Handle specialized creative and technical needs quickly, efficiently, and at the standard of a live performance institution",
       },
     ],
+    toolsUsed: ["qlab", "adobe-after-effects", "adobe-illustrator","maxmsp", "keynote", "powerpoint"],
     storyMd:
       "## The Story\n\nThe Los Angeles Philharmonic does not bring me in for one repeatable service. I am called when a project sits outside a standard job description: a live presentation needs a reliable cue system the day before a performance, a decades-old electronic component needs to work again, a concert needs visuals that respond to its music, or a program needs a speaker who can make unfamiliar work accessible across languages.\n\nThe assignments are different, but the expectation is the same: understand the problem quickly, figure out what is actually needed, and make it work in front of a live audience.\n\n**Here are a few of the problems I was brought in to solve.**",
     calloutMd: "“The brief changes. The responsibility does not.”",

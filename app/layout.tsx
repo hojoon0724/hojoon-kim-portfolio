@@ -61,7 +61,6 @@ export default function RootLayout({
         <ScrollProvider>
           <main className="h-full min-h-dvh">{children}</main>
         </ScrollProvider>
-        {/* <NavBar /> */}
       </body>
     </html>
   );

@@ -14,6 +14,7 @@ export const toolsList = [
   { id: "grandma3", name: "GrandMA3" },
   { id: "jira", name: "Jira" },
   { id: "logic-pro", name: "Logic Pro" },
+  { id: "lightkey", name: "Lightkey" },
   { id: "mongodb", name: "MongoDB" },
   { id: "nextjs", name: "Next.js" },
   { id: "notion", name: "Notion" },
@@ -24,4 +25,13 @@ export const toolsList = [
   { id: "tailwind-css", name: "Tailwind CSS" },
   { id: "vercel", name: "Vercel" },
   { id: "vs-code", name: "VS Code" },
+  { id: "blackmagic-design", name: "Blackmagic Design" },
+  { id: "manfrotto", name: "Manfrotto" },
+  { id: "rode", name: "Rode" },
+  { id: "sandisk", name: "SanDisk" },
+  { id: "sony", name: "Sony" },
+  { id: "zoom", name: "Zoom" },
+  { id: "maxmsp", name: "Max MSP" },
+  { id: "keynote", name: "Keynote" },
+  { id: "powerpoint", name: "PowerPoint" }
 ];

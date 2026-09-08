@@ -3,22 +3,23 @@ import { SVG_ICONS } from "@/data";
 
 export function IconsGallery() {
   return (
-    <Section className="flex flex-col gap-xl w-full">
-      {Object.keys(SVG_ICONS).map((category) => (
-        <div className="category-container flex justify-center flex-col" key={category}>
-          <h2>{category}</h2>
-          <div className="icons-grid flex flex-wrap gap-2">
-            {Object.keys(SVG_ICONS[category]).map((iconName) => {
-              const iconKey = `${category}.${iconName}`;
-              return (
-                <div key={iconKey} className="icon-container w-51 flex flex-row items-center gap-sm">
-                  <div className="w-8 h-8 border border-on-surface-base/30">
-                    <Icon icon={iconKey} />
-                  </div>
-                  <div className="text-sm text-left">{iconName}</div>
-                </div>
-              );
-            })}
+    <Section className="gap-xl grid w-full grid-cols-4">
+      {Object.keys(SVG_ICONS).map((icon) => (
+        <div
+          className="category-container flex flex-col justify-center"
+          key={icon}
+        >
+          <div className="icon-container gap-sm flex w-full flex-row items-center">
+            <div className="border-on-surface-base/30 h-24 w-24">
+              <Icon icon={icon} color="var(--surface-accent)" />
+            </div>
+            <div className="border-on-surface-base/30 h-12 w-12">
+              <Icon icon={icon} />
+            </div>
+            <div className="border-on-surface-base/30 h-6 w-6">
+              <Icon icon={icon} />
+            </div>
+            <div className="text-left text-sm">{icon}</div>
           </div>
         </div>
       ))}

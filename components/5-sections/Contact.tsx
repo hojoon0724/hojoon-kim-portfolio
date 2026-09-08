@@ -8,8 +8,28 @@ import {
   StaggeredReveal,
   StaggeredTextReveal,
 } from "@/components/1-atoms";
+import { contactBlacklist } from "@/data/contact-blacklist";
 import { emailForm } from "@/lib/actions";
 import { useEffect, useRef, useState } from "react";
+
+const isBlacklistedEmail = (email: string) => {
+  const normalizedEmail = email.trim().toLowerCase();
+
+  return contactBlacklist.some((entry) => {
+    const normalizedEntry = entry.trim().toLowerCase();
+
+    if (!normalizedEntry.includes("*")) {
+      return normalizedEntry === normalizedEmail;
+    }
+
+    const escapedPattern = normalizedEntry.replace(
+      /[.+?^${}()|[\]\\]/g,
+      "\\$&",
+    );
+    const regexPattern = `^${escapedPattern.replace(/\*/g, ".*")}$`;
+    return new RegExp(regexPattern).test(normalizedEmail);
+  });
+};
 
 export function ContactPage({ id }: { id: string }) {
   const { activeTargetKey } = useScrollContext();
@@ -42,7 +62,20 @@ export function ContactPage({ id }: { id: string }) {
 
   const handleSubmit = (event: React.SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     setSubmitting(true);
+
+    // Soft reject: present success UI but skip sending for blacklisted emails.
+    if (isBlacklistedEmail(formData.email)) {
+      setFormStatus("success");
+      setTimeout(
+        () => setFormData({ name: "", email: "", message: "", website: "" }),
+        animationMs,
+      );
+      setSubmitting(false);
+      return;
+    }
+
     emailForm(formData)
       .then((res) => {
         if (res.success) {

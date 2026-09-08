@@ -9,3 +9,5 @@ export * from "./Section";
 export * from "./StaggeredReveal";
 export * from "./StaggeredTextReveal";
 export * from "./ToolIcon";
+export * from "./RevealParagraph";
+

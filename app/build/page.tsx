@@ -1,10 +1,9 @@
-import { ScrollRevealText } from "@/components/1-atoms";
-import { FullScreenSlide } from "@/components/2-molecules/";
+import { RevealParagraph } from "@/components/1-atoms";
 import { ExpandedProjectSummary } from "@/components/4-organisms";
 import { projectOverviewData } from "@/data";
 
 const projectData = projectOverviewData.find(
-  (project) => project.id === "ensrq",
+  (project) => project.id === "rcnm",
 );
 
 export default function BuildPage() {
@@ -13,31 +12,25 @@ export default function BuildPage() {
   }
   return (
     <>
-      <ExpandedProjectSummary key={projectData.id} project={projectData} />
-      <FullScreenSlide className="flex h-dvh flex-col items-center justify-center border">
-        <div className="flex h-full items-center justify-center">
-          <ScrollRevealText
-            className="h-full text-center text-4xl font-bold md:text-5xl"
-            revealBy="word"
-            text="Have an early product, a complex creative project, or an idea that needs to become real?"
-          />
-        </div>
-      </FullScreenSlide>
-      <FullScreenSlide className="flex h-dvh flex-col items-center justify-center border">
-        <div className="flex h-full items-center justify-center">
-          <ScrollRevealText
-            className="h-full text-center text-4xl font-bold md:text-5xl"
-            revealBy="word"
-            text="Have an early product, a complex creative project, or an idea that needs to become real?"
-          />
-        </div>
-        <ScrollRevealText
-          className="h-full border text-center text-4xl font-bold md:text-5xl"
+      <div className="h-dvh w-full bg-amber-100"></div>
+      <div className="mx-auto flex h-dvh w-full max-w-4xl items-center justify-center">
+        <RevealParagraph
+          text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
           revealBy="word"
-          threshold={0.5}
-          text="Have an early product, a complex creative project, or an idea that needs to become real?"
-        />
-      </FullScreenSlide>
+          className="p-xl text-4xl"
+          startAt={0.8}
+          endAt={0.5}
+        ></RevealParagraph>
+        <RevealParagraph
+          text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+          revealBy="letter"
+          className="p-xl text-4xl"
+          startAt={0.8}
+          endAt={0.5}
+        ></RevealParagraph>
+      </div>
+      <div className="h-dvh w-full bg-amber-100"></div>
+      <ExpandedProjectSummary key={projectData.id} project={projectData} />
     </>
   );
 }

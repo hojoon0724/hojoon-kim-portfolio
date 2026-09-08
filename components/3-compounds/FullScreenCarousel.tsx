@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
-export function Caroussel({imageArray}: {imageArray: string[]}) {
+export function FullScreenCarousel({ imageArray }: { imageArray: string[] }) {
   const [selectedImage, setSelectedImage] = useState<string | null>(
     imageArray[0] || null,
   );
@@ -64,11 +64,16 @@ export function Caroussel({imageArray}: {imageArray: string[]}) {
   }, [imageArray]);
 
   return (
-    <div className="works-summary-landing content-max-width gap-sm flex h-screen flex-col">
+    <div className="works-summary-landing content-max-width gap-sm flex flex-col">
       <div className="rendered-section bg-surface-light/60 flex-1">
         {selectedImage && (
           <div className="selected-image-container">
-            <Image src={selectedImage} alt="Selected image" width={800} height={600} />
+            <Image
+              src={selectedImage}
+              alt="Selected image"
+              width={800}
+              height={600}
+            />
             <div className="countdown-bar bg-surface-light h-1 w-full">
               <div
                 className={`progress bg-surface-accent h-full transition-all ${startCountdown ? "w-full delay-0 duration-3000" : "w-0 delay-0 duration-0"}`}
@@ -90,7 +95,12 @@ export function Caroussel({imageArray}: {imageArray: string[]}) {
           >
             <div className="image-select__content">
               <div className="image-select__thumbnail">
-                <Image src={image} alt={`Thumbnail ${index}`} width={200} height={150} />
+                <Image
+                  src={image}
+                  alt={`Thumbnail ${index}`}
+                  width={200}
+                  height={150}
+                />
               </div>
             </div>
           </div>

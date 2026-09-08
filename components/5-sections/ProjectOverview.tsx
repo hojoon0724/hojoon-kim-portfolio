@@ -51,7 +51,7 @@ export function ProjectOverview({ projectId }: ProjectOverviewProps) {
             }}
           >
             <Icon
-              icon="arrow.arrow-right"
+              icon="arrowRight"
               className={`${projectData.textColorClassName}`}
             />
           </div>
