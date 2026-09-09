@@ -1,7 +1,22 @@
 "use client";
 
+import { useInView } from "@/hooks";
 import MarkdownIt from "markdown-it";
-import React, { useEffect, useState } from "react";
+
+interface StaggeredTextRevealProps {
+  text: string;
+  className?: string;
+  animationClassName?: string;
+  delayMs?: number;
+  staggerMs?: number;
+  finishByMs?: number;
+  revealBy?: "letter" | "word";
+  threshold?: number;
+  resetOnLeave?: boolean;
+  wrap?: boolean;
+  isMarkdown?: boolean;
+  startAnimation?: boolean;
+}
 
 function escapeHtmlAttr(value: string) {
   return value
@@ -28,20 +43,6 @@ function splitMarkdownTextUnits(text: string, revealBy: "letter" | "word") {
   return text.split(/(\s+)/).filter((unit) => unit.length > 0);
 }
 
-interface StaggeredTextRevealProps {
-  text: string;
-  className?: string;
-  animationClassName?: string;
-  delayMs?: number;
-  staggerMs?: number;
-  finishByMs?: number;
-  revealBy?: "letter" | "word";
-  threshold?: number;
-  resetOnLeave?: boolean;
-  wrap?: boolean;
-  isMarkdown?: boolean;
-}
-
 export function StaggeredTextReveal({
   text,
   className,
@@ -51,13 +52,18 @@ export function StaggeredTextReveal({
   finishByMs = 0, // Default 0 = uses delay+stagger. If set, will override delay+stagger to finish by this time.
   threshold = 0.5,
   revealBy = "word",
-  resetOnLeave = true,
+  resetOnLeave = false,
   wrap = true,
   isMarkdown = false,
+  startAnimation = false,
 }: StaggeredTextRevealProps) {
-  const containerRef = React.useRef<HTMLDivElement>(null);
-  const [revealed, setRevealed] = useState(false);
-  const textUnits: string[] = !text ? [] : splitPlainTextUnits(text, revealBy);
+  const [ref, isInView] = useInView<HTMLDivElement>(threshold, !resetOnLeave);
+  const textUnits: string[] = !text
+    ? []
+    : isMarkdown
+      ? splitMarkdownTextUnits(text, revealBy)
+      : splitPlainTextUnits(text, revealBy);
+  const revealed = startAnimation || isInView;
   const revealableUnitCount = textUnits.filter(
     (unit) => unit.length > 0,
   ).length;
@@ -65,31 +71,6 @@ export function StaggeredTextReveal({
     finishByMs > 0
       ? Math.max(0, finishByMs - delayMs) / Math.max(1, revealableUnitCount - 1)
       : staggerMs;
-
-  useEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setRevealed(true);
-          if (!resetOnLeave) {
-            observer.disconnect();
-          }
-          return;
-        }
-        if (resetOnLeave) {
-          setRevealed(false);
-        }
-      },
-      { threshold },
-    );
-
-    observer.observe(el);
-
-    return () => observer.disconnect();
-  }, [resetOnLeave, threshold]);
 
   if (isMarkdown) {
     const markdown = new MarkdownIt({ html: false });
@@ -121,7 +102,7 @@ export function StaggeredTextReveal({
 
     return (
       <div
-        ref={containerRef}
+        ref={ref}
         className={`staggered-text-reveal-container ${className} ${wrap ? "" : "text-nowrap"}`}
         dangerouslySetInnerHTML={{
           __html: renderedMarkdown,
@@ -132,7 +113,7 @@ export function StaggeredTextReveal({
 
   return (
     <div
-      ref={containerRef}
+      ref={ref}
       className={`staggered-text-reveal-container ${className} ${wrap ? "" : "text-nowrap"}`}
     >
       {textUnits.map((unit, index) => {

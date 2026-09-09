@@ -2,8 +2,11 @@
 
 import { useScrollContext } from "@/app/ScrollProvider";
 import { Icon, Section } from "@/components/1-atoms";
-import { ProjectIntro } from "@/components/4-organisms";
-import { ExpandedProjectSummary } from "@/components/4-organisms";
+import {
+  ExpandedProjectSummary,
+  ProjectIntro,
+  ProjectPage,
+} from "@/components/4-organisms";
 import type { ProjectOverviewData } from "@/data";
 import { projectOverviewData } from "@/data";
 
@@ -36,11 +39,9 @@ export function ProjectOverview({ projectId }: ProjectOverviewProps) {
         data-snap-target
       >
         <div className="content-container gap-lg mx-auto flex w-full max-w-4xl flex-col items-start justify-between md:flex-row md:items-center">
-          <ProjectIntro
-            projectOverviewData={projectData}
-          />
+          <ProjectIntro projectOverviewData={projectData} />
           <div
-            className={`icon-container flex h-24 w-full justify-end md:w-24 ${projectData.textColorClassName} ${startAnimation ? "animation-fade-in-up-16 [animation-delay:800ms] cursor-pointer" : "opacity-0"}`}
+            className={`icon-container flex h-24 w-full justify-end md:w-24 ${projectData.textColorClassName} ${startAnimation ? "animation-fade-in-up-16 cursor-pointer [animation-delay:800ms]" : "opacity-0"}`}
             onClick={() => {
               const nextSlide = document.querySelector(
                 `#${projectId} [data-animation-key="${projectData.id}-expanded-summary"]`,
@@ -59,15 +60,16 @@ export function ProjectOverview({ projectId }: ProjectOverviewProps) {
       </div>
 
       {/* Expanded Project Summary */}
-      <ExpandedProjectSummary key={projectData.id} project={projectData} />
+      <ExpandedProjectSummary
+        key={`${projectData.id}-expanded-summary`}
+        project={projectData}
+      />
 
-      {/* second scrolled */}
-      {/* <div
-        className={`detail-1 p-md gap-md flex h-dvh w-screen shrink-0 snap-start flex-col items-start justify-center ${projectData.backgroundClassName} ${projectData.textColorClassName}`}
-        data-snap-target
-      >
-        detail stuff here
-      </div> */}
+      {/* Project Page */}
+      <ProjectPage
+        key={`${projectData.id}-project-page`}
+        projectId={projectId}
+      />
     </Section>
   );
 }

@@ -1,6 +1,10 @@
 "use client";
 
-import { Section, StaggeredTextReveal } from "@/components/1-atoms";
+import {
+  Section,
+  StaggeredReveal,
+  StaggeredTextReveal,
+} from "@/components/1-atoms";
 import { Fragment, useEffect, useRef, useState } from "react";
 
 export function About({
@@ -17,7 +21,7 @@ export function About({
   // const descriptionText =
   //   "Designer and software developer creating products, brands, and media across tech, music, and film helping teams turn early ideas into shipped products.";
 
-  const coloredDescriptionArr = [
+  const aboutTextArr = [
     {
       string: "Designer",
       color: "text-[#da70d6]",
@@ -27,7 +31,11 @@ export function About({
       color: "text-gray-100",
     },
     {
-      string: "software developer",
+      string: "software",
+      color: "text-[#da70d6]",
+    },
+    {
+      string: "developer",
       color: "text-[#da70d6]",
     },
     {
@@ -47,14 +55,17 @@ export function About({
       color: "text-[#ffd800]",
     },
     {
-      string: ", and",
+      string: ",",
+      color: "text-gray-100",
+    },
+    {
+      string: "and",
       color: "text-gray-100",
     },
     {
       string: "media",
       color: "text-[#ffd800]",
     },
-
     {
       string: "across",
       color: "text-gray-100",
@@ -72,7 +83,11 @@ export function About({
       color: "text-[#a2e6ff]",
     },
     {
-      string: ", and",
+      string: ",",
+      color: "text-gray-100",
+    },
+    {
+      string: "and",
       color: "text-gray-100",
     },
     {
@@ -80,7 +95,19 @@ export function About({
       color: "text-[#a2e6ff]",
     },
     {
-      string: "helping teams turn early",
+      string: "helping",
+      color: "text-gray-100",
+    },
+    {
+      string: "teams",
+      color: "text-gray-100",
+    },
+    {
+      string: "turn",
+      color: "text-gray-100",
+    },
+    {
+      string: "early",
       color: "text-gray-100",
     },
     {
@@ -92,20 +119,16 @@ export function About({
       color: "text-gray-100",
     },
     {
-      string: "shipped products.",
+      string: "shipped",
+      color: "text-[#e1895e]",
+    },
+    {
+      string: "products.",
       color: "text-[#e1895e]",
     },
   ];
 
-  const wordTokens = coloredDescriptionArr.flatMap((item) => {
-    const tokens = item.string.match(/[^\s]+/g) ?? [];
-    return tokens.map((token) => ({
-      string: token,
-      color: item.color,
-    }));
-  });
-
-  const mergedTokens = wordTokens.reduce<
+  const mergedTokens = aboutTextArr.reduce<
     Array<{ segments: Array<{ string: string; color: string }> }>
   >((acc, item) => {
     const isPunctuationOnly = /^[,.;:!?]+$/.test(item.string);
@@ -117,11 +140,6 @@ export function About({
     acc.push({ segments: [{ ...item }] });
     return acc;
   }, []);
-
-  const animatedTokens = mergedTokens.map((item, index) => ({
-    ...item,
-    revealIndex: index,
-  }));
 
   useEffect(() => {
     const section = document.getElementById(id);
@@ -203,33 +221,31 @@ export function About({
               />
             </h1>
 
-            <div className="roboto-mono min-h-14 max-w-prose text-left text-balance md:text-right">
-              {animatedTokens.map((item, index) => (
-                <Fragment key={index}>
-                  <span
-                    className="inline-block"
-                    style={{
-                      opacity: showText ? 1 : 0,
-                      transform: showText
-                        ? "translateY(0)"
-                        : "translateY(12px)",
-                      transition:
-                        "opacity 500ms var(--bezier-fade), transform 500ms var(--bezier-movement-inertia-500)",
-                      transitionDelay: showText
-                        ? `${item.revealIndex * 40}ms`
-                        : "0ms",
-                    }}
-                  >
-                    {item.segments.map((segment, segmentIndex) => (
-                      <span key={segmentIndex} className={segment.color}>
-                        {segment.string}
-                      </span>
-                    ))}
-                  </span>
-                  {index < animatedTokens.length - 1 ? " " : null}
-                </Fragment>
-              ))}
-            </div>
+            <p className="roboto-mono min-h-14 max-w-prose text-left text-balance md:text-right">
+                {mergedTokens.map((item, index) => (
+                  <Fragment key={index}>
+                    <span
+                      className="inline-block font-mono font-semibold"
+                      style={{
+                        opacity: showText ? 1 : 0,
+                        transform: showText
+                          ? "translateY(0)"
+                          : "translateY(12px)",
+                        transition:
+                          "opacity 500ms var(--bezier-fade), transform 500ms var(--bezier-movement-inertia-500)",
+                        transitionDelay: showText ? `${index * 40}ms` : "0ms",
+                      }}
+                    >
+                      {item.segments.map((segment, segmentIndex) => (
+                        <span key={segmentIndex} className={segment.color}>
+                          {segment.string}
+                        </span>
+                      ))}
+                    </span>
+                    {index < mergedTokens.length - 1 ? " " : null}
+                  </Fragment>
+                ))}
+            </p>
           </div>
         </Section>
       </>
