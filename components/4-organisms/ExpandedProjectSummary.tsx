@@ -9,7 +9,7 @@ import {
 } from "@/components/1-atoms";
 import { FullScreenSlide } from "@/components/2-molecules";
 
-import { SimpleCarousel } from "@/components/3-compounds";
+import { AutoAdvanceCarousel } from "@/components/3-compounds";
 import type { ProjectOverviewData } from "@/data";
 import { toolsList } from "@/data";
 
@@ -61,7 +61,7 @@ export function ExpandedProjectSummary({
             delayMs={100}
             resetOnLeave={false}
           >
-            <SimpleCarousel imageArray={imageArray} />
+            <AutoAdvanceCarousel imageArray={imageArray} />
           </StaggeredReveal>
           <div className="content-container p-md flex h-full w-full max-w-4xl flex-col justify-start overflow-scroll lg:justify-center">
             <StaggeredReveal

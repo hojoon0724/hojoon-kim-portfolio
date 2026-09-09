@@ -1,6 +1,14 @@
 "use client";
 
-import React, { Children, useEffect, useState } from "react";
+import { useInView } from "@/hooks";
+import {
+  Children,
+  cloneElement,
+  CSSProperties,
+  Fragment,
+  isValidElement,
+  ReactElement,
+} from "react";
 
 interface StaggeredRevealProps {
   children: React.ReactNode;
@@ -11,6 +19,7 @@ interface StaggeredRevealProps {
   finishByMs?: number;
   threshold?: number;
   resetOnLeave?: boolean;
+  startAnimation?: boolean;
 }
 
 export function StaggeredReveal({
@@ -18,52 +27,33 @@ export function StaggeredReveal({
   className,
   animationClassName = "animation-fade-in-up-16",
   delayMs = 100,
-  staggerMs = 50,
-  finishByMs = 0, // Default 0 = uses delay+stagger. If set, will override delay+stagger to finish by this time.
-  threshold = 0.5,
-  resetOnLeave = true,
+  staggerMs = 40,
+  finishByMs = 0,
+  threshold = 0.3,
+  resetOnLeave = false,
+  startAnimation = false,
 }: StaggeredRevealProps) {
-  const calculatedStaggerMs = finishByMs > 0 ? Math.max(0, finishByMs - delayMs) / Math.max(1, Children.count(children) - 1) : staggerMs;
-  const containerRef = React.useRef<HTMLDivElement>(null);
-  const [revealed, setRevealed] = useState(false);
-  // const childrenCount = Children.toArray(children).filter(React.isValidElement).length
+  const [ref, isInView] = useInView<HTMLDivElement>(threshold, !resetOnLeave);
 
-  useEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
+  const revealed = startAnimation || isInView;
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setRevealed(true);
-          if (!resetOnLeave) {
-            observer.disconnect();
-          }
-          return;
-        }
-        if (resetOnLeave) {
-          setRevealed(false);
-        }
-      },
-      { threshold },
-    );
-
-    observer.observe(el);
-
-    return () => observer.disconnect();
-  }, [resetOnLeave, threshold]);
+  const revealableUnitCount = Children.count(children);
+  const calculatedStaggerMs =
+    finishByMs > 0
+      ? Math.max(0, finishByMs - delayMs) / Math.max(1, revealableUnitCount - 1)
+      : staggerMs;
 
   return (
-    <div ref={containerRef} className={className}>
+    <div ref={ref} className={className}>
       {Children.map(children, (child, index) => {
         const childDelayMs = delayMs + index * calculatedStaggerMs;
 
-        if (!React.isValidElement(child)) return child;
-        if (child.type === React.Fragment) return child;
+        if (!isValidElement(child)) return child;
+        if (child.type === Fragment) return child;
 
         const childProps = child.props as {
           className?: string;
-          style?: React.CSSProperties;
+          style?: CSSProperties;
         };
 
         const mergedClassName = [
@@ -73,15 +63,15 @@ export function StaggeredReveal({
           .filter(Boolean)
           .join(" ");
 
-        const mergedStyle: React.CSSProperties = {
+        const mergedStyle: CSSProperties = {
           ...childProps.style,
           animationDelay: `${childDelayMs}ms, ${childDelayMs}ms`,
         };
 
-        return React.cloneElement(
-          child as React.ReactElement<{
+        return cloneElement(
+          child as ReactElement<{
             className?: string;
-            style?: React.CSSProperties;
+            style?: CSSProperties;
           }>,
           {
             className: mergedClassName || undefined,

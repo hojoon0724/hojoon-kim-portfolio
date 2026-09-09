@@ -1,2 +1,2 @@
 export { FullScreenCarousel } from "./FullScreenCarousel";
-export { SimpleCarousel } from "./SimpleCarousel";
+export { AutoAdvanceCarousel } from "./AutoAdvanceCarousel";
