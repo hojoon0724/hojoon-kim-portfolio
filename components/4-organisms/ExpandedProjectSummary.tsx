@@ -5,7 +5,6 @@ import {
   Icon,
   MarkdownRenderer,
   StaggeredReveal,
-  StaggeredTextReveal,
   ToolIcon,
 } from "@/components/1-atoms";
 import { FullScreenSlide } from "@/components/2-molecules";
@@ -13,7 +12,6 @@ import { FullScreenSlide } from "@/components/2-molecules";
 import { AutoAdvanceCarousel } from "@/components/3-compounds";
 import type { ProjectOverviewData } from "@/data";
 import { toolsList } from "@/data";
-import Link from "next/link";
 
 export function ExpandedProjectSummary({
   project,
@@ -59,7 +57,7 @@ export function ExpandedProjectSummary({
         {/* <div className="expanded-summary-container gap-md mx-auto my-auto flex min-h-screen w-full flex-col xl:flex-row overflow-scroll"> */}
         <div className="expanded-summary-container relative mx-auto my-auto grid h-full min-h-dvh w-full grid-cols-1 grid-rows-[auto_minmax(0,1fr)] xl:grid-cols-[minmax(0,1fr)_auto] xl:grid-rows-1">
           <StaggeredReveal
-            className="background-slideshow-container p-md relative aspect-4/3 w-full pb-0 md:aspect-5/3 md:p-0 drop-shadow-[0px_6px_6px_rgba(0,0,0,0.5)] xl:aspect-auto z-10 "
+            className="background-slideshow-container p-md relative z-10 aspect-4/3 w-full pb-0 drop-shadow-[0px_6px_6px_rgba(0,0,0,0.5)] md:aspect-5/3 md:p-0 xl:aspect-auto"
             delayMs={100}
             resetOnLeave={true}
             threshold={0}
@@ -117,11 +115,15 @@ export function ExpandedProjectSummary({
             <>
               <div
                 className={`story-text-container gap-md grid w-full grid-cols-1 items-center justify-center md:grid-cols-[auto_1fr]`}
-                
-
-              ><div className="story-container gap-md flex max-w-prose flex-col text-base text-pretty">
-                <MarkdownRenderer content={storyContent.storyMd} animate={true} finishByMs={500} threshold={0} />
-              </div>
+              >
+                <div className="story-container gap-md flex max-w-prose flex-col text-base text-pretty">
+                  <MarkdownRenderer
+                    content={storyContent.storyMd}
+                    animate={true}
+                    finishByMs={500}
+                    threshold={0}
+                  />
+                </div>
 
                 {storyContent.calloutMd ? (
                   <StaggeredReveal
@@ -134,29 +136,32 @@ export function ExpandedProjectSummary({
                       {storyContent.calloutMd}
                     </div>
                   </StaggeredReveal>
-                ) : null} 
+                ) : null}
               </div>
             </>
 
-            <div className="continue p-3xl flex w-full items-center justify-end gap-md" onClick={() => {
-              const nextSlide = document.querySelector(
-                `#${project.id} [data-animation-key="${project.id}-project-page"]`,
-              );
-              if (nextSlide) {
-                nextSlide.scrollIntoView({ behavior: "smooth" });
-              }
-            }}>
-            <StaggeredReveal
-              className="flex items-center gap-md"
-              delayMs={storyAnimationDelayMs}
-              resetOnLeave={true}
-              threshold={0}
+            <div
+              className="continue p-3xl gap-md flex w-full items-center justify-end"
+              onClick={() => {
+                const nextSlide = document.querySelector(
+                  `#${project.id} [data-animation-key="${project.id}-project-page"]`,
+                );
+                if (nextSlide) {
+                  nextSlide.scrollIntoView({ behavior: "smooth" });
+                }
+              }}
             >
-              <div className="label font-mono">Continue</div>
-              <div className="flex aspect-square h-16 w-16 items-center justify-center">
-                <Icon icon="arrowRight" />
-              </div>
-            </StaggeredReveal>
+              <StaggeredReveal
+                className="gap-md flex items-center"
+                delayMs={storyAnimationDelayMs}
+                resetOnLeave={true}
+                threshold={0}
+              >
+                <div className="label font-mono">Continue</div>
+                <div className="flex aspect-square h-16 w-16 items-center justify-center">
+                  <Icon icon="arrowRight" />
+                </div>
+              </StaggeredReveal>
             </div>
           </div>
         </div>
