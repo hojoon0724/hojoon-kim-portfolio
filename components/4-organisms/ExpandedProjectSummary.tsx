@@ -3,6 +3,7 @@
 import { useScrollContext } from "@/app/ScrollProvider";
 import {
   Icon,
+  MarkdownRenderer,
   StaggeredReveal,
   StaggeredTextReveal,
   ToolIcon,
@@ -116,17 +117,11 @@ export function ExpandedProjectSummary({
             <>
               <div
                 className={`story-text-container gap-md grid w-full grid-cols-1 items-center justify-center md:grid-cols-[auto_1fr]`}
-              >
-                <StaggeredTextReveal
-                  className="story-text gap-md flex max-w-prose flex-col text-base text-pretty"
-                  revealBy="word"
-                  delayMs={storyAnimationDelayMs}
-                  finishByMs={1000}
-                  text={storyContent.storyMd}
-                  threshold={0}
-                  isMarkdown
-                  resetOnLeave={true}
-                />
+                
+
+              ><div className="story-container gap-md flex max-w-prose flex-col text-base text-pretty">
+                <MarkdownRenderer content={storyContent.storyMd} animate={true} finishByMs={500} threshold={0} />
+              </div>
 
                 {storyContent.calloutMd ? (
                   <StaggeredReveal
@@ -139,7 +134,7 @@ export function ExpandedProjectSummary({
                       {storyContent.calloutMd}
                     </div>
                   </StaggeredReveal>
-                ) : null}
+                ) : null} 
               </div>
             </>
 

@@ -9,7 +9,7 @@ import {
   StaggeredTextReveal,
 } from "@/components/1-atoms";
 import { contactBlacklist } from "@/data/contact-blacklist";
-import { emailForm } from "@/lib/actions";
+import { emailForm } from "@/actions/actions";
 import { useEffect, useRef, useState } from "react";
 
 const isBlacklistedEmail = (email: string) => {

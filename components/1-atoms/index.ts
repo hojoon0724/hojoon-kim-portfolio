@@ -3,6 +3,7 @@ export * from "./Icon";
 export * from "./Input";
 export * from "./LandingIcon";
 export * from "./Markdown";
+export * from "./MarkdownRenderer";
 export * from "./MenuSvg";
 export * from "./RevealParagraph";
 export * from "./ScrollRevealText";

@@ -4,9 +4,11 @@ import { useInView } from "@/hooks";
 import {
   Children,
   cloneElement,
+  createElement,
   CSSProperties,
   Fragment,
   isValidElement,
+  JSX,
   ReactElement,
 } from "react";
 
@@ -20,6 +22,7 @@ interface StaggeredRevealProps {
   threshold?: number;
   resetOnLeave?: boolean;
   startAnimation?: boolean;
+  tag?: keyof JSX.IntrinsicElements;
 }
 
 export function StaggeredReveal({
@@ -32,6 +35,7 @@ export function StaggeredReveal({
   threshold = 0.3,
   resetOnLeave = false,
   startAnimation = false,
+  tag = "div",
 }: StaggeredRevealProps) {
   const [ref, isInView] = useInView<HTMLDivElement>(threshold, !resetOnLeave);
 
@@ -43,42 +47,43 @@ export function StaggeredReveal({
       ? Math.max(0, finishByMs - delayMs) / Math.max(1, revealableUnitCount - 1)
       : staggerMs;
 
-  return (
-    <div ref={ref} className={className}>
-      {Children.map(children, (child, index) => {
-        const childDelayMs = delayMs + index * calculatedStaggerMs;
+  const element = createElement(
+    tag,
+    { ref: ref, className: className },
+    Children.map(children, (child, index) => {
+      const childDelayMs = delayMs + index * calculatedStaggerMs;
 
-        if (!isValidElement(child)) return child;
-        if (child.type === Fragment) return child;
+      if (!isValidElement(child)) return child;
+      if (child.type === Fragment) return child;
 
-        const childProps = child.props as {
+      const childProps = child.props as {
+        className?: string;
+        style?: CSSProperties;
+      };
+
+      const mergedClassName = [
+        childProps.className,
+        revealed ? animationClassName : "opacity-0",
+      ]
+        .filter(Boolean)
+        .join(" ");
+
+      const mergedStyle: CSSProperties = {
+        ...childProps.style,
+        animationDelay: `${childDelayMs}ms, ${childDelayMs}ms`,
+      };
+
+      return cloneElement(
+        child as ReactElement<{
           className?: string;
           style?: CSSProperties;
-        };
-
-        const mergedClassName = [
-          childProps.className,
-          revealed ? animationClassName : "opacity-0",
-        ]
-          .filter(Boolean)
-          .join(" ");
-
-        const mergedStyle: CSSProperties = {
-          ...childProps.style,
-          animationDelay: `${childDelayMs}ms, ${childDelayMs}ms`,
-        };
-
-        return cloneElement(
-          child as ReactElement<{
-            className?: string;
-            style?: CSSProperties;
-          }>,
-          {
-            className: mergedClassName || undefined,
-            style: mergedStyle,
-          },
-        );
-      })}
-    </div>
+        }>,
+        {
+          className: mergedClassName || undefined,
+          style: mergedStyle,
+        },
+      );
+    }),
   );
+  return element;
 }
