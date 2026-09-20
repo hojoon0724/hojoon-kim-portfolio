@@ -7,13 +7,15 @@ import { useEffect, useState } from "react";
 interface AutoAdvanceCarouselProps {
   imageArray: string[];
   className?: string;
-  mounted?: boolean;
-  overflow?: "hidden" | "scroll" | "auto";
+  pause?: boolean;
+  indicatorBgClassName?: string;
 }
 
 export function AutoAdvanceCarousel({
   imageArray,
   className = "",
+  pause = true,
+  indicatorBgClassName = "",
 }: AutoAdvanceCarouselProps) {
   const debug = false;
   const [clicked, setClicked] = useState(false);
@@ -56,10 +58,12 @@ export function AutoAdvanceCarousel({
         }));
       }, transitionDuration);
 
-      // hides C to reveal A => toggles layer B)
+      // hides C to reveal A (the image after the clicked one), so the
+      // current index moves on to match what's now visible
       const hideCTimeout = setTimeout(() => {
         setCarousel((prev) => ({
           ...prev,
+          currentIndex: (clickedIndex + 1) % arrayLength,
           cVisible: false,
         }));
         setClicked(false);
@@ -88,18 +92,8 @@ export function AutoAdvanceCarousel({
       }));
     }, transitionDuration);
 
-    // turns layer B on/off + advances the current index
-    const toggleTimeout = setTimeout(() => {
-      setCarousel((prev) => ({
-        ...prev,
-        bVisible: !prev.bVisible,
-        currentIndex: (prev.currentIndex + 1) % arrayLength,
-      }));
-    }, interval);
-
     return () => {
       clearTimeout(advanceLayerTimeout);
-      clearTimeout(toggleTimeout);
     };
   }, [
     clickedIndex,
@@ -110,12 +104,31 @@ export function AutoAdvanceCarousel({
     clicked,
   ]);
 
+  // turns layer B on/off + advances the current index.
+  // Separate from the effect above so pausing only stops the index from
+  // advancing without re-running the layer preparation
+  useEffect(() => {
+    if (arrayLength < 2 || clicked || pause) return;
+
+    const toggleTimeout = setTimeout(() => {
+      setCarousel((prev) => ({
+        ...prev,
+        bVisible: !prev.bVisible,
+        currentIndex: (prev.currentIndex + 1) % arrayLength,
+      }));
+    }, interval);
+
+    return () => {
+      clearTimeout(toggleTimeout);
+    };
+  }, [arrayLength, clicked, pause, interval, carousel.bVisible]);
+
   const layerAImage = imageArray[carousel.layerAIndex];
   const layerBImage = imageArray[carousel.layerBIndex];
 
   return (
     <div className={`relative h-full ${className}`}>
-      <div className="image-container">
+      <div className="image-container absolute inset-0 h-full w-full">
         {/* Layer A — always showing */}
         <Image
           src={layerAImage}
@@ -158,7 +171,7 @@ export function AutoAdvanceCarousel({
           fill
           sizes="100svw"
           alt=""
-          className="invisible h-full w-full object-cover"
+          className="invisible inset-0 h-full w-full object-cover"
         />
       </div>
       {/* Debug */}
@@ -218,12 +231,27 @@ export function AutoAdvanceCarousel({
         {imageArray.map((image, index) => (
           <div
             key={`indicator-${index}`}
-            className={`z-10 h-2 shrink cursor-pointer border border-gray-700/40 bg-gray-200 transition-all duration-700 ${index === carousel.currentIndex ? "w-9" : "w-2"}`}
+            className={`relative z-10 h-2 shrink cursor-pointer overflow-hidden bg-gray-100 transition-all duration-700 ${index === carousel.currentIndex ? "w-9" : "w-2"}`}
             onClick={() => {
               setClickedIndex(index);
               setClicked(true);
             }}
-          ></div>
+          >
+            {/* Progress fill — mounted only while something is on a timer: the
+                clicked image's interval, or the auto-advance interval. The key
+                restarts it when a click lands on the already-current indicator */}
+            {arrayLength > 1 &&
+              index === carousel.currentIndex &&
+              (clicked || !pause) && (
+                <div
+                  key={clicked ? "clicked" : "auto"}
+                  className={`absolute inset-0 origin-left bg-gray-700 ${indicatorBgClassName}`}
+                  style={{
+                    animation: `progress-fill ${interval}ms linear forwards`,
+                  }}
+                />
+              )}
+          </div>
         ))}
       </StaggeredReveal>
     </div>

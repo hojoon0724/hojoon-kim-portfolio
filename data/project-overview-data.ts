@@ -12,6 +12,7 @@ export interface ProjectOverviewData {
   toolsUsed?: string[];
   storyMd?: string;
   calloutMd?: string;
+  imageArray: string[];
 }
 
 export const projectOverviewData: ProjectOverviewData[] = [
@@ -56,6 +57,16 @@ export const projectOverviewData: ProjectOverviewData[] = [
     storyMd:
       "## The Story\n\nThe founders came to me to build the brand and prepare the company to raise funding. The problem was, there was no product to brand yet, no working prototype, no market research, no customer journey, no product roadmap, and no clear definition of what the experience should be.\n\n**They needed a product first.**",
     calloutMd: "“The problem was, there was no product to brand yet.”",
+    imageArray: [
+      "bg-grid-test-01.png",
+      "bg-grid-test-02.png",
+      "bg-grid-test-03.png",
+      "bg-grid-test-04.png",
+      "bg-grid-test-05.png",
+      "bg-grid-test-06.png",
+      "bg-grid-test-07.png",
+      "bg-grid-test-08.png",
+    ],
   },
   {
     id: "rcnm",
@@ -109,6 +120,16 @@ export const projectOverviewData: ProjectOverviewData[] = [
       "## The Story\n\nRocket City New Music started with a shared idea: present contemporary classical music in a way that felt immersive, engaging, and worth coming back for.\n\nBut an idea for a concert series is not an organization. There was no brand, no website, no audience, no operational system, no production infrastructure, no financial records, no fundraising materials, and no established way to turn programming into a finished live experience.\n\nMy cofounder handled artistic programming and artist relationships. I had to build much of the rest.\n\n**This is what it took to turn an idea into a working organization**",
     calloutMd:
       "“The challenge was not simply putting on concerts. It was building the systems that made them possible.”",
+    imageArray: [
+      "bg-grid-test-01.png",
+      "bg-grid-test-02.png",
+      "bg-grid-test-03.png",
+      "bg-grid-test-04.png",
+      "bg-grid-test-05.png",
+      "bg-grid-test-06.png",
+      "bg-grid-test-07.png",
+      "bg-grid-test-08.png",
+    ],
   },
   {
     id: "ensrq",
@@ -153,6 +174,16 @@ export const projectOverviewData: ProjectOverviewData[] = [
       "## The Story\n\nenSRQ began as a small contemporary classical music series in Sarasota with a name, but no cohesive identity, visual system, or reliable way to present its work to audiences.\n\nI was initially hired to create the brand. But the work came with an ongoing contradiction: every season needed a new look that reflected its own programming and personality, while the organization still needed to feel recognizable from one year to the next.\n\nAs the series grew, the visual system had to do more than hold those two ideas together. It also had to support an expanding set of audience-facing materials and the information behind them.\n\n**This is how I made that work for eight seasons and counting.**",
     calloutMd:
       "“How do you keep a brand recognizable without making every season look the same?”",
+    imageArray: [
+      "bg-grid-test-01.png",
+      "bg-grid-test-02.png",
+      "bg-grid-test-03.png",
+      "bg-grid-test-04.png",
+      "bg-grid-test-05.png",
+      "bg-grid-test-06.png",
+      "bg-grid-test-07.png",
+      "bg-grid-test-08.png",
+    ],
   },
   {
     id: "focus-features",
@@ -199,6 +230,16 @@ export const projectOverviewData: ProjectOverviewData[] = [
     storyMd:
       "## The Story\n\nAwards-season Q&As are live, tightly scheduled, and cannot be recreated. The venue, timing, panel format, available lighting, and physical constraints can change from one event to the next, but the original footage still has to be captured cleanly and delivered securely for the campaign team.\n\nI am brought in to own that part of the process. There is no second take and no large production crew behind me. I need to assess the venue, pick the right gear, anticipate technical problems, build redundancy into the setup, and deliver no matter what.\n\n**This is how I make sure a one-time event is captured perfectly.**",
     calloutMd: "“There is no second take.”",
+    imageArray: [
+      "bg-grid-test-01.png",
+      "bg-grid-test-02.png",
+      "bg-grid-test-03.png",
+      "bg-grid-test-04.png",
+      "bg-grid-test-05.png",
+      "bg-grid-test-06.png",
+      "bg-grid-test-07.png",
+      "bg-grid-test-08.png",
+    ],
   },
   {
     id: "laphil",
@@ -234,9 +275,26 @@ export const projectOverviewData: ProjectOverviewData[] = [
           "Handle specialized creative and technical needs quickly, efficiently, and at the standard of a live performance institution",
       },
     ],
-    toolsUsed: ["qlab", "adobe-after-effects", "adobe-illustrator","maxmsp", "keynote", "powerpoint"],
+    toolsUsed: [
+      "qlab",
+      "adobe-after-effects",
+      "adobe-illustrator",
+      "maxmsp",
+      "keynote",
+      "powerpoint",
+    ],
     storyMd:
       "## The Story\n\nThe Los Angeles Philharmonic does not bring me in for one repeatable service. I am called when a project sits outside a standard job description: a live presentation needs a reliable cue system the day before a performance, a decades-old electronic component needs to work again, a concert needs visuals that respond to its music, or a program needs a speaker who can make unfamiliar work accessible across languages.\n\nThe assignments are different, but the expectation is the same: understand the problem quickly, figure out what is actually needed, and make it work in front of a live audience.\n\n**Here are a few of the problems I was brought in to solve.**",
     calloutMd: "“The brief changes. The responsibility does not.”",
+    imageArray: [
+      "bg-grid-test-01.png",
+      "bg-grid-test-02.png",
+      "bg-grid-test-03.png",
+      "bg-grid-test-04.png",
+      "bg-grid-test-05.png",
+      "bg-grid-test-06.png",
+      "bg-grid-test-07.png",
+      "bg-grid-test-08.png",
+    ],
   },
 ];

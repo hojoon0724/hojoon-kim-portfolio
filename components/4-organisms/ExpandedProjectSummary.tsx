@@ -20,20 +20,6 @@ export function ExpandedProjectSummary({
 }) {
   const { activeTargetKey } = useScrollContext();
   const animationKey = `${project.id}-expanded-summary`;
-  const startAnimation = activeTargetKey === animationKey;
-  const imageArray = [
-    "/test-numbers/untitled-2-01.webp",
-    "/test-numbers/untitled-2-02.webp",
-    "/test-numbers/untitled-2-03.webp",
-    "/test-numbers/untitled-2-04.webp",
-    "/test-numbers/untitled-2-05.webp",
-    "/test-numbers/untitled-2-06.webp",
-    "/test-numbers/untitled-2-07.webp",
-    "/test-numbers/untitled-2-08.webp",
-    "/test-numbers/untitled-2-09.webp",
-    "/test-numbers/untitled-2-10.webp",
-    "/test-numbers/untitled-2-11.webp",
-  ];
 
   const projectVitals: { key: string; value: string }[] = [
     ...(project.projectVitals ?? []),
@@ -54,21 +40,27 @@ export function ExpandedProjectSummary({
         data-animation-key={animationKey}
         data-snap-target
       >
-        {/* <div className="expanded-summary-container gap-md mx-auto my-auto flex min-h-screen w-full flex-col xl:flex-row overflow-scroll"> */}
         <div className="expanded-summary-container relative mx-auto my-auto grid h-full min-h-dvh w-full grid-cols-1 grid-rows-[auto_minmax(0,1fr)] xl:grid-cols-[minmax(0,1fr)_auto] xl:grid-rows-1">
           <StaggeredReveal
             className="background-slideshow-container p-md relative z-10 aspect-4/3 w-full pb-0 drop-shadow-[0px_6px_6px_rgba(0,0,0,0.5)] md:aspect-5/3 md:p-0 xl:aspect-auto"
             delayMs={100}
-            resetOnLeave={true}
+            resetOnLeave={false}
             threshold={0}
           >
-            <AutoAdvanceCarousel imageArray={imageArray} />
+            <AutoAdvanceCarousel
+              imageArray={project.imageArray.map(
+                (img) => `/test-numbers/${project.id}/${img}`,
+              )}
+              pause={activeTargetKey !== animationKey}
+              
+              indicatorBgClassName={project.backgroundClassName}
+            />
           </StaggeredReveal>
           <div className="content-container p-md mx-auto flex w-full max-w-4xl flex-col justify-start overflow-scroll xl:my-auto">
             <StaggeredReveal
               className="project-vitals-table pb-lg mb-2xl gap-md flex flex-col"
               delayMs={0}
-              resetOnLeave={true}
+              resetOnLeave={false}
               threshold={0}
             >
               {projectVitals.map(({ key, value }) => (
@@ -93,7 +85,7 @@ export function ExpandedProjectSummary({
                   <StaggeredReveal
                     className="tools-container flex flex-row flex-wrap"
                     delayMs={storyAnimationDelayMs / 2}
-                    resetOnLeave={true}
+                    resetOnLeave={false}
                     threshold={0}
                   >
                     {project.toolsUsed.map((tool) => {
@@ -129,7 +121,7 @@ export function ExpandedProjectSummary({
                   <StaggeredReveal
                     className="h-full"
                     delayMs={storyAnimationDelayMs}
-                    resetOnLeave={true}
+                    resetOnLeave={false}
                     threshold={0}
                   >
                     <div className="challenge-text-container roboto-narrow py-md flex h-full items-center justify-center border-y text-center text-2xl font-light text-balance md:min-w-[20ch] md:text-3xl">
@@ -154,7 +146,7 @@ export function ExpandedProjectSummary({
               <StaggeredReveal
                 className="gap-md flex items-center"
                 delayMs={storyAnimationDelayMs}
-                resetOnLeave={true}
+                resetOnLeave={false}
                 threshold={0}
               >
                 <div className="label font-mono">Continue</div>

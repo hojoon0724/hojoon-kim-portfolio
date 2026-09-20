@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { useArrowKeyNavigation } from "@/hooks";
 
 const ScrollContext = createContext<{ activeTargetKey: string | null }>({
   activeTargetKey: null,
@@ -12,6 +13,8 @@ export function useScrollContext() {
 
 export function ScrollProvider({ children }: { children: React.ReactNode }) {
   const [activeTargetKey, setActiveTargetKey] = useState<string | null>(null);
+
+  useArrowKeyNavigation();
 
   useEffect(() => {
     let frameId = 0;
