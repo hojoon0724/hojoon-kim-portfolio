@@ -4,3 +4,4 @@ export * from './Contact';
 export * from './ProjectOverview';
 export * from './WorkSummaryLanding';
 export * from './1-moindi/MoindiIntro';
+export * from './3-ensrq/EnsrqBarrelRollBrochure';
