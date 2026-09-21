@@ -21,53 +21,53 @@ export default function BuildPage() {
         <BookWithPageTurns
           path="/ensrq/s07/brochure-pages"
           pages={[
-            "s07-season-brochure-01.png",
-            "s07-season-brochure-02.png",
-            "s07-season-brochure-03.png",
-            "s07-season-brochure-04.png",
-            "s07-season-brochure-05.png",
-            "s07-season-brochure-06.png",
-            "s07-season-brochure-07.png",
-            "s07-season-brochure-08.png",
-            "s07-season-brochure-09.png",
-            "s07-season-brochure-10.png",
-            "s07-season-brochure-11.png",
+            "s07-season-brochure-01.jpg",
+            "s07-season-brochure-02.jpg",
+            "s07-season-brochure-03.jpg",
+            "s07-season-brochure-04.jpg",
+            "s07-season-brochure-05.jpg",
+            "s07-season-brochure-06.jpg",
+            "s07-season-brochure-07.jpg",
+            "s07-season-brochure-08.jpg",
+            "s07-season-brochure-09.jpg",
+            "s07-season-brochure-10.jpg",
+            "s07-season-brochure-11.jpg",
           ]}
         />
         <FrenchFoldSeasonPoster
           path="/ensrq/s08/brochure-pages"
           pages={[
-            "s08-season-poster_01-cover.png",
-            "s08-season-poster_02-quarter.png",
-            "s08-season-poster_03-half.png",
-            "s08-season-poster_04-full.png",
+            "s08-season-poster_01-cover.jpg",
+            "s08-season-poster_02-quarter.jpg",
+            "s08-season-poster_03-half.jpg",
+            "s08-season-poster_04-full.jpg",
           ]}
         />
         <FrenchFoldSeasonPoster
           path="/ensrq/s09/brochure-pages"
           pages={[
-            "s09-season-poster_01-cover.png",
-            "s09-season-poster_02-quarter.png",
-            "s09-season-poster_03-half.png",
-            "s09-season-poster_04-full.png",
+            "s09-season-poster_01-cover.jpg",
+            "s09-season-poster_02-quarter.jpg",
+            "s09-season-poster_03-half.jpg",
+            "s09-season-poster_04-full.jpg",
           ]}
         />
         <FrenchFoldSeasonPoster
           path="/ensrq/s10/brochure-pages"
           pages={[
-            "s10-season-poster_01-cover.png",
-            "s10-season-poster_02-quarter.png",
-            "s10-season-poster_03-half.png",
-            "s10-season-poster_04-full.png",
+            "s10-season-poster_01-cover.jpg",
+            "s10-season-poster_02-quarter.jpg",
+            "s10-season-poster_03-half.jpg",
+            "s10-season-poster_04-full.jpg",
           ]}
         />
         <FrenchFoldSeasonPoster
           path="/ensrq/s11/brochure-pages"
           pages={[
-            "s11-season-poster_01-cover.png",
-            "s11-season-poster_02-quarter.png",
-            "s11-season-poster_03-half.png",
-            "s11-season-poster_04-full.png",
+            "s11-season-poster_01-cover.jpg",
+            "s11-season-poster_02-quarter.jpg",
+            "s11-season-poster_03-half.jpg",
+            "s11-season-poster_04-full.jpg",
           ]}
         />
 

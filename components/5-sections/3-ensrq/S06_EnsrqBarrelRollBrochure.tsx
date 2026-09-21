@@ -6,22 +6,22 @@ import { useEffect, useRef, useState } from "react";
 // are sized by height and take their natural width.
 const PAGE_IMAGE_HEIGHT = 2100;
 const PAGE_IMAGE_WIDTHS: Record<string, number> = {
-  "season-brochure-01.png": 1500,
-  "season-brochure-02.png": 1500,
-  "season-brochure-03.png": 1482,
-  "season-brochure-04.png": 1440,
-  "season-brochure-05.png": 1446,
-  "season-brochure-06.png": 1425,
-  "season-brochure-07.png": 1407,
-  "season-brochure-08.png": 1389,
-  "season-brochure-09.png": 1389,
-  "season-brochure-10.png": 1407,
-  "season-brochure-11.png": 1425,
-  "season-brochure-12.png": 1446,
-  "season-brochure-13.png": 1440,
-  "season-brochure-14.png": 1482,
-  "season-brochure-15.png": 1500,
-  "season-brochure-16.png": 1500,
+  "s06-season-brochure-01.jpg": 1500,
+  "s06-season-brochure-02.jpg": 1500,
+  "s06-season-brochure-03.jpg": 1482,
+  "s06-season-brochure-04.jpg": 1440,
+  "s06-season-brochure-05.jpg": 1446,
+  "s06-season-brochure-06.jpg": 1425,
+  "s06-season-brochure-07.jpg": 1407,
+  "s06-season-brochure-08.jpg": 1389,
+  "s06-season-brochure-09.jpg": 1389,
+  "s06-season-brochure-10.jpg": 1407,
+  "s06-season-brochure-11.jpg": 1425,
+  "s06-season-brochure-12.jpg": 1446,
+  "s06-season-brochure-13.jpg": 1440,
+  "s06-season-brochure-14.jpg": 1482,
+  "s06-season-brochure-15.jpg": 1500,
+  "s06-season-brochure-16.jpg": 1500,
 };
 
 const PAGE_DISPLAY_HEIGHT_PX = 480; // h-120
@@ -153,24 +153,24 @@ export function S06_EnsrqBarrelRollBrochure() {
 
   const path = "/ensrq/s06/brochure-pages";
   const insidePages = [
-    "season-brochure-16.png",
-    "season-brochure-01.png",
-    "season-brochure-02.png",
-    "season-brochure-03.png",
-    "season-brochure-04.png",
-    "season-brochure-05.png",
-    "season-brochure-06.png",
-    "season-brochure-07.png",
+    "s06-season-brochure-16.jpg",
+    "s06-season-brochure-01.jpg",
+    "s06-season-brochure-02.jpg",
+    "s06-season-brochure-03.jpg",
+    "s06-season-brochure-04.jpg",
+    "s06-season-brochure-05.jpg",
+    "s06-season-brochure-06.jpg",
+    "s06-season-brochure-07.jpg",
   ];
   const outsidePages = [
-    "season-brochure-16.png",
-    "season-brochure-14.png",
-    "season-brochure-13.png",
-    "season-brochure-12.png",
-    "season-brochure-11.png",
-    "season-brochure-10.png",
-    "season-brochure-09.png",
-    "season-brochure-08.png",
+    "s06-season-brochure-16.jpg",
+    "s06-season-brochure-14.jpg",
+    "s06-season-brochure-13.jpg",
+    "s06-season-brochure-12.jpg",
+    "s06-season-brochure-11.jpg",
+    "s06-season-brochure-10.jpg",
+    "s06-season-brochure-09.jpg",
+    "s06-season-brochure-08.jpg",
   ];
   const insidePagePaths = insidePages.map((file) => `${path}/${file}`);
   const outsidePagePaths = outsidePages.map((file) => `${path}/${file}`);
