@@ -1,5 +1,6 @@
 "use client";
 
+import { ExpandedProjectSummary } from "@/components/4-organisms";
 import {
   BookWithPageTurns,
   FrenchFoldSeasonPoster,
@@ -8,7 +9,7 @@ import {
 import { projectOverviewData } from "@/data";
 
 const projectData = projectOverviewData.find(
-  (project) => project.id === "rcnm",
+  (project) => project.id === "laphil",
 );
 
 export default function BuildPage() {
@@ -17,6 +18,9 @@ export default function BuildPage() {
   }
   return (
     <>
+    <ExpandedProjectSummary
+      project={projectData}
+    />
       <div className="build-top-container p-md gap-md flex min-h-dvh w-full flex-col">
         <BookWithPageTurns
           path="/ensrq/s07/brochure-pages"

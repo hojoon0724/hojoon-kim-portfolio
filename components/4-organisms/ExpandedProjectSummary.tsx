@@ -49,7 +49,7 @@ export function ExpandedProjectSummary({
           >
             <AutoAdvanceCarousel
               imageArray={project.imageArray.map(
-                (img) => `/test-numbers/${project.id}/${img}`,
+                (img) => `${project.imagePath}/${img}`,
               )}
               pause={activeTargetKey !== animationKey}
               
