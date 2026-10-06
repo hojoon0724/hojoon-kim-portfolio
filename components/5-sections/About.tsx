@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  Section,
-  StaggeredReveal,
-  StaggeredTextReveal,
-} from "@/components/1-atoms";
+import { Section, StaggeredTextReveal } from "@/components/1-atoms";
 import { Fragment, useEffect, useRef, useState } from "react";
 
 export function About({
@@ -222,29 +218,29 @@ export function About({
             </h1>
 
             <p className="roboto-mono min-h-14 max-w-prose text-left text-balance md:text-right">
-                {mergedTokens.map((item, index) => (
-                  <Fragment key={index}>
-                    <span
-                      className="inline-block font-mono font-semibold"
-                      style={{
-                        opacity: showText ? 1 : 0,
-                        transform: showText
-                          ? "translateY(0)"
-                          : "translateY(12px)",
-                        transition:
-                          "opacity 500ms var(--bezier-fade), transform 500ms var(--bezier-movement-inertia-500)",
-                        transitionDelay: showText ? `${index * 40}ms` : "0ms",
-                      }}
-                    >
-                      {item.segments.map((segment, segmentIndex) => (
-                        <span key={segmentIndex} className={segment.color}>
-                          {segment.string}
-                        </span>
-                      ))}
-                    </span>
-                    {index < mergedTokens.length - 1 ? " " : null}
-                  </Fragment>
-                ))}
+              {mergedTokens.map((item, index) => (
+                <Fragment key={index}>
+                  <span
+                    className="inline-block font-mono font-semibold"
+                    style={{
+                      opacity: showText ? 1 : 0,
+                      transform: showText
+                        ? "translateY(0)"
+                        : "translateY(12px)",
+                      transition:
+                        "opacity 500ms var(--bezier-fade), transform 500ms var(--bezier-movement-inertia-500)",
+                      transitionDelay: showText ? `${index * 40}ms` : "0ms",
+                    }}
+                  >
+                    {item.segments.map((segment, segmentIndex) => (
+                      <span key={segmentIndex} className={segment.color}>
+                        {segment.string}
+                      </span>
+                    ))}
+                  </span>
+                  {index < mergedTokens.length - 1 ? " " : null}
+                </Fragment>
+              ))}
             </p>
           </div>
         </Section>

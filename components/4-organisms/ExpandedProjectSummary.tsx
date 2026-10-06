@@ -12,6 +12,9 @@ import { FullScreenSlide } from "@/components/2-molecules";
 import { AutoAdvanceCarousel } from "@/components/3-compounds";
 import type { ProjectOverviewData } from "@/data";
 import { toolsList } from "@/data";
+import Link from "next/link";
+
+export const RETURN_TO_PROJECT_KEY = "landing-return-to-project";
 
 export function ExpandedProjectSummary({
   project,
@@ -96,6 +99,7 @@ export function ExpandedProjectSummary({
                           key={`${project.id}-${toolData.id}`}
                           toolId={toolData.id}
                           pixelSize={48}
+                          tooltipText={toolData.name}
                         />
                       );
                     })}
@@ -132,15 +136,14 @@ export function ExpandedProjectSummary({
               </div>
             </>
 
-            <div
+            <Link
               className="continue p-3xl gap-md flex w-full items-center justify-end"
-              onClick={() => {
-                const nextSlide = document.querySelector(
-                  `#${project.id} [data-animation-key="${project.id}-project-page"]`,
-                );
-                if (nextSlide) {
-                  nextSlide.scrollIntoView({ behavior: "smooth" });
-                }
+              href={`/${project.id}`}
+              transitionTypes={["project-forward"]}
+              onClick={(event) => {
+                // skip new-tab clicks so this tab's landing page isn't affected
+                if (event.metaKey || event.ctrlKey || event.shiftKey) return;
+                sessionStorage.setItem(RETURN_TO_PROJECT_KEY, project.id);
               }}
             >
               <StaggeredReveal
@@ -154,7 +157,7 @@ export function ExpandedProjectSummary({
                   <Icon icon="arrowRight" />
                 </div>
               </StaggeredReveal>
-            </div>
+            </Link>
           </div>
         </div>
       </FullScreenSlide>

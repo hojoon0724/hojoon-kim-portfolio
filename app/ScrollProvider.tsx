@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { useArrowKeyNavigation } from "@/hooks";
 
@@ -13,6 +14,7 @@ export function useScrollContext() {
 
 export function ScrollProvider({ children }: { children: React.ReactNode }) {
   const [activeTargetKey, setActiveTargetKey] = useState<string | null>(null);
+  const pathname = usePathname();
 
   useArrowKeyNavigation();
 
@@ -134,7 +136,8 @@ export function ScrollProvider({ children }: { children: React.ReactNode }) {
       document.body.style.backgroundColor = "";
       setActiveTargetKey(null);
     };
-  }, []);
+    // re-attach on route change: this provider outlives the page's snap containers
+  }, [pathname]);
 
   const contextValue = useMemo(() => ({ activeTargetKey }), [activeTargetKey]);
 

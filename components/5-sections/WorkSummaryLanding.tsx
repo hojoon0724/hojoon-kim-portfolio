@@ -1,6 +1,6 @@
 "use client";
 
-import { ensrq, moindi, rcnm } from "@/data/case-studies";
+import { ensrq, moindi, rcnm } from "@/data/reference";
 import { CaseStudy } from "@/types";
 import Image from "next/image";
 import { useState } from "react";
@@ -24,7 +24,7 @@ export function WorkSummaryLanding() {
                 fill
               />
             </div>
-            <div className="project-info-container gap-sm relative z-10 flex flex-col items-center justify-center text-on-light max-w-prose text-center">
+            <div className="project-info-container gap-sm text-on-light relative z-10 flex max-w-prose flex-col items-center justify-center text-center">
               <h2 className="selected-project-title">
                 {selectedProject.title}
               </h2>
@@ -45,7 +45,7 @@ export function WorkSummaryLanding() {
         {PROJECTS.map((project) => (
           <div
             key={project.id}
-            className={`project-option-container hover:bg-surface-accent/50 hover:text-on-base min-h-8 flex cursor-pointer flex-col items-center justify-center transition-colors duration-300 ${
+            className={`project-option-container hover:bg-surface-accent/50 hover:text-on-base flex min-h-8 cursor-pointer flex-col items-center justify-center transition-colors duration-300 ${
               selectedProject?.id === project.id
                 ? "bg-surface-accent text-on-accent"
                 : "bg-surface-feather text-on-light"

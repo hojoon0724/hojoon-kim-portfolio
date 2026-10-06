@@ -1,7 +1,7 @@
 import { Section } from "@/components/1-atoms";
 import { WorkGallery } from "@/components/4-organisms";
 import { CaseStudyDev } from "@/components/5-sections";
-import { ensrq, moindi, rcnm } from "@/data/case-studies";
+import { ensrq, moindi, rcnm } from "@/data/reference";
 import { CaseStudy } from "@/types/case-study";
 
 export default function DataPage() {

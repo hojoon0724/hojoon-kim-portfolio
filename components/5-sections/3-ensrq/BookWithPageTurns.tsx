@@ -314,10 +314,10 @@ export function BookWithPageTurns({
         </div>
       )}
 
-      <div className="book-display-container mx-auto flex w-full flex-col items-center gap-4">
+      <div className="book-display-container mx-auto flex h-full w-full flex-col items-center gap-4">
         <div
           ref={viewportRef}
-          className="book-viewport relative aspect-4/3 w-full"
+          className="book-viewport relative aspect-4/3 max-h-dvh w-full"
           style={{ visibility: view.width > 0 ? "visible" : "hidden" }}
         >
           {view.width > 0 && (

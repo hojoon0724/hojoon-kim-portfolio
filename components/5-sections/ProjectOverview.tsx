@@ -2,11 +2,7 @@
 
 import { useScrollContext } from "@/app/ScrollProvider";
 import { Icon, Section } from "@/components/1-atoms";
-import {
-  ExpandedProjectSummary,
-  ProjectIntro,
-  ProjectPage,
-} from "@/components/4-organisms";
+import { ExpandedProjectSummary, ProjectIntro } from "@/components/4-organisms";
 import type { ProjectOverviewData } from "@/data";
 import { projectOverviewData } from "@/data";
 
@@ -63,12 +59,6 @@ export function ProjectOverview({ projectId }: ProjectOverviewProps) {
       <ExpandedProjectSummary
         key={`${projectData.id}-expanded-summary`}
         project={projectData}
-      />
-
-      {/* Project Page */}
-      <ProjectPage
-        key={`${projectData.id}-project-page`}
-        projectId={projectId}
       />
     </Section>
   );

@@ -242,8 +242,10 @@ function PosterScene({
   });
 
   return (
+    // Ignores the pointer so the parts that overflow the viewport don't catch
+    // clicks meant for whatever is underneath. The viewport handles clicks.
     <div
-      className="poster-camera absolute top-0 left-0 origin-top-left"
+      className="poster-camera pointer-events-none absolute top-0 left-0 origin-top-left"
       style={{
         transform: `translate(${view.width / 2}px, ${view.height / 2}px) rotate(${rotation}deg) scale(${scale}) translate(${-focusX * UNIT_PX}px, ${-focusY * UNIT_PX}px)`,
         transition:
@@ -440,7 +442,7 @@ export function FrenchFoldSeasonPoster({
     "flex h-8 w-12 items-center justify-center rounded-full border transition-opacity";
 
   return (
-    <div className="french-fold-poster-container h-full w-full">
+    <div className="french-fold-poster-container h-full w-full  max-h-dvh">
       {dev && (
         <div className="dev-container flex min-h-120 items-start justify-start gap-4 border">
           {posterSrcs.map((src, index) => {
@@ -463,11 +465,11 @@ export function FrenchFoldSeasonPoster({
         </div>
       )}
 
-      <div className="season-poster-container aspect-2/3 md:aspect-3/2 w-full">
-        <div className="season-poster-display-container mx-auto flex w-full flex-col items-center gap-4">
+      <div className="season-poster-container w-full">
+        <div className="season-poster-display-container mx-auto flex max-h-dvh w-full flex-col items-center gap-4">
           <div
             ref={viewportRef}
-            className={`season-poster-viewport relative aspect-2/3 md:aspect-3/2 w-full ${step < LAST_PAGE_INDEX ? "cursor-pointer" : ""}`}
+            className={`season-poster-viewport relative aspect-2/3 min-h-0 w-full md:aspect-3/2 ${step < LAST_PAGE_INDEX ? "cursor-pointer" : ""}`}
             style={{ visibility: view.width > 0 ? "visible" : "hidden" }}
             onClick={unfold}
           >
@@ -482,7 +484,7 @@ export function FrenchFoldSeasonPoster({
               />
             )}
           </div>
-          <div className="season-poster-controls flex items-center gap-4">
+          <div className="season-poster-controls flex shrink-0 items-center gap-4">
             <button
               type="button"
               aria-label="Fold poster"

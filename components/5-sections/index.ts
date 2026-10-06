@@ -2,7 +2,7 @@ export * from "./1-moindi/MoindiIntro";
 export * from "./3-ensrq/BookWithPageTurns";
 export * from "./3-ensrq/FrenchFoldSeasonPoster";
 export * from "./3-ensrq/S06_EnsrqBarrelRollBrochure";
-export * from "./3-ensrq/S10_SeasonPoster";
+
 export * from "./About";
 export * from "./CaseStudyDev";
 export * from "./Contact";

@@ -1,8 +1,9 @@
 "use client";
 
 import { ScrollIndicator } from "@/components/2-molecules";
+import { RETURN_TO_PROJECT_KEY } from "@/components/4-organisms";
 import { About, ContactPage, ProjectOverview } from "@/components/5-sections";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 interface VisibleSections {
   id: string;
@@ -33,6 +34,19 @@ export function Landing() {
     activeSectionRef.current = id;
     setSectionInView(id);
   }
+
+  // coming back from a project page: jump to the summary slide the user left from
+  useLayoutEffect(() => {
+    const projectId = sessionStorage.getItem(RETURN_TO_PROJECT_KEY);
+    if (!projectId) return;
+
+    sessionStorage.removeItem(RETURN_TO_PROJECT_KEY);
+    document
+      .querySelector(
+        `#${projectId} [data-animation-key="${projectId}-expanded-summary"]`,
+      )
+      ?.scrollIntoView({ behavior: "instant" });
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(

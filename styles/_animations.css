@@ -200,3 +200,28 @@
     transform: scaleX(1);
   }
 }
+
+/* page transitions (view transitions API) — mirrors the horizontal slide between project cards */
+::view-transition-old(.page-slide-out-to-left) {
+  animation: page-slide-out-to-left var(--animation-500) ease-in-out both;
+}
+::view-transition-new(.page-slide-in-from-right) {
+  animation: page-slide-in-from-right var(--animation-500) ease-in-out both;
+}
+
+@keyframes page-slide-out-to-left {
+  from {
+    translate: 0;
+  }
+  to {
+    translate: -100vw;
+  }
+}
+@keyframes page-slide-in-from-right {
+  from {
+    translate: 100vw;
+  }
+  to {
+    translate: 0;
+  }
+}
