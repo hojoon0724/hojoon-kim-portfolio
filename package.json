@@ -7,7 +7,14 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "generate:colors": "npx tsx scripts/generate-colors.ts"
+    "generate:colors": "npx tsx scripts/generate-colors.ts",
+    "csv-to-ts": "npx tsx scripts/csv-to-ts.ts",
+    "clean-contacts": "npx tsx scripts/rcnm-clean-contacts.ts",
+    "clean-events": "npx tsx scripts/rcnm-clean-events.ts",
+    "clean-ledger": "npx tsx scripts/rcnm-clean-ledger.ts",
+    "clean-repertoire": "npx tsx scripts/rcnm-clean-repertoire.ts",
+    "clean-venues": "npx tsx scripts/rcnm-clean-venues.ts",
+    "add-composers": "npx tsx scripts/rcnm-add-missing-composers-to-contacts.ts"
   },
   "dependencies": {
     "markdown-it": "^15.0.1",
