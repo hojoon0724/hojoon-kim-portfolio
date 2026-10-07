@@ -1,4 +1,5 @@
 export * from "./Button";
+export * from "./CountUp";
 export * from "./Icon";
 export * from "./Input";
 export * from "./LandingIcon";
@@ -6,6 +7,7 @@ export * from "./Markdown";
 export * from "./MarkdownRenderer";
 export * from "./MenuSvg";
 export * from "./RevealParagraph";
+export * from "./ScrambleRevealText";
 export * from "./ScrollRevealText";
 export * from "./Section";
 export * from "./StaggeredReveal";

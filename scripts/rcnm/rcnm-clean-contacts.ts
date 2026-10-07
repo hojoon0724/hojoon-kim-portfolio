@@ -1,5 +1,6 @@
-import { contacts as rawContacts } from "../rcnm-raw-data/contacts";
+import { contacts as rawContacts } from "../../rcnm-raw-data/contacts";
 import {
+  createEventId,
   createId,
   createUniqueIds,
   removeNotionLink,
@@ -140,7 +141,7 @@ const cleanedContacts = namedContacts.map((contact, index) => {
 
     venue: removeNotionLink(contact.venue).map(createId),
     instrument,
-    hiredFor: removeNotionLink(contact.hiredFor).map(createId),
+    hiredFor: removeNotionLink(contact.hiredFor).map(createEventId),
     dietaryRestrictions: /^none$/i.test(contact.dietaryRestrictions ?? "")
       ? null
       : contact.dietaryRestrictions,

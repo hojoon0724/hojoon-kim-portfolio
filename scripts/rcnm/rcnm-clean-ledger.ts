@@ -1,5 +1,6 @@
-import { ledger as rawLedger } from "../rcnm-raw-data/ledger";
+import { ledger as rawLedger } from "../../rcnm-raw-data/ledger";
 import {
+  createEventId,
   createId,
   createUniqueIds,
   removeNotionLink,
@@ -52,7 +53,7 @@ const ids = createUniqueIds(
 );
 
 const cleanedLedger = filledEntries.map((entry, index) => {
-  const eventId = removeNotionLink(entry.event).map(createId)[0] ?? null;
+  const eventId = removeNotionLink(entry.event).map(createEventId)[0] ?? null;
 
   return {
     id: ids[index],

@@ -1,23 +1,37 @@
 import { ProjectPageContainer } from "@/components/6-pages";
-import { Section } from '@/components/1-atoms';
+import Link from "next/link";
 
 export default function RcnmPage() {
   return (
     <ProjectPageContainer projectId="rcnm">
-      <Section className="min-h-120 border">
+      <Link
+        href="/rcnm/database-architecture"
+        className=""
+        transitionTypes={["project-forward"]}
+      >
         <h1>Database Architecture</h1>
-        
-      </Section>
-      <Section className="min-h-120 border">
+      </Link>
+      <Link
+        href="/rcnm/visual-identity"
+        className=""
+        transitionTypes={["project-forward"]}
+      >
         <h1>Visual Identity</h1>
-        
-      </Section>
-      <Section className="min-h-120 border">
+      </Link>
+      <Link
+        href="/rcnm/stage-lighting"
+        className=""
+        transitionTypes={["project-forward"]}
+      >
         <h1>Stage & Lighting</h1>
-      </Section>
-      <Section className="min-h-120 border">
+      </Link>
+      <Link
+        href="/rcnm/video-production"
+        className=""
+        transitionTypes={["project-forward"]}
+      >
         <h1>Video Production</h1>
-      </Section>
+      </Link>
     </ProjectPageContainer>
   );
 }

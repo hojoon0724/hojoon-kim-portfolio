@@ -1,6 +1,5 @@
 "use client";
 
-import { useScrollContext } from "@/app/ScrollProvider";
 import {
   Button,
   Input,
@@ -32,10 +31,6 @@ const isBlacklistedEmail = (email: string) => {
 };
 
 export function ContactPage({ id }: { id: string }) {
-  const { activeTargetKey } = useScrollContext();
-  const animationKey = `${id}-contact`;
-  const startAnimation = activeTargetKey === animationKey;
-
   const [submitting, setSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: "",

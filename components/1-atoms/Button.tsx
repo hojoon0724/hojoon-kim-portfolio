@@ -72,6 +72,14 @@ export function Button({
   const disabledClass = disabled ? "opacity-50 cursor-not-allowed" : "";
   const allClasses = `${baseButtonClass} ${variantClasses} ${sizeClasses} ${disabledClass} ${className}`;
 
+  if (url) {
+    return (
+      <a href={url} className={allClasses} style={style} onClick={onClick}>
+        {text}
+      </a>
+    );
+  }
+
   return (
     <button
       type={type}

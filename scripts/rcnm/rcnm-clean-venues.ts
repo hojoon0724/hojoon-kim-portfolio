@@ -1,5 +1,6 @@
-import { venues as rawVenues } from "../rcnm-raw-data/venues";
+import { venues as rawVenues } from "../../rcnm-raw-data/venues";
 import {
+  createEventId,
   createId,
   createUniqueIds,
   removeNotionLink,
@@ -26,7 +27,7 @@ const cleanedVenues = namedVenues.map((venue, index) => ({
   name: venue.name,
   address: separateAddress(venue.address),
   contact: removeNotionLink(venue.contact).map(createId),
-  inEvents: removeNotionLink(venue.events).map(createId),
+  inEvents: removeNotionLink(venue.events).map(createEventId),
   website: venue.website,
 }));
 

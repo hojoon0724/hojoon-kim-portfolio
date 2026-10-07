@@ -1,6 +1,7 @@
-import { events as rawEvents } from "../rcnm-raw-data/events";
-import { repertoire as rawRepertoire } from "../rcnm-raw-data/repertoire";
+import { events as rawEvents } from "../../rcnm-raw-data/events";
+import { repertoire as rawRepertoire } from "../../rcnm-raw-data/repertoire";
 import {
+  createEventId,
   createId,
   createRepertoireIds,
   createUniqueIds,
@@ -9,10 +10,12 @@ import {
   writeCleanFile,
   type RawRecord,
 } from "./rcnm-clean-utils";
+import { withFullComposerNames } from "./rcnm-guess-composer-id";
 
 // usage: npm run clean-events
 
 const firstSeasonYear = 2022;
+const defaultEventTime = "19:30";
 
 // "03-01-1 - 3… 2… 1… LOOK!" / "01-03-2: Outside the Box" -> season 03, event 01, title
 function separateName(name: string) {
@@ -20,7 +23,7 @@ function separateName(name: string) {
   return {
     season: match ? match[1] : null,
     eventNumber: match ? match[2] : null,
-    nameStage: match && match[3] !== "X" ? Number(match[3]) : null,
+    nameStage: match ? Number(match[3].replace("X", "0")) : null,
     title: match ? match[4].trim() : name,
   };
 }
@@ -43,7 +46,9 @@ function cleanStage(stage: string | null): number | null {
 }
 
 // events list their repertoire by title, so look the id up from the repertoire data
-const repertoireIds = createRepertoireIds(rawRepertoire as RawRecord[]);
+const repertoireIds = createRepertoireIds(
+  withFullComposerNames(rawRepertoire as RawRecord[]),
+);
 const repertoireIdByTitle = new Map<string, string>();
 (rawRepertoire as RawRecord[]).forEach((piece, index) => {
   const title = createId(piece.name ?? "");
@@ -53,20 +58,26 @@ const repertoireIdByTitle = new Map<string, string>();
 });
 
 const namedEvents = (rawEvents as RawRecord[]).filter((event) => event.name);
-const ids = createUniqueIds(namedEvents.map((event) => event.name!));
+const ids = createUniqueIds(
+  namedEvents.map((event) => createEventId(event.name!)),
+);
 
 const cleanedEvents = namedEvents.map((event, index) => {
-  const { season, eventNumber, nameStage, title } = separateName(event.name!);
+  const { season: nameSeason, eventNumber, nameStage, title } = separateName(
+    event.name!,
+  );
   const { date, time } = separateDateAndTime(event.date);
+  const season = nameSeason ?? cleanSeason(event.season);
 
   return {
     id: ids[index],
-    season: season ?? cleanSeason(event.season),
+    season,
     eventNumber,
     eventStage: cleanStage(event.stage) ?? nameStage,
     title,
     eventDate: date,
-    eventTime: event.time ?? time,
+    // events in a season default to 19:30 when the Time column is empty
+    eventTime: event.time ?? time ?? (season ? defaultEventTime : null),
     venueId: removeNotionLink(event.venue).map(createId),
     musicians: removeNotionLink(event.musicians).map(createId),
     staff: removeNotionLink(event.staff).map(createId),
@@ -83,4 +94,11 @@ const cleanedEvents = namedEvents.map((event, index) => {
   };
 });
 
-writeCleanFile("events", cleanedEvents);
+// oldest first, by date then time; events with no date (ideas) go last
+const sortedEvents = [...cleanedEvents].sort((a, b) =>
+  `${a.eventDate ?? "9999"} ${a.eventTime ?? ""}`.localeCompare(
+    `${b.eventDate ?? "9999"} ${b.eventTime ?? ""}`,
+  ),
+);
+
+writeCleanFile("events", sortedEvents);

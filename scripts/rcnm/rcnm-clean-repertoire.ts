@@ -1,5 +1,6 @@
-import { repertoire as rawRepertoire } from "../rcnm-raw-data/repertoire";
+import { repertoire as rawRepertoire } from "../../rcnm-raw-data/repertoire";
 import {
+  createEventId,
   createId,
   createRepertoireIds,
   removeNotionLink,
@@ -7,6 +8,7 @@ import {
   writeCleanFile,
   type RawRecord,
 } from "./rcnm-clean-utils";
+import { withFullComposerNames } from "./rcnm-guess-composer-id";
 
 // usage: npm run clean-repertoire
 
@@ -59,7 +61,7 @@ function getLinks(...values: (string | null)[]): string[] {
   return values.flatMap((value) => value?.match(/https?:\/\/\S+/g) ?? []);
 }
 
-const repertoire = rawRepertoire as RawRecord[];
+const repertoire = withFullComposerNames(rawRepertoire as RawRecord[]);
 const ids = createRepertoireIds(repertoire);
 
 const cleanedRepertoire = repertoire.map((piece, index) => ({
@@ -73,7 +75,7 @@ const cleanedRepertoire = repertoire.map((piece, index) => ({
     piece.alternativeInstrumentation,
   ),
   ensembleSize: cleanEnsembleSize(piece.ensembleSize),
-  inEvents: removeNotionLink(piece.event).map(createId),
+  inEvents: removeNotionLink(piece.event).map(createEventId),
   recordings: getLinks(piece.recording, piece.videoLink),
 }));
 

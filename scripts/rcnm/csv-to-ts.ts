@@ -1,7 +1,7 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 
-const folderPath = resolve(import.meta.dirname, "../rcnm-raw-data");
+const folderPath = resolve(import.meta.dirname, "../../rcnm-raw-data");
 const fileName = {
   contacts: "contacts.csv",
   events: "events.csv",

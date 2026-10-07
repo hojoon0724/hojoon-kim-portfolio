@@ -1,4 +1,5 @@
 export * from "./1-moindi/MoindiIntro";
+export * from "./2-rcnm/RcnmDatabaseStory";
 export * from "./3-ensrq/BookWithPageTurns";
 export * from "./3-ensrq/FrenchFoldSeasonPoster";
 export * from "./3-ensrq/S06_EnsrqBarrelRollBrochure";

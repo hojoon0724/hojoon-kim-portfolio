@@ -2,7 +2,7 @@ import { writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 
 // shared by the rcnm-clean-*.ts scripts
-const folderPath = resolve(import.meta.dirname, "../rcnm-raw-data");
+const folderPath = resolve(import.meta.dirname, "../../rcnm-raw-data");
 
 export type RawRecord = Record<string, string | null>;
 
@@ -13,6 +13,16 @@ export function createId(name: string): string {
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
+}
+
+// event names use "X" for events outside the stage numbering: "03-01-X - Party" -> "03-01-0-party"
+export function createEventId(name: string): string {
+  return createId(name).replace(/^(\d{2}-\d{2})-x-/, "$1-0-");
+}
+
+// "Jlin arr. Robert Dillon", "Bach/Seyoun-Charles" and links aren't one person
+export function isSinglePerson(name: string): boolean {
+  return !/ arr\. |\//.test(name);
 }
 
 // names repeat, so number the repeats to keep ids unique

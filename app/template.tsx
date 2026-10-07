@@ -4,8 +4,16 @@ import { ViewTransition } from "react";
 export default function Template({ children }: { children: React.ReactNode }) {
   return (
     <ViewTransition
-      enter={{ "project-forward": "page-slide-in-from-right", default: "none" }}
-      exit={{ "project-forward": "page-slide-out-to-left", default: "none" }}
+      enter={{
+        "project-forward": "page-slide-in-from-right",
+        "project-back": "page-slide-in-from-left",
+        default: "none",
+      }}
+      exit={{
+        "project-forward": "page-slide-out-to-left",
+        "project-back": "page-slide-out-to-right",
+        default: "none",
+      }}
       default="none"
     >
       {children}
