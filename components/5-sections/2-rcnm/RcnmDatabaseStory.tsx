@@ -588,7 +588,7 @@ export function RcnmDatabaseStory({ story }: RcnmDatabaseStoryProps) {
   return (
     <div className="rcnm-database-story relative lg:grid lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
       {/* every step's panel is laid out in the same cell, so the box is as tall as the tallest one and never changes size */}
-      <div className="stage bg-rcnm-black-500 border-rcnm-black-300 px-md py-sm lg:px-lg sticky top-0 z-10 flex h-fit min-h-[27rem] items-center overflow-hidden border-b lg:order-2 lg:h-svh lg:border-b-0 lg:border-l">
+      <div className="stage bg-rcnm-black-500 border-rcnm-black-300 px-md py-sm lg:px-lg sticky top-0 z-10 flex h-fit min-h-100 items-center overflow-hidden border-b lg:order-2 lg:h-svh lg:border-b-0 lg:border-l">
         <div className="stage-content grid w-full grid-cols-1 items-start gap-2 [grid-template-areas:'map''record''linked'] md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] md:[grid-template-areas:'map_map''record_linked'] lg:gap-4">
           <div className="h-[22svh] max-h-48 [grid-area:map] md:h-40 md:max-h-none lg:h-48">
             <SchemaMap
