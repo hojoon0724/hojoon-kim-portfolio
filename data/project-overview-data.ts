@@ -222,7 +222,7 @@ export const projectOverviewData: ProjectOverviewData[] = [
       {
         key: "Profile",
         value:
-          "An independent film studio known for being a major player every Oscar season",
+          "A specialty film studio known for being a major player every Oscar season",
       },
       {
         key: "Goal",

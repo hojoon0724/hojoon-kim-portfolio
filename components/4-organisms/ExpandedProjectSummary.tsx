@@ -59,7 +59,8 @@ export function ExpandedProjectSummary({
               indicatorBgClassName={project.backgroundClassName}
             />
           </StaggeredReveal>
-          <div className="content-container p-md mx-auto flex w-full max-w-4xl flex-col justify-start overflow-scroll xl:my-auto">
+          {/* only scrolls up and down: the tool tooltips are wider than their icons, and a hidden one at the right edge would otherwise add sideways scroll */}
+          <div className="content-container p-md mx-auto flex w-full max-w-4xl flex-col justify-start overflow-x-hidden overflow-y-scroll xl:my-auto">
             <StaggeredReveal
               className="project-vitals-table pb-lg mb-2xl gap-md flex flex-col"
               delayMs={0}
@@ -86,7 +87,7 @@ export function ExpandedProjectSummary({
                   </div>
 
                   <StaggeredReveal
-                    className="tools-container flex flex-row flex-wrap"
+                    className="tools-container flex flex-row flex-wrap w-full"
                     delayMs={storyAnimationDelayMs / 2}
                     resetOnLeave={false}
                     threshold={0}

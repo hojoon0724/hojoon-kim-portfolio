@@ -1,6 +1,6 @@
 "use client";
 
-import type { DatabaseStory } from "@/data/project-details/rcnm-database-story";
+import type { DatabaseStory } from "@/data/rcnm-db-data-masked/fixed-data";
 import { useEffect, useRef, useState } from "react";
 
 type TableName = "events" | "venues" | "repertoire" | "contacts" | "ledger";
@@ -18,34 +18,14 @@ interface RcnmDatabaseStoryProps {
 
 // -- schema map ---------------------------------------------------------
 
-type MapLayout = "tall" | "wide";
-
-// tall (below md): two columns, three rows. venues above events, repertoire beside it, ledger and contacts along the bottom.
-// wide (md and up): three columns, two rows. venues, events, repertoire across the top, ledger and contacts under the last two.
-const mapLayouts: Record<
-  MapLayout,
-  { viewBox: string; nodes: Record<TableName, { x: number; y: number }> }
-> = {
-  tall: {
-    viewBox: "0 0 274 168",
-    nodes: {
-      venues: { x: 46, y: 22 },
-      events: { x: 46, y: 84 },
-      repertoire: { x: 228, y: 84 },
-      ledger: { x: 46, y: 146 },
-      contacts: { x: 228, y: 146 },
-    },
-  },
-  wide: {
-    viewBox: "0 0 440 122",
-    nodes: {
-      venues: { x: 46, y: 22 },
-      events: { x: 220, y: 22 },
-      repertoire: { x: 394, y: 22 },
-      ledger: { x: 220, y: 100 },
-      contacts: { x: 394, y: 100 },
-    },
-  },
+// three columns, two rows at every screen size: venues, events, repertoire across the top, ledger and contacts under the last two
+const mapViewBox = "0 0 440 122";
+const mapNodes: Record<TableName, { x: number; y: number }> = {
+  venues: { x: 46, y: 22 },
+  events: { x: 220, y: 22 },
+  repertoire: { x: 394, y: 22 },
+  ledger: { x: 220, y: 100 },
+  contacts: { x: 394, y: 100 },
 };
 const mapOrder: TableName[] = [
   "venues",
@@ -101,21 +81,16 @@ const tablesByStep: Record<StepKey, TableName[]> = {
 function SchemaMap({
   step,
   totals,
-  layout,
-  className = "",
 }: {
   step: StepKey;
   totals: DatabaseStory["totals"];
-  layout: MapLayout;
-  className?: string;
 }) {
   const activeTables = tablesByStep[step];
-  const { viewBox, nodes: mapNodes } = mapLayouts[layout];
 
   return (
     <svg
-      viewBox={viewBox}
-      className={`schema-map h-full w-full ${className}`}
+      viewBox={mapViewBox}
+      className="schema-map h-full w-full"
       role="img"
       aria-label={`Five linked tables in a grid: venues, events, repertoire, ledger and contacts. Highlighted now: ${activeTables.join(", ")}.`}
     >
@@ -243,13 +218,13 @@ function EventRecord({ story, step }: { story: DatabaseStory; step: StepKey }) {
           {event.title}
         </span>
       </div>
-      <dl className="roboto-mono p-sm flex flex-row flex-wrap justify-between gap-1 text-[11px] md:flex-col md:justify-start md:text-xs">
+      <dl className="roboto-mono p-sm grid grid-cols-2 justify-start gap-1 text-[11px] md:grid-cols-1 md:text-xs">
         {fields.map((field) => {
           const isActive = step === "questions" || field.steps.includes(step);
           return (
             <div
               key={field.name}
-              className={`px-xs flex items-baseline gap-2 rounded-sm py-0.5 transition-colors duration-300 md:justify-between ${isActive ? "bg-rcnm-red-500 text-rcnm-black-700" : "text-rcnm-white-600"}`}
+              className={`px-xs flex items-baseline gap-2 rounded-sm py-0.5 transition-colors duration-300 border justify-between ${isActive ? "bg-rcnm-red-500 border-rcnm-red-500 text-rcnm-black-700" : "text-rcnm-white-600  border-rcnm-black-300"}`}
             >
               <dt className="shrink-0 font-bold">{field.name}</dt>
               <dd className="truncate">{field.value}</dd>
@@ -339,10 +314,10 @@ function LinkedRecords({
               <p className="text-rcnm-white-700 text-sm">{venue.location}</p>
             </div>
             <div>
-              <p className="roboto-mono text-rcnm-white-700 text-[10px] uppercase md:text-xs">
-                the same row also serves
+              <p className="text-rcnm-white-700 text-[10px] md:text-xs pb-xs">
+                Other events held here:
               </p>
-              <ul className="text-sm md:text-base">
+              <ul className="md:text-sm text-xs font-mono">
                 {venue.otherEvents.map((title) => (
                   <li key={title} className="truncate">
                     {title}
@@ -384,7 +359,7 @@ function LinkedRecords({
             table="contacts"
             note={`${musicians.length + crew.length} rows · * also a composer here`}
           />
-          <ul className="p-sm grid grid-cols-2 gap-x-3 gap-y-0.5 text-xs leading-tight md:gap-y-1 md:text-sm md:leading-normal">
+          <ul className="p-sm grid grid-cols-3 gap-x-3 gap-y-md text-xs leading-tight md:gap-y-md md:text-sm md:leading-normal">
             {musicians.map((musician) => (
               <li key={musician.id} className="min-w-0">
                 <span className="block truncate">
@@ -423,7 +398,7 @@ function LinkedRecords({
             {ledger.groups.map((group) => (
               <li key={group.name}>
                 <div className="flex items-baseline justify-between gap-2">
-                  <span className="truncate">{group.name}</span>
+                  <span className="truncate text-xs">{group.name}</span>
                   <span className="roboto-mono shrink-0 text-[10px] md:text-xs">
                     <span className="text-rcnm-white-700">
                       {group.entries} rows ·{" "}
@@ -441,8 +416,8 @@ function LinkedRecords({
             ))}
           </ul>
           <p className="border-rcnm-black-300 px-sm py-xs roboto-mono flex justify-between border-t text-xs md:text-sm">
-            <span className="text-rcnm-white-700">total spent</span>
-            <span className="font-bold">
+            <span className="text-rcnm-white-700 text-xs">total spent</span>
+            <span className="font-bold text-xs">
               ${Math.round(ledger.total).toLocaleString("en-US")}
             </span>
           </p>
@@ -453,7 +428,7 @@ function LinkedRecords({
       return (
         <>
           <PanelHeader table="all five tables" note="worked out, not stored" />
-          <ul className="p-sm gap-sm grid grid-cols-2">
+          <ul className="p-sm gap-sm grid grid-cols-2 gap-y-xl">
             {questions.map((item) => (
               <li key={item.question} className="min-w-0">
                 <p className="text-rcnm-white-700 text-[11px] leading-tight md:text-sm">
@@ -586,23 +561,15 @@ export function RcnmDatabaseStory({ story }: RcnmDatabaseStoryProps) {
   const activeStep = steps[activeIndex].key;
 
   return (
-    <div className="rcnm-database-story relative lg:grid lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
+    // below the two column layout the stage is pinned at the top of the screen, where the section nav sits.
+    // the padding starts it under the nav, and its sticky offset keeps it there
+    <div className="rcnm-database-story pt-nav relative lg:grid lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:pt-0">
       {/* every step's panel is laid out in the same cell, so the box is as tall as the tallest one and never changes size */}
-      <div className="stage bg-rcnm-black-500 border-rcnm-black-300 px-md py-sm lg:px-lg sticky top-0 z-10 flex h-fit min-h-100 items-center overflow-hidden border-b lg:order-2 lg:h-svh lg:border-b-0 lg:border-l">
-        <div className="stage-content grid w-full grid-cols-1 items-start gap-2 [grid-template-areas:'map''record''linked'] md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] md:[grid-template-areas:'map_map''record_linked'] lg:gap-4">
-          <div className="h-[22svh] max-h-48 [grid-area:map] md:h-40 md:max-h-none lg:h-48">
-            <SchemaMap
-              step={activeStep}
-              totals={story.totals}
-              layout="tall"
-              className="md:hidden"
-            />
-            <SchemaMap
-              step={activeStep}
-              totals={story.totals}
-              layout="wide"
-              className="hidden md:block"
-            />
+      <div className="stage bg-rcnm-black-500 border-rcnm-black-300 px-md py-sm lg:px-lg top-nav sticky z-10 flex h-fit min-h-100 items-center overflow-hidden border-b lg:top-0 lg:order-2 lg:h-svh lg:border-b-0 lg:border-l">
+        <div className="stage-content grid w-full grid-cols-1 items-start gap-2 [grid-template-areas:'map''record''linked'] md:grid-cols-[minmax(0,2fr)_minmax(0,5fr)] md:[grid-template-areas:'map_map''record_linked'] lg:gap-4">
+          {/* below md the map takes the full width, and its box is exactly as tall as the map needs at that width */}
+          <div className="aspect-440/122 [grid-area:map] md:aspect-auto md:h-40 lg:h-48">
+            <SchemaMap step={activeStep} totals={story.totals} />
           </div>
           <div className="h-full [grid-area:record]">
             <EventRecord story={story} step={activeStep} />

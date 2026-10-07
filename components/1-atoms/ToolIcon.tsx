@@ -29,7 +29,8 @@ export function ToolIcon({
   tooltipText,
   tooltipPosition = "bottom",
 }: ToolIconProps) {
-  // null until first shown, so the fade-out doesn't play on mount
+  // null while the tooltip isn't on the page at all: before it is first shown, and again once it has faded out.
+  // a hidden tooltip left in place is wider than its icon and adds sideways scroll to whatever holds the icons
   const [shown, setShown] = useState<boolean | null>(null);
   const timeoutRef = useRef(0);
 
@@ -49,12 +50,9 @@ export function ToolIcon({
     setShown((prev) => (prev ? false : prev));
   };
 
-  const tooltipAnimationClass =
-    shown === null
-      ? "opacity-0"
-      : shown
-        ? "animation-fade-in-up-8"
-        : "animation-fade-out-down-8";
+  const tooltipAnimationClass = shown
+    ? "animation-fade-in-up-8"
+    : "animation-fade-out-down-8";
 
   return (
     <div
@@ -70,8 +68,9 @@ export function ToolIcon({
         className={`tool-icon ${className ?? ""}`}
         style={style}
       />
-      {tooltipText && (
+      {tooltipText && shown !== null && (
         <div
+          onAnimationEnd={() => setShown((prev) => (prev ? prev : null))}
           className={`pointer-events-none absolute z-10 ${tooltipPositionClass[tooltipPosition]} w-max rounded bg-black px-2 py-1 font-mono text-xs whitespace-nowrap text-white ${tooltipAnimationClass}`}
         >
           {tooltipText}

@@ -6,10 +6,8 @@ import {
   StaggeredTextReveal,
 } from "@/components/1-atoms";
 import { ScrollNudge } from "@/components/2-molecules";
-import { RcnmDatabaseStory } from "@/components/5-sections";
-import { ProjectPageContainer } from "@/components/6-pages";
-import { getDatabaseStory } from "@/data/project-details/rcnm-database-story";
-import Link from "next/link";
+import { databaseStory } from "@/data/rcnm-db-data-masked/fixed-data";
+import { RcnmDatabaseStory } from "./RcnmDatabaseStory";
 
 // the intro comes in from top to bottom. each value is when that part starts, in ms after the page appears
 const introTiming = {
@@ -24,8 +22,8 @@ const eyebrowStaggerMs = 120;
 const headlineStaggerMs = 35;
 const statsStaggerMs = 80;
 
-export default function RcnmDatabaseArchitecturePage() {
-  const story = getDatabaseStory();
+export function RcnmDatabaseArchitecture({ id }: { id: string }) {
+  const story = databaseStory;
   const { totals, eventCounts, event, ledger, seasons } = story;
   const people = event.counts.musicians + event.counts.staff;
   const headline = `One concert is ${ledger.entries} receipts, ${people} people, ${event.counts.repertoire} pieces, and an airplane hangar.`;
@@ -58,21 +56,12 @@ export default function RcnmDatabaseArchitecturePage() {
   ];
 
   return (
-    <ProjectPageContainer projectId="rcnm">
-      {/* the intro is a cover: it sits above the story and scrolls away to reveal it */}
-      <header className="database-story-intro bg-rcnm-black-500 border-rcnm-black-300 px-md lg:px-xl gap-lg relative z-20 flex min-h-dvh flex-col justify-between border-b py-16">
-        <div className="back-button-container">
-          <Link
-            href="/rcnm"
-            transitionTypes={["project-back"]}
-            className="roboto-mono text-rcnm-white-700 gap-sm flex w-fit flex-row items-center justify-center text-xs transition-transform hover:-translate-x-1 md:text-sm"
-          >
-            <div className="icon-container flex h-4 w-4">
-              <Icon icon="arrowLeft" className="text-rcnm-white-700" />
-            </div>
-            <span>Rocket City New Music</span>
-          </Link>
-        </div>
+    <div id={id} className="scroll-mt-nav" data-page-snap>
+      {/* the intro is a cover: it sits above the story and scrolls away to reveal it.
+          it is a snap point, like the slides on the landing page, so the page can't rest with it half scrolled off */}
+      <header className="database-story-intro bg-rcnm-black-500 border-rcnm-black-300 px-md lg:px-xl gap-lg scroll-mt-nav relative z-20 flex min-h-[calc(100dvh-var(--spacing-nav))] snap-start flex-col justify-between border-b py-16">
+        {/* keeps the intro content centered between the top and the scroll hint */}
+        <div aria-hidden="true" />
         <div className="intro-content-container gap-lg relative z-20 flex flex-col justify-center">
           <StaggeredReveal
             className="gap-lg flex flex-col"
@@ -141,76 +130,81 @@ export default function RcnmDatabaseArchitecturePage() {
         </StaggeredReveal>
       </header>
 
-      {/* the story starts underneath the intro. the spacer gives it one extra screen of room to stay pinned in,
-          so it holds still until the intro has scrolled off and then scrolls as normal.
-          it is also a cover itself: it sits above the outro and scrolls away to reveal it */}
-      <div className="database-story-reveal bg-rcnm-black-500 border-rcnm-black-300 relative z-10 mt-[-100dvh] border-b">
-        <div className="sticky top-0">
-          <RcnmDatabaseStory story={story} />
-        </div>
-        <div className="h-dvh" aria-hidden="true" />
-      </div>
-
-      {/* the outro starts underneath the last screen of the story and stays pinned until the story has scrolled off */}
-      <div className="database-story-outro-reveal mt-[-100dvh]">
-        <section className="database-story-outro px-md lg:px-xl gap-2xl sticky top-0 flex min-h-dvh flex-col justify-center py-24">
-          <div className="gap-sm flex flex-col">
-            <h5 className="text-rcnm-red-400">Why it matters</h5>
-            <h2 className="max-w-192 text-balance">
-              A small organization can&apos;t afford to look everything up
-              twice.
-            </h2>
+      {/* the second snap point is the top of this wrapper, which is where the intro ends and the story starts clean.
+          the page only stops on a snap point or inside one that is taller than the screen, so the huge bottom margin
+          stretches this one over the rest of the page and everything after the intro scrolls freely */}
+      <div className="flow-root snap-start scroll-mb-[1000000px]">
+        {/* the story starts underneath the intro. the spacer gives it one extra screen of room to stay pinned in,
+            so it holds still until the intro has scrolled off and then scrolls as normal.
+            it is also a cover itself: it sits above the outro and scrolls away to reveal it */}
+        <div className="database-story-reveal bg-rcnm-black-500 border-rcnm-black-300 relative z-10 mt-[-100dvh] border-b">
+          <div className="sticky top-0">
+            <RcnmDatabaseStory story={story} />
           </div>
+          <div className="h-dvh" aria-hidden="true" />
+        </div>
 
-          <ul className="gap-lg grid grid-cols-1 md:grid-cols-3">
-            {reasons.map((reason) => (
-              <li
-                key={reason.heading}
-                className="border-rcnm-black-300 pt-sm gap-sm flex flex-col border-t"
-              >
-                <h3>{reason.heading}</h3>
-                <p className="text-rcnm-white-500">{reason.body}</p>
-              </li>
-            ))}
-          </ul>
+        {/* the outro starts underneath the last screen of the story and stays pinned until the story has scrolled off */}
+        <div className="database-story-outro-reveal mt-[-100dvh]">
+          <section className="database-story-outro px-md lg:px-xl gap-2xl sticky top-0 flex min-h-dvh flex-col justify-center py-24">
+            <div className="gap-sm flex flex-col">
+              <h5 className="text-rcnm-red-400">Why it matters</h5>
+              <h2 className="max-w-192 text-balance">
+                A small organization can&apos;t afford to look everything up
+                twice.
+              </h2>
+            </div>
 
-          <figure className="gap-sm flex flex-col">
-            <figcaption className="roboto-mono text-rcnm-white-700 text-xs md:text-sm">
-              Ledger entries tracked per season. Season 5 is still being
-              planned.
-            </figcaption>
-            <ul className="flex h-40 items-end gap-2 md:gap-4">
-              {seasons.map((season, index) => (
+            <ul className="gap-lg grid grid-cols-1 md:grid-cols-3">
+              {reasons.map((reason) => (
                 <li
-                  key={season.season}
-                  className="roboto-mono flex h-full flex-1 flex-col justify-end gap-1 text-center text-[10px] md:text-xs"
+                  key={reason.heading}
+                  className="border-rcnm-black-300 pt-sm gap-sm flex flex-col border-t"
                 >
-                  <div className="flex min-h-0 flex-1 flex-col justify-end gap-1">
-                    <span>{season.entries}</span>
-                    {/* the last season is still being planned, so its bar is hatched instead of solid */}
-                    <div
-                      className={`w-full ${index === seasons.length - 1 ? "border-rcnm-red-500 border bg-[repeating-linear-gradient(135deg,var(--color-rcnm-red-500)_0_3px,transparent_3px_9px)]" : "bg-rcnm-red-500"}`}
-                      style={{
-                        height: `${Math.max(2, (season.entries / busiestSeason) * 80)}%`,
-                      }}
-                    />
-                  </div>
-                  <span className="text-rcnm-white-700">
-                    S{Number(season.season)} · {season.year}
-                  </span>
+                  <h3>{reason.heading}</h3>
+                  <p className="text-rcnm-white-500">{reason.body}</p>
                 </li>
               ))}
             </ul>
-          </figure>
 
-          <p className="text-rcnm-white-800 max-w-prose text-xs md:text-sm">
-            This page runs on a copy of the organization&apos;s records. Private
-            names, phone numbers, emails and home addresses have been replaced
-            with placeholder data, and money is shown only as totals.
-          </p>
-        </section>
-        <div className="h-dvh" aria-hidden="true" />
+            <figure className="gap-sm flex flex-col">
+              <figcaption className="roboto-mono text-rcnm-white-700 text-xs md:text-sm">
+                Ledger entries tracked per season. Season 5 is still being
+                planned.
+              </figcaption>
+              <ul className="flex h-40 items-end gap-2 md:gap-4">
+                {seasons.map((season, index) => (
+                  <li
+                    key={season.season}
+                    className="roboto-mono flex h-full flex-1 flex-col justify-end gap-1 text-center text-[10px] md:text-xs"
+                  >
+                    <div className="flex min-h-0 flex-1 flex-col justify-end gap-1">
+                      <span>{season.entries}</span>
+                      {/* the last season is still being planned, so its bar is hatched instead of solid */}
+                      <div
+                        className={`w-full ${index === seasons.length - 1 ? "border-rcnm-red-500 border bg-[repeating-linear-gradient(135deg,var(--color-rcnm-red-500)_0_3px,transparent_3px_9px)]" : "bg-rcnm-red-500"}`}
+                        style={{
+                          height: `${Math.max(2, (season.entries / busiestSeason) * 80)}%`,
+                        }}
+                      />
+                    </div>
+                    <span className="text-rcnm-white-700">
+                      S{Number(season.season)} · {season.year}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </figure>
+
+            <p className="text-rcnm-white-800 max-w-prose text-xs md:text-sm">
+              This page runs on a copy of the organization&apos;s records.
+              Private names, phone numbers, emails and home addresses have been
+              replaced with placeholder data, and money is shown only as totals.
+            </p>
+          </section>
+          <div className="h-dvh" aria-hidden="true" />
+        </div>
       </div>
-    </ProjectPageContainer>
+    </div>
   );
 }

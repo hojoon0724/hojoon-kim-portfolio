@@ -50,12 +50,12 @@ export function MoindiIntro() {
             </div>
           </div>
 
-          <div className="landscape-text-container gap-md grid w-full grid-cols-1 md:grid-cols-[auto_1fr] items-center justify-center">
+          <div className="landscape-text-container gap-md grid w-full grid-cols-1 items-center justify-center md:grid-cols-[auto_1fr]">
             <div className="landscape-section-title roboto-wide col-span-1 text-xl font-bold md:text-2xl">
               The Story
             </div>
 
-            <div className="text gap-md flex max-w-prose flex-col text-base text-pretty md:order-3 ">
+            <div className="text gap-md flex max-w-prose flex-col text-base text-pretty md:order-3">
               <p className="">
                 The founders came to me to build the brand and prepare the
                 company to raise funding. The problem was, there was no product
@@ -66,7 +66,7 @@ export function MoindiIntro() {
               <p className="font-semibold">They needed a product first.</p>
             </div>
 
-            <div className="challenge-text-container roboto-narrow py-md border-y text-center text-2xl font-light text-balance md:text-3xl md:row-span-2 md:order-2 ">
+            <div className="challenge-text-container roboto-narrow py-md border-y text-center text-2xl font-light text-balance md:order-2 md:row-span-2 md:text-3xl">
               “The problem was, there was no product to brand yet.”
             </div>
           </div>
