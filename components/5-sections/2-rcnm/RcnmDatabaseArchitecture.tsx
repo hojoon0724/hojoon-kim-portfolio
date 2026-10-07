@@ -133,7 +133,7 @@ export function RcnmDatabaseArchitecture({ id }: { id: string }) {
       {/* the second snap point is the top of this wrapper, which is where the intro ends and the story starts clean.
           the page only stops on a snap point or inside one that is taller than the screen, so the huge bottom margin
           stretches this one over the rest of the page and everything after the intro scrolls freely */}
-      <div className="flow-root snap-start scroll-mb-[1000000px]">
+      <div className="flow-root snap-start scroll-mb-250000">
         {/* the story starts underneath the intro. the spacer gives it one extra screen of room to stay pinned in,
             so it holds still until the intro has scrolled off and then scrolls as normal.
             it is also a cover itself: it sits above the outro and scrolls away to reveal it */}
