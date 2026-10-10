@@ -1,48 +1,63 @@
-import { ProjectSectionNav } from "@/components/4-organisms";
 import {
-  RcnmDatabaseArchitecture,
-  RcnmStageLighting,
-  RcnmVideoProduction,
+  ProjectPageSnapContainer,
+  ProjectSectionNav,
+} from "@/components/4-organisms";
+import {
+  RcnmDatabaseIntro,
+  RcnmDatabaseOutro,
+  RcnmDatabaseStory,
+  RcnmLightingVideo,
   RcnmVisualIdentity,
+  RcnmFounding,
 } from "@/components/5-sections";
-import { ProjectPageContainer } from "@/components/6-pages";
+import { databaseStory } from "@/data/rcnm-db-data-masked/fixed-data";
 
 export default function RcnmPage() {
   const rcnmSections = [
+    {
+      id: "founding",
+      fullNavLabel: "Founding",
+      shortNavLabel: "Founding",
+    },
     {
       id: "database-architecture",
       fullNavLabel: "Database Architecture",
       shortNavLabel: "Database",
     },
     {
-      id: "visual-identity",
-      fullNavLabel: "Visual Identity",
-      shortNavLabel: "Identity",
-    },
-    {
-      id: "stage-lighting",
-      fullNavLabel: "Stage & Lighting",
+      id: "lighting-video",
+      fullNavLabel: "Lighting & Video",
       shortNavLabel: "Stage",
     },
     {
-      id: "video-production",
-      fullNavLabel: "Video Production",
-      shortNavLabel: "Video",
+      id: "brand",
+      fullNavLabel: "Visual Identity",
+      shortNavLabel: "Brand",
     },
   ];
 
   return (
-    <ProjectPageContainer projectId="rcnm">
+    <ProjectPageSnapContainer projectId="rcnm">
       <ProjectSectionNav
         projectId="rcnm"
         sectionIds={rcnmSections.map((section) => section.id)}
         fullLabels={rcnmSections.map((section) => section.fullNavLabel)}
         shortLabels={rcnmSections.map((section) => section.shortNavLabel)}
       />
-      <RcnmDatabaseArchitecture id="database-architecture" />
-      <RcnmVisualIdentity id="visual-identity" />
-      <RcnmStageLighting id="stage-lighting" />
-      <RcnmVideoProduction id="video-production" />
-    </ProjectPageContainer>
+
+      {/* founding: an opening strip, deliberately left out of the nav */}
+      <RcnmFounding id="founding" />
+
+      {/* database showcase */}
+      <RcnmDatabaseIntro id="database-architecture" />
+      <RcnmDatabaseStory id="database-story" story={databaseStory} />
+      <RcnmDatabaseOutro id="database-outro" />
+
+      {/* lighting and video  */}
+      <RcnmLightingVideo id="lighting-video" />
+
+      {/* brand */}
+      <RcnmVisualIdentity id="brand" />
+    </ProjectPageSnapContainer>
   );
 }

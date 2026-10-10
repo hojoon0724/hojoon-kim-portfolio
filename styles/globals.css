@@ -8,11 +8,6 @@ html {
   @apply scroll-smooth;
 }
 
-/* a project page that has snap points snaps on the page itself, the way the landing container does */
-html:has([data-page-snap]) {
-  scroll-snap-type: y mandatory;
-}
-
 body {
   @apply bg-surface-base text-on-base roboto-flex;
 }
@@ -113,3 +108,7 @@ textarea:-webkit-autofill:focus {
 /* ? polygon coordinates */
 /* distance from top left */
 /* [x], [y] */
+
+* {
+  /* outline: 1px solid red; */
+}

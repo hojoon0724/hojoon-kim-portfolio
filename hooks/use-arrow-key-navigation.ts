@@ -166,9 +166,13 @@ export function useArrowKeyNavigation() {
         event.preventDefault();
         pendingSection = nextSection;
         pendingSlide = null;
+        // a section taller than the viewport is entered from its end when moving up
+        const enterFromEnd =
+          direction === "up" && nextSection.offsetHeight > window.innerHeight;
+
         nextSection.scrollIntoView({
           behavior,
-          block: "start",
+          block: enterFromEnd ? "end" : "start",
           inline: "nearest",
         });
       } else {

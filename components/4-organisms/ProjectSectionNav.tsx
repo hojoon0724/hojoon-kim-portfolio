@@ -1,16 +1,15 @@
 "use client";
 
-import { Icon } from "@/components/1-atoms";
-import { projectOverviewData } from "@/data";
-import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { RETURN_TO_PROJECT_KEY } from "./ExpandedProjectSummary";
+import { ProjectBackLink } from "./ProjectBackLink";
 
 interface ProjectSectionNavProps {
   projectId: string;
   sectionIds: string[];
   fullLabels: string[];
   shortLabels: string[];
+  // pin the nav over a snap container instead of sticking it to the page
+  overlay?: boolean;
 }
 
 export function ProjectSectionNav({
@@ -18,12 +17,10 @@ export function ProjectSectionNav({
   sectionIds,
   fullLabels,
   shortLabels,
+  overlay = false,
 }: ProjectSectionNavProps) {
   const debug = false;
   const [activeId, setActiveId] = useState<string | null>(null);
-  const projectName = projectOverviewData.find(
-    (project) => project.id === projectId,
-  )?.name;
   const debugRef = useRef<HTMLDivElement>(null);
   const debugCounts = useRef({ effect: 0, frame: 0, scroll: 0, io: 0, tap: 0 });
 
@@ -41,13 +38,22 @@ export function ProjectSectionNav({
     debugCounts.current.effect += 1;
     writeDebug();
 
+    // on snap pages the sections scroll inside a container, not the window
+    const scrollContainer =
+      document
+        .getElementById(sectionIds[0] ?? "")
+        ?.closest<HTMLElement>("[data-snap-container]") ?? null;
+    const scrollTarget = scrollContainer ?? window;
+
     const syncActiveSection = () => {
       frameId = 0;
       // a section becomes active once its top passes the center of the viewport
       const activationLine = window.innerHeight / 2;
-      const reachedPageEnd =
-        window.innerHeight + window.scrollY >=
-        document.documentElement.scrollHeight - 1;
+      const reachedPageEnd = scrollContainer
+        ? scrollContainer.scrollTop + scrollContainer.clientHeight >=
+          scrollContainer.scrollHeight - 1
+        : window.innerHeight + window.scrollY >=
+          document.documentElement.scrollHeight - 1;
 
       let nextActiveId: string | null = null;
 
@@ -107,7 +113,7 @@ export function ProjectSectionNav({
       if (section) observer.observe(section);
     }
 
-    window.addEventListener("scroll", onScroll, { passive: true });
+    scrollTarget.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", queueSync);
     window.addEventListener("pageshow", queueSync);
 
@@ -116,7 +122,7 @@ export function ProjectSectionNav({
     return () => {
       window.cancelAnimationFrame(frameId);
       observer.disconnect();
-      window.removeEventListener("scroll", onScroll);
+      scrollTarget.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", queueSync);
       window.removeEventListener("pageshow", queueSync);
     };
@@ -147,7 +153,7 @@ export function ProjectSectionNav({
   return (
     <nav
       aria-label="Project sections"
-      className="project-section-nav h-nav px-md sticky top-0 z-40 w-full bg-inherit"
+      className={`project-section-nav h-nav px-md top-0 z-40 w-full bg-inherit ${overlay ? "absolute left-0" : "sticky"} min-h-nav`}
     >
       {/* debug */}
       {debug && (
@@ -159,24 +165,8 @@ export function ProjectSectionNav({
         </div>
       )}
       <div className="gap-md mx-auto flex h-full w-full items-stretch md:grid md:grid-cols-[1fr_auto_1fr]">
-        <Link
-          href="/"
-          transitionTypes={["project-back"]}
-          aria-label={`Back to ${projectName ?? "project"} summary`}
-          className="roboto-mono gap-sm flex w-fit shrink-0 flex-row items-center text-xs opacity-70 transition-all hover:-translate-x-1 hover:opacity-100 md:text-sm"
-          onClick={(event) => {
-            // skip new-tab clicks so this tab's landing page isn't affected
-            if (event.metaKey || event.ctrlKey || event.shiftKey) return;
-            // the landing page reads this and jumps to the project's expanded summary
-            sessionStorage.setItem(RETURN_TO_PROJECT_KEY, projectId);
-          }}
-        >
-          <div className="icon-container flex h-4 w-4">
-            <Icon icon="arrowLeft" />
-          </div>
-          <span className="hidden lg:inline">{projectName}</span>
-        </Link>
-        <ul className="gap-3xl md:gap-xl flex h-full min-w-0 flex-1 items-stretch  justify-center overflow-x-auto md:justify-center">
+        <ProjectBackLink projectId={projectId} />
+        <ul className="gap-3xl md:gap-xl flex h-full min-w-0 flex-1 items-stretch justify-center overflow-x-auto md:justify-center">
           {sectionIds.map((id, index) => {
             const isActive = activeId === id;
 

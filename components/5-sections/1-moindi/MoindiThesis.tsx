@@ -1,4 +1,6 @@
-// guides for building the actual section
+import { ProjectSectionSnapTargetContainer } from "@/components/4-organisms";
+
+// title and copy are what the section shows. purpose and layout are guides for building it and are never rendered
 const notes = {
   title: "The Product Is the Brand",
   purpose:
@@ -8,22 +10,30 @@ const notes = {
     "Full-viewport opening. One short paragraph, large type, generous space, no imagery competing with it. This is the claim everything below proves — it should feel like a statement, not a hero banner. Ends on a line that sets up the sections to come.",
 };
 
+// the last sentence is the one that sets up everything below, so it is set apart from the rest
+const closingStart = notes.copy.lastIndexOf(". ") + 2;
+const lead = notes.copy.slice(0, closingStart).trim();
+const closing = notes.copy.slice(closingStart);
+
+// the claim the rest of the page proves: one paragraph of large type and nothing competing with it
 export function MoindiThesis({ id }: { id: string }) {
   return (
-    <div
-      className="scroll-mt-nav px-md py-xl flex min-h-dvh items-center justify-center"
+    <ProjectSectionSnapTargetContainer
       id={id}
+      tag="header"
+      className="px-md lg:px-xl flex items-center py-16"
     >
-      <div className="gap-md grid w-fit grid-cols-[auto_1fr]">
-        <h2 className="key">title:</h2>
-        <h2>{notes.title}</h2>
-        <div className="key font-bold">purpose:</div>
-        <p className="max-w-prose">{notes.purpose}</p>
-        <div className="key font-bold">copy:</div>
-        <p className="max-w-prose">{notes.copy}</p>
-        <div className="key font-bold">layout:</div>
-        <p className="max-w-prose">{notes.layout}</p>
+      <div className="gap-lg mx-auto flex w-full max-w-7xl flex-col">
+        <h1 className="roboto-mono text-xs font-normal tracking-wide uppercase md:text-sm">
+          {notes.title}
+        </h1>
+        <p className="roboto-narrow max-w-5xl text-2xl font-light text-pretty md:text-4xl">
+          {lead}
+        </p>
+        <p className="roboto-narrow max-w-5xl text-2xl font-semibold text-balance md:text-4xl">
+          {closing}
+        </p>
       </div>
-    </div>
+    </ProjectSectionSnapTargetContainer>
   );
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import { ProjectSectionSnapTargetContainer } from "@/components/4-organisms";
 import Image from "next/image";
 import { useState, type ReactNode } from "react";
 
@@ -343,8 +344,7 @@ function CoreIdeaTrace() {
     <div className="gap-md flex flex-col">
       <ol className="gap-sm flex flex-col">
         {coreIdeaTrace.traces.map((trace, index) => {
-          const isDimmed =
-            activeTraceId !== null && activeTraceId !== trace.id;
+          const isDimmed = activeTraceId !== null && activeTraceId !== trace.id;
 
           return (
             <li key={trace.id}>
@@ -490,7 +490,11 @@ export function MoindiBrand({ id }: { id: string }) {
   const motion = getElement("motion-principles");
 
   return (
-    <div className="scroll-mt-nav px-md py-3xl min-h-dvh" id={id}>
+    <ProjectSectionSnapTargetContainer
+      id={id}
+      className="px-md py-3xl"
+      snapToEnd
+    >
       <div className="gap-3xl mx-auto flex w-full max-w-7xl flex-col">
         <div className="gap-lg flex flex-col">
           <h2>{notes.title}</h2>
@@ -664,6 +668,6 @@ export function MoindiBrand({ id }: { id: string }) {
 
         <p className="max-w-prose text-lg text-pretty md:text-xl">{closing}</p>
       </div>
-    </div>
+    </ProjectSectionSnapTargetContainer>
   );
 }

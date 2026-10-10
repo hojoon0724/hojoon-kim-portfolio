@@ -22,14 +22,6 @@ export function ScrollIndicator({
     activeTargetKey?.includes(key),
   );
 
-  // setup new mechanism to control the indicator
-  // const [showLabel, setShowLabel] = useState(false);
-  // const [hideIndicator, setHideIndicator] = useState(false);
-
-  // hide indicator if activeTargetKeys include ["expanded-summary", "project-page"]
-  // show label briefly when there's a change in the active section
-  // show label briefly when hideIndicator becomes true from false
-
   return (
     <div
       className={`scroll-indicator-container p-sm pointer-events-none absolute inset-0 flex h-dvh w-dvw flex-col items-end justify-end ${hideIndicator ? "opacity-0 delay-300" : "opacity-100 delay-0 duration-1000"} transition-all`}

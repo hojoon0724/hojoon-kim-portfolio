@@ -3,6 +3,12 @@
 
   --bezier-movement-inertia-500: cubic-bezier(0.37, 0.9, 0.29, 1);
   --bezier-movement-inertia-1000: cubic-bezier(0.44, 0.7, 0.12, 1);
+  /* the four moves of RcnmLogoAnimation, in order:
+     rest to the top of the bang, the decay back to rest, the rise to the logo, and drawing the letter extensions */
+  --bezier-rcnm-logo-attack: cubic-bezier(.38,.03,0,1);
+  --bezier-rcnm-logo-decay: cubic-bezier(.4,.11,.82,.13);
+  --bezier-rcnm-logo-final: cubic-bezier(0, 0.8, 0.31, 1.01);
+  --bezier-rcnm-logo-extensions: cubic-bezier(0.92, 0.3, 0.91, 0.71);
   /* races most of the way, then crawls into the target. used by CountUp */
   --bezier-count-up: cubic-bezier(0.16, 1, 0.3, 1);
 

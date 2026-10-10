@@ -1,6 +1,6 @@
 "use client";
 
-import { ExpandedProjectSummary } from "@/components/4-organisms";
+import { RcnmLogoAnimation } from "@/components/1-atoms/RcnmLogoAnimation";
 import {
   BookWithPageTurns,
   FrenchFoldSeasonPoster,
@@ -18,9 +18,13 @@ export default function BuildPage() {
   }
   return (
     <>
-    <ExpandedProjectSummary
-      project={projectData}
-    />
+      <div className="p-xl">
+        <RcnmLogoAnimation
+          className="p-xl mx-auto flex h-auto w-full items-center justify-center"
+          logoClassName="max-w-40"
+        />
+      </div>
+
       <div className="build-top-container p-md gap-md flex min-h-dvh w-full flex-col">
         <BookWithPageTurns
           path="/ensrq/s07/brochure-pages"

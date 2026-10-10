@@ -1,7 +1,8 @@
 "use client";
 
+import { ProjectSectionSnapTargetContainer } from "@/components/4-organisms";
 import type { DatabaseStory } from "@/data/rcnm-db-data-masked/fixed-data";
-import { useEffect, useRef, useState } from "react";
+import { useActiveScrollStep } from "@/hooks";
 
 type TableName = "events" | "venues" | "repertoire" | "contacts" | "ledger";
 type StepKey =
@@ -13,6 +14,7 @@ type StepKey =
   | "questions";
 
 interface RcnmDatabaseStoryProps {
+  id: string;
   story: DatabaseStory;
 }
 
@@ -178,7 +180,8 @@ function SchemaMap({
               textAnchor="middle"
               className={`roboto-mono text-[7.5px] transition-colors duration-300 ${isActive ? "fill-rcnm-black-300" : "fill-rcnm-black-200"}`}
             >
-              {totals[table].toLocaleString("en-US")} record{totals[table] !== 1 ? "s" : ""}
+              {totals[table].toLocaleString("en-US")} record
+              {totals[table] !== 1 ? "s" : ""}
             </text>
           </g>
         );
@@ -224,7 +227,7 @@ function EventRecord({ story, step }: { story: DatabaseStory; step: StepKey }) {
           return (
             <div
               key={field.name}
-              className={`px-xs flex items-baseline gap-2 rounded-sm py-0.5 transition-colors duration-300 border justify-between ${isActive ? "bg-rcnm-red-500 border-rcnm-red-500 text-rcnm-black-700" : "text-rcnm-white-600  border-rcnm-black-300"}`}
+              className={`px-xs flex items-baseline justify-between gap-2 rounded-sm border py-0.5 transition-colors duration-300 ${isActive ? "bg-rcnm-red-500 border-rcnm-red-500 text-rcnm-black-700" : "text-rcnm-white-600 border-rcnm-black-300"}`}
             >
               <dt className="shrink-0 font-bold">{field.name}</dt>
               <dd className="truncate">{field.value}</dd>
@@ -314,10 +317,10 @@ function LinkedRecords({
               <p className="text-rcnm-white-700 text-sm">{venue.location}</p>
             </div>
             <div>
-              <p className="text-rcnm-white-700 text-[10px] md:text-xs pb-xs">
+              <p className="text-rcnm-white-700 pb-xs text-[10px] md:text-xs">
                 Other events held here:
               </p>
-              <ul className="md:text-sm text-xs font-mono">
+              <ul className="font-mono text-xs md:text-sm">
                 {venue.otherEvents.map((title) => (
                   <li key={title} className="truncate">
                     {title}
@@ -359,7 +362,7 @@ function LinkedRecords({
             table="contacts"
             note={`${musicians.length + crew.length} rows · * also a composer here`}
           />
-          <ul className="p-sm grid grid-cols-3 gap-x-3 gap-y-md text-xs leading-tight md:gap-y-md md:text-sm md:leading-normal">
+          <ul className="p-sm gap-y-md md:gap-y-md grid grid-cols-3 gap-x-3 text-xs leading-tight md:text-sm md:leading-normal">
             {musicians.map((musician) => (
               <li key={musician.id} className="min-w-0">
                 <span className="block truncate">
@@ -417,7 +420,7 @@ function LinkedRecords({
           </ul>
           <p className="border-rcnm-black-300 px-sm py-xs roboto-mono flex justify-between border-t text-xs md:text-sm">
             <span className="text-rcnm-white-700 text-xs">total spent</span>
-            <span className="font-bold text-xs">
+            <span className="text-xs font-bold">
               ${Math.round(ledger.total).toLocaleString("en-US")}
             </span>
           </p>
@@ -428,7 +431,7 @@ function LinkedRecords({
       return (
         <>
           <PanelHeader table="all five tables" note="worked out, not stored" />
-          <ul className="p-sm gap-sm grid grid-cols-2 gap-y-xl">
+          <ul className="p-sm gap-sm gap-y-xl grid grid-cols-2">
             {questions.map((item) => (
               <li key={item.question} className="min-w-0">
                 <p className="text-rcnm-white-700 text-[11px] leading-tight md:text-sm">
@@ -453,10 +456,9 @@ function LinkedRecords({
 
 // -- the story --------------------------------------------------------------
 
-export function RcnmDatabaseStory({ story }: RcnmDatabaseStoryProps) {
+export function RcnmDatabaseStory({ id, story }: RcnmDatabaseStoryProps) {
   const { event, venue, program, musicians, crew, ledger } = story;
-  const [activeIndex, setActiveIndex] = useState(0);
-  const stepRefs = useRef<(HTMLElement | null)[]>([]);
+  const { activeIndex, stepRefs } = useActiveScrollStep();
 
   const doubleRole = musicians.find((musician) => musician.alsoComposer);
 
@@ -525,47 +527,19 @@ export function RcnmDatabaseStory({ story }: RcnmDatabaseStoryProps) {
     },
   ];
 
-  useEffect(() => {
-    let frameId = 0;
-
-    // on small screens the text scrolls in under the pinned stage, so the line it has to cross sits lower
-    const update = () => {
-      frameId = 0;
-      const isWide = window.matchMedia("(min-width: 1024px)").matches;
-      const triggerLine = window.innerHeight * (isWide ? 0.6 : 0.9);
-
-      let nextIndex = 0;
-      stepRefs.current.forEach((element, index) => {
-        if (element && element.getBoundingClientRect().top < triggerLine) {
-          nextIndex = index;
-        }
-      });
-      setActiveIndex(nextIndex);
-    };
-
-    const queueUpdate = () => {
-      if (frameId === 0) frameId = window.requestAnimationFrame(update);
-    };
-
-    update();
-    window.addEventListener("scroll", queueUpdate, { passive: true });
-    window.addEventListener("resize", queueUpdate);
-
-    return () => {
-      window.cancelAnimationFrame(frameId);
-      window.removeEventListener("scroll", queueUpdate);
-      window.removeEventListener("resize", queueUpdate);
-    };
-  }, []);
-
   const activeStep = steps[activeIndex].key;
 
   return (
-    // below the two column layout the stage is pinned at the top of the screen, where the section nav sits.
-    // the padding starts it under the nav, and its sticky offset keeps it there
-    <div className="rcnm-database-story pt-nav relative lg:grid lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:pt-0">
+    // taller than the screen. in the two column layout every step is one screen and a snap point of its own.
+    // below that the stage is pinned under the section nav and the steps scroll freely beneath it,
+    // between the section's two snap points: its top and its end
+    <ProjectSectionSnapTargetContainer
+      id={id}
+      className="rcnm-database-story bg-rcnm-black-500 border-rcnm-black-300 border-b lg:grid lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]"
+      snapToEnd
+    >
       {/* every step's panel is laid out in the same cell, so the box is as tall as the tallest one and never changes size */}
-      <div className="stage bg-rcnm-black-500 border-rcnm-black-300 px-md py-sm lg:px-lg top-nav sticky z-10 flex h-fit min-h-100 items-center overflow-hidden border-b lg:top-0 lg:order-2 lg:h-svh lg:border-b-0 lg:border-l">
+      <div className="stage bg-rcnm-black-500 border-rcnm-black-300 px-md py-sm lg:px-lg top-nav sticky z-10 flex h-fit min-h-100 items-center overflow-hidden border-b lg:order-2 lg:h-[calc(100svh-var(--spacing-nav))] lg:border-b-0 lg:border-l">
         <div className="stage-content grid w-full grid-cols-1 items-start gap-2 [grid-template-areas:'map''record''linked'] md:grid-cols-[minmax(0,2fr)_minmax(0,5fr)] md:[grid-template-areas:'map_map''record_linked'] lg:gap-4">
           {/* below md the map takes the full width, and its box is exactly as tall as the map needs at that width */}
           <div className="aspect-440/122 [grid-area:map] md:aspect-auto md:h-40 lg:h-48">
@@ -595,7 +569,7 @@ export function RcnmDatabaseStory({ story }: RcnmDatabaseStoryProps) {
             ref={(element) => {
               stepRefs.current[index] = element;
             }}
-            className={`step pt-lg flex min-h-[70dvh] flex-col justify-start gap-3 transition-opacity duration-500 last:min-h-[45dvh] lg:min-h-dvh lg:justify-center lg:pt-0 lg:last:min-h-dvh ${index === activeIndex ? "opacity-100" : "opacity-30"}`}
+            className={`step pt-lg lg:scroll-mt-nav flex min-h-[70dvh] flex-col justify-start gap-3 transition-opacity duration-500 last:min-h-[45dvh] lg:min-h-[calc(100dvh-var(--spacing-nav))] lg:snap-start lg:justify-center lg:pt-0 lg:last:min-h-[calc(100dvh-var(--spacing-nav))] ${index === activeIndex ? "opacity-100" : "opacity-30"}`}
           >
             <p className="roboto-mono text-rcnm-red-400 text-xs md:text-sm">
               {String(index + 1).padStart(2, "0")} / {step.label}
@@ -612,6 +586,6 @@ export function RcnmDatabaseStory({ story }: RcnmDatabaseStoryProps) {
           </li>
         ))}
       </ol>
-    </div>
+    </ProjectSectionSnapTargetContainer>
   );
 }

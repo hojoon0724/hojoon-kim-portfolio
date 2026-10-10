@@ -1,9 +1,9 @@
-import { ProjectPageContainer } from "@/components/6-pages";
+import { ProjectPageSnapContainer } from "@/components/4-organisms/ProjectPageSnapContainer";
 
 export default function LaphilPage() {
   return (
-    <ProjectPageContainer projectId="laphil">
+    <ProjectPageSnapContainer projectId="laphil">
       <div>Laphil Page</div>
-    </ProjectPageContainer>
+    </ProjectPageSnapContainer>
   );
 }

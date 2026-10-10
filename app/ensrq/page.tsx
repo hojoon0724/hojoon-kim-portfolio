@@ -1,9 +1,9 @@
-import { ProjectPageContainer } from "@/components/6-pages";
+import { ProjectPageSnapContainer } from "@/components/4-organisms";
 
 export default function EnsrqPage() {
   return (
-    <ProjectPageContainer projectId="ensrq">
+    <ProjectPageSnapContainer projectId="ensrq">
       <div>Ensrq Page</div>
-    </ProjectPageContainer>
+    </ProjectPageSnapContainer>
   );
 }

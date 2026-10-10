@@ -74,24 +74,20 @@ export const projectOverviewData: ProjectOverviewData[] = [
     id: "rcnm",
     name: "Rocket City New Music",
     description:
-      "Co-founding a contemporary music organization from the ground up, building its brand, audience experience, production systems, fundraising infrastructure, and live visual world.",
+      "Co-founding a contemporary music organization from the ground up and building what it ran on: its data systems, its live lighting and video, and its brand.",
     logoFileName: "rcnm-logo-on-dark.png",
     backgroundClassName: "bg-rcnm-black-500",
     textColorClassName: "text-gray-100",
     roleTag: "0-to-1 founder and systems builder",
 
     categories: [
-      "Brand",
-      "Database Design",
-      "Live Production",
-      "Lighting Design",
-      "Video Production",
+      "Database Design", "Lighting Design", "Video Production", "Brand"
     ],
     heroImage: "",
     projectVitals: [
       {
         key: "Role",
-        value: "Cofounder & Systems Builder",
+        value: "Co-founder & Systems Builder",
       },
       {
         key: "Profile",
@@ -119,7 +115,7 @@ export const projectOverviewData: ProjectOverviewData[] = [
       "lightkey",
     ],
     storyMd:
-      "## The Story\n\nRocket City New Music started with a shared idea: present contemporary classical music in a way that felt immersive, engaging, and worth coming back for.\n\nBut an idea for a concert series is not an organization. There was no brand, no website, no audience, no operational system, no production infrastructure, no financial records, no fundraising materials, and no established way to turn programming into a finished live experience.\n\nMy cofounder handled artistic programming and artist relationships. I had to build much of the rest.\n\n**This is what it took to turn an idea into a working organization**",
+      "## The Story\n\nRocket City New Music started with a shared idea: present contemporary classical music in a way that felt immersive, engaging, and worth coming back for.\n\nBut an idea for a concert series is not an organization. There was no funding, no legal structure, no system to run it, no way to turn a program into a live show, and no identity to hold it together.\n\nMy cofounder handled artistic programming and artist relationships. I built the rest.\n\n**This is what it took to turn an idea into a working organization**",
     calloutMd:
       "“The challenge was not simply putting on concerts. It was building the systems that made them possible.”",
     imagePath: "/rcnm/gallery",

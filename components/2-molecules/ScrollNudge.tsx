@@ -1,7 +1,7 @@
 "use client";
 
 import { ScrambleRevealText } from "@/components/1-atoms";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface ScrollNudgeProps {
   className?: string;
@@ -98,10 +98,19 @@ export function ScrollNudge({
     key: 0,
   });
 
+  const nudgeRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
+    // on snap pages the sections scroll inside a container, not the window
+    const scrollContainer =
+      nudgeRef.current?.closest<HTMLElement>("[data-snap-container]") ?? null;
+    const scrollTarget = scrollContainer ?? window;
+    const getScrollTop = () =>
+      scrollContainer ? scrollContainer.scrollTop : window.scrollY;
+
     const history = readHistory();
     let timeoutId = 0;
-    let hasLeftTop = window.scrollY > scrolledPx;
+    let hasLeftTop = getScrollTop() > scrolledPx;
     let finished = false;
 
     // shows each line of the list in turn, then calls onDone once the last one is up
@@ -136,7 +145,7 @@ export function ScrollNudge({
     const finish = () => {
       finished = true;
       window.clearTimeout(timeoutId);
-      window.removeEventListener("scroll", onScroll);
+      scrollTarget.removeEventListener("scroll", onScroll);
     };
 
     const queueAutoScroll = () => {
@@ -147,10 +156,16 @@ export function ScrollNudge({
         const reduceMotion = window.matchMedia(
           "(prefers-reduced-motion: reduce)",
         ).matches;
-        window.scrollBy({
-          top: window.innerHeight,
-          behavior: reduceMotion ? "auto" : "smooth",
-        });
+        const behavior = reduceMotion ? "auto" : "smooth";
+        const nextSection =
+          nudgeRef.current?.closest("[data-snap-target]")?.nextElementSibling;
+
+        // in a snap container, go to the next section so the page lands on a snap point
+        if (scrollContainer && nextSection) {
+          nextSection.scrollIntoView({ behavior, block: "start" });
+        } else {
+          window.scrollBy({ top: window.innerHeight, behavior });
+        }
       }, scrollAwayAfterMs);
     };
 
@@ -161,7 +176,7 @@ export function ScrollNudge({
     };
 
     function onScroll() {
-      const atTop = window.scrollY <= scrolledPx;
+      const atTop = getScrollTop() <= scrolledPx;
 
       if (!atTop) {
         if (hasLeftTop) return;
@@ -189,7 +204,7 @@ export function ScrollNudge({
       play(notDoingThisAgainText, startDelayMs);
     } else if (!hasLeftTop) {
       play(scrollNudgeMessages, startDelayMs, queueAutoScroll);
-      window.addEventListener("scroll", onScroll, { passive: true });
+      scrollTarget.addEventListener("scroll", onScroll, { passive: true });
     }
 
     return finish;
@@ -198,7 +213,7 @@ export function ScrollNudge({
   const { message, key } = shown;
 
   return (
-    <div className={className}>
+    <div className={className} ref={nudgeRef}>
       {disableScramble || message.scramble === false ? (
         message.text
       ) : (

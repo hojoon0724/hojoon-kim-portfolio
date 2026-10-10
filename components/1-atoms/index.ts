@@ -6,6 +6,7 @@ export * from "./LandingIcon";
 export * from "./Markdown";
 export * from "./MarkdownRenderer";
 export * from "./MenuSvg";
+export * from "./RcnmLogoAnimation";
 export * from "./RevealParagraph";
 export * from "./ScrambleRevealText";
 export * from "./ScrollRevealText";

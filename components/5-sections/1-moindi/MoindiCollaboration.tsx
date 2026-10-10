@@ -1,4 +1,6 @@
-// guides for building the actual section
+import { ProjectSectionSnapTargetContainer } from "@/components/4-organisms";
+
+// title and copy are what the section shows. purpose and layout are guides for building it and are never rendered
 const notes = {
   title: "No Wall Between Us",
   purpose:
@@ -8,22 +10,89 @@ const notes = {
     "Show one feature that passed back and forth between us — her function, my interface on top, a refinement that went back the other way. A simple two-column or annotated diagram of 'hers / mine / ours' reads better than prose alone.",
 };
 
+// the copy turns at this sentence, from who owned what to why it worked
+const turnStart = notes.copy.indexOf("What made that work");
+const whoOwnedWhat = notes.copy.slice(0, turnStart).trim();
+const whyItWorked = notes.copy.slice(turnStart);
+
+// who owned what. the middle lane is the code both of us worked in
+const lanes = [
+  {
+    id: "hers",
+    label: "Hers",
+    owner: "The CTO",
+    items: [
+      "Architecture",
+      "The stack: Firebase and Angular",
+      "Stripe, Plaid and KYC integration",
+    ],
+  },
+  {
+    id: "ours",
+    label: "Ours",
+    owner: "The same code",
+    items: [
+      "Interactive elements she built and I refined",
+      "Flows I put together and she tightened underneath",
+    ],
+  },
+  {
+    id: "mine",
+    label: "Mine",
+    owner: "Me",
+    items: ["Product", "Interface", "Brand"],
+  },
+];
+
+// the ownership diagram is three lanes with the shared one filled in, so the overlap is the first thing seen
 export function MoindiCollaboration({ id }: { id: string }) {
   return (
-    <div
-      className="scroll-mt-nav px-md py-xl flex min-h-dvh items-center justify-center"
+    <ProjectSectionSnapTargetContainer
       id={id}
+      tag="section"
+      className="px-md lg:px-xl flex items-center py-16"
+      snapToEnd
     >
-      <div className="gap-md grid w-fit grid-cols-[auto_1fr]">
-        <h2 className="key">title:</h2>
-        <h2>{notes.title}</h2>
-        <div className="key font-bold">purpose:</div>
-        <p className="max-w-prose">{notes.purpose}</p>
-        <div className="key font-bold">copy:</div>
-        <p className="max-w-prose">{notes.copy}</p>
-        <div className="key font-bold">layout:</div>
-        <p className="max-w-prose">{notes.layout}</p>
+      <div className="gap-2xl mx-auto flex w-full max-w-7xl flex-col">
+        <div className="gap-lg flex flex-col">
+          <h2>{notes.title}</h2>
+          <div className="gap-lg grid grid-cols-1 lg:grid-cols-2">
+            <p className="max-w-prose text-pretty">{whoOwnedWhat}</p>
+            <p className="max-w-prose font-semibold text-pretty">
+              {whyItWorked}
+            </p>
+          </div>
+        </div>
+
+        <ul className="grid grid-cols-1 border border-gray-950 md:grid-cols-3">
+          {lanes.map((lane) => (
+            <li
+              key={lane.id}
+              className={`gap-md p-md flex flex-col border-gray-950 not-last:border-b md:not-last:border-r md:not-last:border-b-0 ${lane.id === "ours" ? "text-moindi-orange bg-gray-950" : ""}`}
+            >
+              <div className="flex flex-col">
+                <span className="roboto-mono text-xs md:text-sm">
+                  {lane.owner}
+                </span>
+                <h3>{lane.label}</h3>
+              </div>
+              <ul className="gap-sm flex flex-col">
+                {lane.items.map((item) => (
+                  <li key={item} className="gap-sm flex items-baseline">
+                    <span
+                      className="roboto-mono w-4 shrink-0"
+                      aria-hidden="true"
+                    >
+                      +
+                    </span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </li>
+          ))}
+        </ul>
       </div>
-    </div>
+    </ProjectSectionSnapTargetContainer>
   );
 }
