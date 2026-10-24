@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "generate:colors": "npx tsx scripts/generate-colors.ts",
+    "generate:moindi-icons": "npx tsx scripts/moindi/generate-icon-sprite.ts",
     "csv-to-ts": "npx tsx scripts/rcnm/csv-to-ts.ts",
     "clean-contacts": "npx tsx scripts/rcnm/rcnm-clean-contacts.ts",
     "clean-events": "npx tsx scripts/rcnm/rcnm-clean-events.ts",

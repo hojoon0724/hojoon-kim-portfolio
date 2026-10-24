@@ -1,0 +1,68 @@
+/* moindi demo modal. slideIn / slideOut keyframes live in moindi-demo.css */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 2000; /* above the nav's 1000 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--standard-space-double);
+  background-color: hsla(0, 0%, 0%, 0.6);
+  backdrop-filter: blur(2px);
+}
+
+.modal-container {
+  width: 100%;
+  max-width: 32rem;
+  max-height: 100%;
+  overflow-y: auto;
+  padding: var(--standard-space-double);
+  background-color: var(--card-surface);
+  color: var(--card-text-on-surface);
+  border: 1px solid var(--card-border-color);
+  outline: none;
+}
+
+.modal-fade-in {
+  animation: modalFadeIn var(--timing-default) var(--animation-fade) forwards;
+}
+
+.modal-fade-out {
+  animation: modalFadeOut var(--timing-default) var(--animation-fade) forwards;
+}
+
+.modal-slide-in {
+  animation: slideIn var(--timing-default) var(--animation-fade) forwards;
+}
+
+.modal-slide-out {
+  animation: slideOut var(--timing-default) var(--animation-fade) forwards;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modalFadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* near-instant rather than none, so animationend still fires and the modal unmounts */
+@media (prefers-reduced-motion: reduce) {
+  .modal-fade-in,
+  .modal-fade-out,
+  .modal-slide-in,
+  .modal-slide-out {
+    animation-duration: 1ms;
+  }
+}

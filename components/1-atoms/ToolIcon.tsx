@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { type CSSProperties } from "react";
+import { useTooltipDelay } from "@/hooks";
 
 interface ToolIconProps {
   toolId: string;
@@ -10,8 +11,6 @@ interface ToolIconProps {
   tooltipText?: string;
   tooltipPosition?: "top" | "bottom" | "left" | "right";
 }
-
-const TOOLTIP_DELAY_MS = 300;
 
 // centered on the icon along the other axis
 const tooltipPositionClass = {
@@ -29,37 +28,16 @@ export function ToolIcon({
   tooltipText,
   tooltipPosition = "bottom",
 }: ToolIconProps) {
-  // null while the tooltip isn't on the page at all: before it is first shown, and again once it has faded out.
-  // a hidden tooltip left in place is wider than its icon and adds sideways scroll to whatever holds the icons
-  const [shown, setShown] = useState<boolean | null>(null);
-  const timeoutRef = useRef(0);
+  const { shown, instant, triggerProps, onAnimationEnd } = useTooltipDelay();
 
-  useEffect(() => () => window.clearTimeout(timeoutRef.current), []);
-
-  const showAfterDelay = () => {
-    window.clearTimeout(timeoutRef.current);
-    timeoutRef.current = window.setTimeout(
-      () => setShown(true),
-      TOOLTIP_DELAY_MS,
-    );
-  };
-
-  // hides right away, and only fades out if it had actually appeared
-  const hide = () => {
-    window.clearTimeout(timeoutRef.current);
-    setShown((prev) => (prev ? false : prev));
-  };
-
-  const tooltipAnimationClass = shown
-    ? "animation-fade-in-up-8"
-    : "animation-fade-out-down-8";
+  const tooltipAnimationClass = !shown
+    ? "animation-fade-out-down-8"
+    : instant
+      ? ""
+      : "animation-fade-in-up-8";
 
   return (
-    <div
-      className="tool-icon-container relative"
-      onMouseEnter={showAfterDelay}
-      onMouseLeave={hide}
-    >
+    <div className="tool-icon-container relative" {...triggerProps}>
       <Image
         src={`/icons/tools/icons_${toolId}.webp`}
         alt={toolId}
@@ -70,7 +48,7 @@ export function ToolIcon({
       />
       {tooltipText && shown !== null && (
         <div
-          onAnimationEnd={() => setShown((prev) => (prev ? prev : null))}
+          onAnimationEnd={onAnimationEnd}
           className={`pointer-events-none absolute z-10 ${tooltipPositionClass[tooltipPosition]} w-max rounded bg-black px-2 py-1 font-mono text-xs whitespace-nowrap text-white ${tooltipAnimationClass}`}
         >
           {tooltipText}

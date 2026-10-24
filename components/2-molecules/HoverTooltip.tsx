@@ -1,3 +1,6 @@
+"use client";
+import { useTooltipDelay } from "@/hooks";
+
 interface HoverTooltipProps {
   children: React.ReactNode;
   tooltipText: string;
@@ -9,14 +12,25 @@ export function HoverTooltip({
   tooltipText,
   position = "bottom",
 }: HoverTooltipProps) {
+  const { shown, instant, triggerProps, onAnimationEnd } = useTooltipDelay();
+
+  const animationClass = !shown
+    ? "animation-fade-out-down-8"
+    : instant
+      ? ""
+      : "animation-fade-in-up-8";
+
   return (
-    <div className="group relative">
+    <div className="relative" {...triggerProps}>
       {children}
-      <div
-        className={`absolute ${position === "top" ? "bottom-full mb-2" : position === "bottom" ? "top-full mt-2" : position === "left" ? "right-full mr-2" : "left-full ml-2"} hidden w-max rounded bg-black p-2 text-white group-hover:block`}
-      >
-        {tooltipText}
-      </div>
+      {shown !== null && (
+        <div
+          onAnimationEnd={onAnimationEnd}
+          className={`pointer-events-none absolute ${position === "top" ? "bottom-full mb-2" : position === "bottom" ? "top-full mt-2" : position === "left" ? "right-full mr-2" : "left-full ml-2"} w-max rounded bg-black p-2 text-white ${animationClass}`}
+        >
+          {tooltipText}
+        </div>
+      )}
     </div>
   );
 }
