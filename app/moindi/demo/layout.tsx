@@ -1,7 +1,9 @@
 import {
   DemoAuthProvider,
+  DemoMain,
   DemoModalProvider,
   DemoNav,
+  DemoSidebarProvider,
 } from "@/demos/moindi/components";
 import "@/demos/moindi/styles/moindi-demo.css";
 import type { Metadata } from "next";
@@ -34,13 +36,18 @@ export default function MoindiDemoLayout({
     >
       <DemoAuthProvider>
         <DemoModalProvider>
-          <DemoNav />
-          <div className="flex flex-1">{children}</div>
-          <div className="moindi-footer-container flex min-h-8 w-full items-center justify-center bg-(--secondary-800)">
+          <DemoSidebarProvider>
+            <DemoNav />
+            <main className="flex w-full flex-1">
+              <DemoMain>{children}</DemoMain>
+            </main>
+          </DemoSidebarProvider>
+          {/* relative + z-40 so it stays above the sidebar (z-30) */}
+          <footer className="moindi-footer-container relative z-40 flex min-h-8 w-full items-center justify-center bg-(--secondary-800)">
             <div className="footer-content-container mx-auto max-w-7xl text-center text-xs text-white">
               Just a heads up... you’re still in a demo. Nothing here is real.
             </div>
-          </div>
+          </footer>
         </DemoModalProvider>
       </DemoAuthProvider>
     </div>

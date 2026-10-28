@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // the angular source copied in for reference while porting moindi
+    "moindi-angular/**",
   ]),
 ]);
 

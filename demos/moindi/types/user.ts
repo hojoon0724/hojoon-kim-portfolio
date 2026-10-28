@@ -44,6 +44,8 @@ export interface UserInterface {
   commentCredits: number;
   profileViewsCount: number;
   totalLikesReceived: number;
+  liquidInCentsInUsd: number;
+
   searchable: string[];
 
   createdAt: Date;

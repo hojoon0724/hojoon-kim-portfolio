@@ -1,10 +1,16 @@
+"use client";
+
 import {
   Button,
   RandomTiles,
   RedirectWhenLoggedIn,
+  useDemoAuth,
 } from "@/demos/moindi/components";
+import { useRouter } from "next/navigation";
 
 export default function MoindiDemoPage() {
+  const { user, logIn } = useDemoAuth();
+  const router = useRouter();
   return (
     <div className="moindi-demo-top-container bg-primary-500 relative flex w-full flex-1">
       <RedirectWhenLoggedIn to="/moindi/demo/home" />
@@ -13,8 +19,8 @@ export default function MoindiDemoPage() {
       </div>
       <div className="random-tiles-overlay absolute inset-0 bg-black opacity-40"></div>
       <div className="content-container absolute inset-0 flex h-full flex-col items-center justify-center p-4">
-        <div className="card z-10 mx-auto flex max-w-100 flex-col items-center justify-center border-4 border-neutral-700 bg-neutral-300 p-4 text-center drop-shadow-2xl animation-slide-in">
-          <div className="bg-primary-500 space-mono w-full px-4 text-center text-3xl font-bold uppercase">
+        <div className="card animation-slide-in z-10 mx-auto flex max-w-100 flex-col items-center justify-center border-4 border-neutral-700 bg-neutral-300 p-4 text-center drop-shadow-2xl">
+          <div className="space-mono w-full bg-(--secondary-500) px-4 text-center text-3xl font-bold uppercase">
             This is a demo
           </div>
           <div className="disclaimer-container mt-4 flex w-full flex-col justify-between gap-4 border-t border-black pt-4">
@@ -36,8 +42,25 @@ export default function MoindiDemoPage() {
               <span className="text-xs">(There are.)</span>
             </p>
 
-            <div className="button-container">
-              <Button size="small">Continue</Button>
+            <div className="button-container flex w-full gap-4 *:grow">
+              <Button
+                size="small"
+                className="w-full"
+                iconName="arrow-left"
+                onClick={() => router.push("/moindi")}
+              >
+                Go back
+              </Button>
+              <Button
+                size="small"
+                className="w-full"
+                color="primary"
+                iconName="sign-in"
+                iconPosition="right"
+                onClick={logIn}
+              >
+                Enter
+              </Button>
             </div>
           </div>
         </div>

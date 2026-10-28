@@ -1,44 +1,23 @@
 "use client";
 
-import {
-  DEMO_CURRENT_USER_ID,
-  moindiDemoUsers,
-} from "@/demos/moindi/data/users";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
 import { Button } from "./Button";
-import { clearDemoData } from "@/demos/moindi/lib/demo-storage";
 import { useDemoAuth } from "./DemoAuthProvider";
-import { useDemoModal } from "./DemoModalProvider";
-import { JoinModalContent } from "./JoinModalContent";
-
-const demoUser = moindiDemoUsers.find(
-  (user) => user.id === DEMO_CURRENT_USER_ID,
-)!;
+import { useEasterEgg } from "@/demos/moindi/hooks/use-easter-egg";
+import { useDemoSidebar } from "./DemoSidebarProvider";
+import { SvgIcon } from "./SvgIcon";
+import { UserMenu } from "./UserMenu";
 
 export function DemoNav() {
   const { user, logIn } = useDemoAuth();
-  const router = useRouter();
-  const { openModal } = useDemoModal();
-  const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const triggerEasterEgg = useEasterEgg();
+  const { isOpen: sidebarOpen, toggle: toggleSidebar } = useDemoSidebar();
 
-  // signing out leaves the demo for the portfolio page it was opened from
-  // clears storage directly instead of calling logOut(): logOut would set user to null while still on a
-  // guarded page, making RequireDemoLogin redirect to /moindi/demo and override this push.
-  // the in-memory session goes away when leaving the demo unmounts DemoAuthProvider
-  const signOut = () => {
-    setUserMenuOpen(false);
-    clearDemoData();
-    router.push("/moindi");
-  };
-
+  // there's nothing to sign up for, so joining finds an easter egg and then logs in
   const openJoinModal = () =>
-    openModal({
-      title: "Join MOindi",
-      content: <JoinModalContent />,
-      confirmButtonText: "Join",
-      onConfirm: () => logIn(demoUser),
+    triggerEasterEgg("join", {
+      confirmButtonText: "Continue",
+      onConfirm: () => logIn(),
     });
 
   // sticky rather than the original's fixed, so the demo page doesn't need top padding to clear it
@@ -47,10 +26,31 @@ export function DemoNav() {
       <div className="relative mx-auto flex h-full w-full max-w-7xl items-center justify-between">
         <div className="logo-container relative z-50 flex h-full w-fit items-center gap-2 px-(--standard-space) py-4">
           {user && (
-            <div className="sidebar-toggle-icon flex aspect-square w-8 items-center justify-center">
-              S
-            </div>
+            // both icons sit side by side and slide, so toggling swaps one for the other
+            <button
+              type="button"
+              className="sidebar-toggle-button relative flex h-8 w-8 overflow-clip"
+              aria-label={sidebarOpen ? "Hide sidebar" : "Show sidebar"}
+              aria-expanded={sidebarOpen}
+              onClick={toggleSidebar}
+            >
+              <div
+                className={`flex h-full w-full transition-transform duration-300 ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}`}
+              >
+                <SvgIcon
+                  iconName="sidebar-hide"
+                  color="primary"
+                  className="shrink-0"
+                />
+                <SvgIcon
+                  iconName="sidebar-show"
+                  color="primary"
+                  className="shrink-0"
+                />
+              </div>
+            </button>
           )}
+
           <Link href="/moindi/demo" className="flex h-full justify-center">
             <svg height="100%" viewBox="0 0 376 56" aria-label="MOindi">
               <path
@@ -63,34 +63,7 @@ export function DemoNav() {
 
         <div className="nav-auth-container flex w-full items-center justify-end gap-4 px-(--standard-space) py-4">
           {user === undefined ? null : user ? (
-            <div className="logged-in relative flex gap-2">
-              <button
-                type="button"
-                className="user-menu flex flex-row items-center justify-end"
-                aria-expanded={userMenuOpen}
-                onClick={() => setUserMenuOpen((open) => !open)}
-              >
-                <div className="user-photo-container">U</div>
-                <div className="user-name-container">{user.displayName}</div>
-              </button>
-              <div className="hamburger-button">
-                <div className="icon-hamburger relative aspect-square w-8">
-                  ≡
-                </div>
-              </div>
-
-              {userMenuOpen && (
-                <div className="user-menu-dropdown absolute top-full right-0 z-10 mt-1 flex flex-col bg-white">
-                  <button
-                    type="button"
-                    className="px-2 py-1 text-left"
-                    onClick={signOut}
-                  >
-                    Join
-                  </button>
-                </div>
-              )}
-            </div>
+            <UserMenu user={user} />
           ) : (
             // the original linked to /auth/register and /auth/login; the demo just signs in the demo user
             <>
@@ -106,7 +79,7 @@ export function DemoNav() {
                 variant="fill"
                 color="primary"
                 size="small"
-                onClick={() => logIn(demoUser)}
+                onClick={() => logIn()}
               >
                 Login
               </Button>

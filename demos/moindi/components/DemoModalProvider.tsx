@@ -146,7 +146,7 @@ export function DemoModalProvider({ children }: { children: ReactNode }) {
               {content ?? <p className="m-0">{message}</p>}
             </div>
             <hr className="border-(--card-border-color)" />
-            <div className="modal-actions-container flex w-full flex-col-reverse gap-2 md:flex-row md:gap-(--standard-space)">
+            <div className="modal-actions-container flex w-full flex-col-reverse justify-end gap-2 md:flex-row md:gap-(--standard-space)">
               {showCancelButton && (
                 <Button
                   variant="outline"

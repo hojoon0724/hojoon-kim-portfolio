@@ -49,10 +49,13 @@ const COMPATIBILITY = buildCompatibilityMap();
 
 // basically try to get more horizontal lines by weighting none and full variants
 const WEIGHTED_VARIANTS = VARIANTS.flatMap((variant) =>
-  Array<Variant>(variant === "full" || variant === "none" ? 10 : 1).fill(variant),
+  Array<Variant>(variant === "full" || variant === "none" ? 10 : 1).fill(
+    variant,
+  ),
 );
 
-const pick = <T,>(items: T[]) => items[Math.floor(Math.random() * items.length)];
+const pick = <T,>(items: T[]) =>
+  items[Math.floor(Math.random() * items.length)];
 
 function selectVariant(left: Variant | undefined): Variant {
   // random selection with violation chance
@@ -105,7 +108,11 @@ type RandomTilesProps = {
   className?: string;
 };
 
-export function RandomTiles({ width, height, className = "" }: RandomTilesProps) {
+export function RandomTiles({
+  width,
+  height,
+  className = "",
+}: RandomTilesProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [measured, setMeasured] = useState({ width: 0, height: 0 });
   const [grid, setGrid] = useState<Variant[][]>([]);

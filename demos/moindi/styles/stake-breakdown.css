@@ -1,0 +1,55 @@
+/* stake breakdown colors, converted from stake-breakdown.component.scss */
+.primary-breakdown {
+  .available-share {
+    background-color: var(--surface-primary-heavy);
+    color: var(--text-on-surface-primary-heavy);
+  }
+  .purchase-share {
+    background-color: var(--surface-secondary);
+    color: var(--text-on-surface-secondary);
+  }
+  .sold-share {
+    background-color: var(--surface-primary-light);
+    color: var(--text-on-surface-primary-light);
+  }
+  .artist-share {
+    background-color: var(--surface-primary-feather);
+    color: var(--text-on-surface-primary-feather);
+  }
+}
+.secondary-breakdown {
+  .available-share {
+    background-color: var(--surface-secondary-heavy);
+    color: var(--text-on-surface-secondary-heavy);
+  }
+  .purchase-share {
+    background-color: var(--surface-primary);
+    color: var(--text-on-surface-primary);
+  }
+  .sold-share {
+    background-color: var(--surface-secondary-light);
+    color: var(--text-on-surface-secondary-light);
+  }
+  .artist-share {
+    background-color: var(--surface-secondary-feather);
+    color: var(--text-on-surface-secondary-feather);
+  }
+}
+.tertiary-breakdown {
+  .available-share {
+    background-color: var(--surface-tertiary-heavy);
+    color: var(--text-on-surface-tertiary-heavy);
+  }
+  .purchase-share {
+    background-color: var(--surface-tertiary-medium);
+    color: var(--text-on-surface-tertiary-medium);
+  }
+  .sold-share {
+    background-color: var(--surface-tertiary-light);
+    color: var(--text-on-surface-tertiary-light);
+  }
+  .artist-share {
+    background-color: var(--surface-tertiary-feather);
+    color: var(--text-on-surface-tertiary-feather);
+  }
+}

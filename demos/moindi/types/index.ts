@@ -1,4 +1,3 @@
-export type * from "./artist-codes.d.ts";
 export type * from "./badge.js";
 export type * from "./comment.js";
 export type * from "./common-types.js";
@@ -7,7 +6,6 @@ export type * from "./credit.js";
 export type * from "./post.js";
 export type * from "./product.js";
 export type * from "./project.js";
-export type * from "./purchase-record.d.ts";
 export type * from "./release.js";
 export type * from "./social-platforms.js";
 export type * from "./track.js";
