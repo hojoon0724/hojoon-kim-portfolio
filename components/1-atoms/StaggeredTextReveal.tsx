@@ -3,8 +3,11 @@
 import { useInView } from "@/hooks";
 import MarkdownIt from "markdown-it";
 
+type TextTag = "div" | "p" | "span" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
+
 interface StaggeredTextRevealProps {
   text: string;
+  tag?: TextTag;
   className?: string;
   animationClassName?: string;
   delayMs?: number;
@@ -45,6 +48,7 @@ function splitMarkdownTextUnits(text: string, revealBy: "letter" | "word") {
 
 export function StaggeredTextReveal({
   text,
+  tag: Tag = "div",
   className,
   animationClassName = "animation-fade-in-up-16",
   delayMs = 100,
@@ -57,7 +61,13 @@ export function StaggeredTextReveal({
   isMarkdown = false,
   startAnimation = false,
 }: StaggeredTextRevealProps) {
-  const [ref, isInView] = useInView<HTMLDivElement>(threshold, !resetOnLeave);
+  const [inViewRef, isInView] = useInView<HTMLElement>(
+    threshold,
+    !resetOnLeave,
+  );
+  // typescript checks a ref on a union of tags against the first one; every TextTag is an HTMLElement,
+  // which is all useInView needs
+  const ref = inViewRef as React.Ref<HTMLDivElement>;
   const textUnits: string[] = !text
     ? []
     : isMarkdown
@@ -101,7 +111,7 @@ export function StaggeredTextReveal({
     markdown.renderer.rules.text = originalTextRule;
 
     return (
-      <div
+      <Tag
         ref={ref}
         className={`staggered-text-reveal-container ${className} ${wrap ? "" : "text-nowrap"}`}
         dangerouslySetInnerHTML={{
@@ -112,7 +122,7 @@ export function StaggeredTextReveal({
   }
 
   return (
-    <div
+    <Tag
       ref={ref}
       className={`staggered-text-reveal-container ${className} ${wrap ? "" : "text-nowrap"}`}
     >
@@ -136,6 +146,6 @@ export function StaggeredTextReveal({
           </span>
         );
       })}
-    </div>
+    </Tag>
   );
 }

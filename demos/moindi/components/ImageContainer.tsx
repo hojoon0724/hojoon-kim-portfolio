@@ -1,14 +1,18 @@
 // the original's image-container, minus the click-to-expand popup.
-// a blank srcset shows an empty frame, since the placeholder data has no images yet
+// a blank srcset shows an empty frame, since the placeholder data has no images yet.
+// focalPoint is the point of the image kept in view when the frame crops it, as a css object-position
+// ("50% 20%", "top", "left 30%")
 export function ImageContainer({
   srcSet,
   description = "",
   square = true,
+  focalPoint = "center",
   className = "",
 }: {
   srcSet: string;
   description?: string;
   square?: boolean;
+  focalPoint?: string;
   className?: string;
 }) {
   const frameClasses = `image-container flex h-full w-full items-center justify-center ${square ? "aspect-square" : ""} ${className}`;
@@ -32,6 +36,7 @@ export function ImageContainer({
         className="h-full w-full object-cover"
         src={hasDescriptors ? undefined : srcSet}
         srcSet={hasDescriptors ? srcSet : undefined}
+        style={{ objectPosition: focalPoint }}
         alt={description}
       />
     </div>

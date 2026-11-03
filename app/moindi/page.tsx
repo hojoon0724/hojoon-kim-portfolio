@@ -1,13 +1,14 @@
-import { ProjectSectionNav } from "@/components/4-organisms";
+import {
+  ProjectPageSnapContainer,
+  ProjectSectionNav,
+} from "@/components/4-organisms";
 import {
   MoindiBrand,
   MoindiCollaboration,
   MoindiConclusion,
-  MoindiDemo,
   MoindiDesignInCode,
   MoindiThesis,
 } from "@/components/5-sections";
-import { ProjectPageSnapContainer } from "@/components/4-organisms";
 
 export default function MoindiPage() {
   const moindiSections = [
@@ -22,7 +23,7 @@ export default function MoindiPage() {
       fullNavLabel: "Collaboration",
       shortNavLabel: "Collab",
     },
-    { id: "demo", fullNavLabel: "Try It", shortNavLabel: "Try" },
+    // { id: "demo", fullNavLabel: "Try It", shortNavLabel: "Try" },
     { id: "brand", fullNavLabel: "A Coder's Brand", shortNavLabel: "Brand" },
     { id: "conclusion", fullNavLabel: "One Loop", shortNavLabel: "Loop" },
   ];
@@ -38,7 +39,7 @@ export default function MoindiPage() {
       <MoindiThesis id="thesis" />
       <MoindiDesignInCode id="no-handoff" />
       <MoindiCollaboration id="collaboration" />
-      <MoindiDemo id="demo" />
+      {/* <MoindiDemo id="demo" /> */}
       <MoindiBrand id="brand" />
       <MoindiConclusion id="conclusion" />
     </ProjectPageSnapContainer>

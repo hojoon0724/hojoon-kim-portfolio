@@ -39,7 +39,9 @@ interface DemoAuth {
 
 const DemoAuthContext = createContext<DemoAuth | null>(null);
 
-// JSON turns createdAt into a string, so it's revived on the way back in
+// JSON turns createdAt into a string, so it's revived on the way back in.
+// only what the visitor can change is kept from the stored user; the rest comes from the mock user,
+// so edits to the demo data show up in sessions saved before them. add new editable fields here
 function loadSession(): SessionStorage | null {
   const stored = loadDemoData<SessionStorage | null>(SESSION_KEY, null);
   if (!stored) return null;
@@ -47,7 +49,9 @@ function loadSession(): SessionStorage | null {
     ...stored,
     createdAt: new Date(stored.createdAt),
     user: {
-      ...stored.user,
+      ...demoUser,
+      favorites: stored.user.favorites,
+      following: stored.user.following,
       createdAt: new Date(stored.user.createdAt),
       updatedAt: new Date(stored.user.updatedAt),
     },

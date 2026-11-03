@@ -9,7 +9,7 @@ import {
 import { useRouter } from "next/navigation";
 
 export default function MoindiDemoPage() {
-  const { user, logIn } = useDemoAuth();
+  const { logIn } = useDemoAuth();
   const router = useRouter();
   return (
     <div className="moindi-demo-top-container bg-primary-500 relative flex w-full flex-1">

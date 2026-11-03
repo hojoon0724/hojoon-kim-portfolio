@@ -132,3 +132,216 @@
 
   --color-laphil-blue: var(--laphil-blue);
 }
+
+
+/* moindi custom styles */
+
+
+/* primitives */
+:root {
+  --moindi-space-grotesk: "Space Grotesk", sans-serif;
+  --moindi-space-mono: "Space Mono", monospace;
+  --moindi-roboto-flex: "Roboto Flex", sans-serif;
+
+  --moindi-secondary-hue: 200;
+  --moindi-success-hue: 100;
+  --moindi-error-hue: 5;
+  --moindi-info-hue: 230;
+
+  --moindi-standard-space-half: 0.25rem;
+  --moindi-standard-space: 0.5rem;
+  --moindi-standard-space-double: 1rem;
+
+  --moindi-nav-height: 60px;
+  --moindi-footer-height: 40px;
+
+  --moindi-primary-300: hsl(38, 100%, 70%);
+  --moindi-primary-350: hsl(36, 100%, 65%);
+  --moindi-primary-400: hsl(34, 100%, 60%);
+  --moindi-primary-450: hsl(32, 100%, 55%);
+  --moindi-primary-500: hsl(30, 100%, 50%);
+  --moindi-primary-550: hsl(28, 100%, 45%);
+  --moindi-primary-600: hsl(26, 100%, 40%);
+  --moindi-primary-650: hsl(24, 100%, 35%);
+  --moindi-primary-700: hsl(24, 100%, 30%);
+
+  --moindi-secondary-100: hsl(var(--moindi-secondary-hue), 100%, 90%);
+  --moindi-secondary-200: hsl(var(--moindi-secondary-hue), 100%, 80%);
+  --moindi-secondary-300: hsl(var(--moindi-secondary-hue), 100%, 70%);
+  --moindi-secondary-400: hsl(var(--moindi-secondary-hue), 100%, 60%);
+  --moindi-secondary-500: hsl(var(--moindi-secondary-hue), 100%, 50%);
+  --moindi-secondary-600: hsl(var(--moindi-secondary-hue), 100%, 40%);
+  --moindi-secondary-700: hsl(var(--moindi-secondary-hue), 100%, 30%);
+  --moindi-secondary-800: hsl(var(--moindi-secondary-hue), 100%, 20%);
+  --moindi-secondary-900: hsl(var(--moindi-secondary-hue), 100%, 10%);
+
+  --moindi-gray-30: hsl(var(--moindi-secondary-hue), 5%, 97%);
+  --moindi-gray-50: hsl(var(--moindi-secondary-hue), 5%, 95%);
+  --moindi-gray-100: hsl(var(--moindi-secondary-hue), 5%, 90%);
+  --moindi-gray-200: hsl(var(--moindi-secondary-hue), 5%, 80%);
+  --moindi-gray-300: hsl(var(--moindi-secondary-hue), 5%, 70%);
+  --moindi-gray-400: hsl(var(--moindi-secondary-hue), 5%, 60%);
+  --moindi-gray-500: hsl(var(--moindi-secondary-hue), 5%, 50%);
+  --moindi-gray-600: hsl(var(--moindi-secondary-hue), 5%, 40%);
+  --moindi-gray-700: hsl(var(--moindi-secondary-hue), 5%, 30%);
+  --moindi-gray-750: hsl(var(--moindi-secondary-hue), 5%, 25%);
+  --moindi-gray-800: hsl(var(--moindi-secondary-hue), 5%, 20%);
+  --moindi-gray-850: hsl(var(--moindi-secondary-hue), 5%, 15%);
+  --moindi-gray-900: hsl(var(--moindi-secondary-hue), 5%, 10%);
+  --moindi-gray-950: hsl(var(--moindi-secondary-hue), 5%, 5%);
+  --moindi-gray-970: hsl(var(--moindi-secondary-hue), 5%, 3%);
+
+  --moindi-success-300: hsl(var(--moindi-success-hue), 50%, 70%);
+  --moindi-success-400: hsl(var(--moindi-success-hue), 50%, 60%);
+  --moindi-success-500: hsl(var(--moindi-success-hue), 50%, 50%);
+  --moindi-success-600: hsl(var(--moindi-success-hue), 50%, 40%);
+  --moindi-success-700: hsl(var(--moindi-success-hue), 50%, 30%);
+
+  --moindi-error-300: hsl(var(--moindi-error-hue), 90%, 70%);
+  --moindi-error-400: hsl(var(--moindi-error-hue), 90%, 60%);
+  --moindi-error-500: hsl(var(--moindi-error-hue), 90%, 50%);
+  --moindi-error-600: hsl(var(--moindi-error-hue), 90%, 40%);
+  --moindi-error-700: hsl(var(--moindi-error-hue), 90%, 30%);
+
+  --moindi-info-300: hsl(var(--moindi-info-hue), 60%, 70%);
+  --moindi-info-400: hsl(var(--moindi-info-hue), 60%, 60%);
+  --moindi-info-500: hsl(var(--moindi-info-hue), 60%, 50%);
+  --moindi-info-600: hsl(var(--moindi-info-hue), 60%, 40%);
+  --moindi-info-700: hsl(var(--moindi-info-hue), 60%, 30%);
+
+  --moindi-white: var(--moindi-gray-30);
+  --moindi-black: var(--moindi-gray-970);
+
+  --moindi-timing-fast: 150ms;
+  --moindi-timing-default: 300ms;
+  --moindi-timing-slow: 450ms;
+  --moindi-timing-5: 5000ms;
+
+  --moindi-animation-movement: cubic-bezier(0.36, 0.07, 0.19, 0.97);
+  --moindi-animation-fade: cubic-bezier(0, 0.5, 0.25, 1);
+
+  @media (width >= 64rem) {
+    --moindi-standard-space-half: 0.5rem;
+    --moindi-standard-space: 1rem;
+    --moindi-standard-space-double: 2rem;
+  }
+}
+
+@supports (color: color(display-p3 1 1 1)) {
+  :root {
+    --moindi-primary-300: color(display-p3 1 0.78 0.4);
+    --moindi-primary-350: color(display-p3 1 0.72 0.3);
+    --moindi-primary-400: color(display-p3 1 0.6533 0.2);
+    --moindi-primary-450: color(display-p3 1 0.58 0.1);
+    --moindi-primary-500: color(display-p3 1 0.5 0);
+    --moindi-primary-550: color(display-p3 0.9 0.42 0);
+    --moindi-primary-600: color(display-p3 0.8 0.3467 0);
+    --moindi-primary-650: color(display-p3 0.7 0.28 0);
+    --moindi-primary-700: color(display-p3 0.6 0.22 0);
+
+    --moindi-secondary-100: color(display-p3 0.8 0.9333 1);
+    --moindi-secondary-200: color(display-p3 0.6 0.8667 1);
+    --moindi-secondary-300: color(display-p3 0.4 0.8 1);
+    --moindi-secondary-400: color(display-p3 0.2 0.7333 1);
+    --moindi-secondary-500: color(display-p3 0 0.6667 1);
+    --moindi-secondary-600: color(display-p3 0 0.5333 0.8);
+    --moindi-secondary-700: color(display-p3 0 0.4 0.6);
+    --moindi-secondary-800: color(display-p3 0 0.2667 0.4);
+    --moindi-secondary-900: color(display-p3 0 0.1333 0.2);
+
+    --moindi-gray-30: color(display-p3 0.9685 0.9705 0.9715);
+    --moindi-gray-50: color(display-p3 0.9475 0.9508 0.9525);
+    --moindi-gray-100: color(display-p3 0.895 0.9017 0.905);
+    --moindi-gray-200: color(display-p3 0.79 0.8033 0.81);
+    --moindi-gray-300: color(display-p3 0.685 0.705 0.715);
+    --moindi-gray-400: color(display-p3 0.58 0.6067 0.62);
+    --moindi-gray-500: color(display-p3 0.475 0.5083 0.525);
+    --moindi-gray-600: color(display-p3 0.38 0.4067 0.42);
+    --moindi-gray-700: color(display-p3 0.285 0.305 0.315);
+    --moindi-gray-750: color(display-p3 0.2375 0.2542 0.2625);
+    --moindi-gray-800: color(display-p3 0.19 0.2033 0.21);
+    --moindi-gray-850: color(display-p3 0.1425 0.1525 0.1575);
+    --moindi-gray-900: color(display-p3 0.095 0.1017 0.105);
+    --moindi-gray-950: color(display-p3 0.0475 0.0508 0.0525);
+    --moindi-gray-970: color(display-p3 0.0285 0.0305 0.0315);
+
+    --moindi-success-300: color(display-p3 0.7667 0.9 0.7);
+    --moindi-success-400: color(display-p3 0.5917 0.825 0.475);
+    --moindi-success-500: color(display-p3 0.4167 0.75 0.25);
+    --moindi-success-600: color(display-p3 0.2917 0.525 0.175);
+    --moindi-success-700: color(display-p3 0.1667 0.3 0.1);
+
+    --moindi-error-300: color(display-p3 0.97 0.475 0.43);
+    --moindi-error-400: color(display-p3 0.96 0.3 0.24);
+    --moindi-error-500: color(display-p3 0.95 0.125 0.05);
+    --moindi-error-600: color(display-p3 0.76 0.1 0.04);
+    --moindi-error-700: color(display-p3 0.57 0.075 0.03);
+
+    --moindi-info-300: color(display-p3 0.52 0.58 0.88);
+    --moindi-info-400: color(display-p3 0.36 0.44 0.84);
+    --moindi-info-500: color(display-p3 0.2 0.3 0.8);
+    --moindi-info-600: color(display-p3 0.16 0.24 0.64);
+    --moindi-info-700: color(display-p3 0.12 0.18 0.48);
+
+    --moindi-white: var(--moindi-gray-30);
+    --moindi-black: var(--moindi-gray-970);
+
+    /* hsl for Stripe's embedded styling not supporting display-p3 */
+    --moindi-primary-300-hsl: hsl(38, 100%, 70%);
+    --moindi-primary-350-hsl: hsl(36, 100%, 65%);
+    --moindi-primary-400-hsl: hsl(34, 100%, 60%);
+    --moindi-primary-450-hsl: hsl(32, 100%, 55%);
+    --moindi-primary-500-hsl: hsl(30, 100%, 50%);
+    --moindi-primary-550-hsl: hsl(28, 100%, 45%);
+    --moindi-primary-600-hsl: hsl(26, 100%, 40%);
+    --moindi-primary-650-hsl: hsl(24, 100%, 35%);
+    --moindi-primary-700-hsl: hsl(24, 100%, 30%);
+
+    --moindi-secondary-100-hsl: hsl(var(--moindi-secondary-hue), 100%, 90%);
+    --moindi-secondary-200-hsl: hsl(var(--moindi-secondary-hue), 100%, 80%);
+    --moindi-secondary-300-hsl: hsl(var(--moindi-secondary-hue), 100%, 70%);
+    --moindi-secondary-400-hsl: hsl(var(--moindi-secondary-hue), 100%, 60%);
+    --moindi-secondary-500-hsl: hsl(var(--moindi-secondary-hue), 100%, 50%);
+    --moindi-secondary-600-hsl: hsl(var(--moindi-secondary-hue), 100%, 40%);
+    --moindi-secondary-700-hsl: hsl(var(--moindi-secondary-hue), 100%, 30%);
+    --moindi-secondary-800-hsl: hsl(var(--moindi-secondary-hue), 100%, 20%);
+    --moindi-secondary-900-hsl: hsl(var(--moindi-secondary-hue), 100%, 10%);
+
+    --moindi-gray-30-hsl: hsl(var(--moindi-secondary-hue), 5%, 97%);
+    --moindi-gray-50-hsl: hsl(var(--moindi-secondary-hue), 5%, 95%);
+    --moindi-gray-100-hsl: hsl(var(--moindi-secondary-hue), 5%, 90%);
+    --moindi-gray-200-hsl: hsl(var(--moindi-secondary-hue), 5%, 80%);
+    --moindi-gray-300-hsl: hsl(var(--moindi-secondary-hue), 5%, 70%);
+    --moindi-gray-400-hsl: hsl(var(--moindi-secondary-hue), 5%, 60%);
+    --moindi-gray-500-hsl: hsl(var(--moindi-secondary-hue), 5%, 50%);
+    --moindi-gray-600-hsl: hsl(var(--moindi-secondary-hue), 5%, 40%);
+    --moindi-gray-700-hsl: hsl(var(--moindi-secondary-hue), 5%, 30%);
+    --moindi-gray-750-hsl: hsl(var(--moindi-secondary-hue), 5%, 25%);
+    --moindi-gray-800-hsl: hsl(var(--moindi-secondary-hue), 5%, 20%);
+    --moindi-gray-850-hsl: hsl(var(--moindi-secondary-hue), 5%, 15%);
+    --moindi-gray-900-hsl: hsl(var(--moindi-secondary-hue), 5%, 10%);
+    --moindi-gray-950-hsl: hsl(var(--moindi-secondary-hue), 5%, 5%);
+    --moindi-gray-970-hsl: hsl(var(--moindi-secondary-hue), 5%, 3%);
+
+    --moindi-success-300-hsl: hsl(var(--moindi-success-hue), 50%, 70%);
+    --moindi-success-400-hsl: hsl(var(--moindi-success-hue), 50%, 60%);
+    --moindi-success-500-hsl: hsl(var(--moindi-success-hue), 50%, 50%);
+    --moindi-success-600-hsl: hsl(var(--moindi-success-hue), 50%, 40%);
+    --moindi-success-700-hsl: hsl(var(--moindi-success-hue), 50%, 30%);
+
+    --moindi-error-300-hsl: hsl(var(--moindi-error-hue), 90%, 70%);
+    --moindi-error-400-hsl: hsl(var(--moindi-error-hue), 90%, 60%);
+    --moindi-error-500-hsl: hsl(var(--moindi-error-hue), 90%, 50%);
+    --moindi-error-600-hsl: hsl(var(--moindi-error-hue), 90%, 40%);
+    --moindi-error-700-hsl: hsl(var(--moindi-error-hue), 90%, 30%);
+
+    --moindi-info-300-hsl: hsl(var(--moindi-info-hue), 60%, 70%);
+    --moindi-info-400-hsl: hsl(var(--moindi-info-hue), 60%, 60%);
+    --moindi-info-500-hsl: hsl(var(--moindi-info-hue), 60%, 50%);
+    --moindi-info-600-hsl: hsl(var(--moindi-info-hue), 60%, 40%);
+    --moindi-info-700-hsl: hsl(var(--moindi-info-hue), 60%, 30%);
+
+    --moindi-white-hsl: var(--moindi-gray-30-hsl);
+    --moindi-black-hsl: var(--moindi-gray-970-hsl);
+  }
+}

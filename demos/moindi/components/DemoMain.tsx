@@ -29,7 +29,7 @@ export function DemoMain({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className="mx-auto flex w-full max-w-7xl flex-1 lg:gap-4">
+    <div className="mx-auto flex w-full max-w-7xl flex-1">
       <Sidebar user={user} />
       <div className="flex min-w-0 flex-1">{children}</div>
     </div>

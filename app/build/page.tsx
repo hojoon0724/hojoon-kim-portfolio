@@ -1,23 +1,12 @@
 "use client";
 
-import { RcnmLogoAnimation } from "@/components/1-atoms/RcnmLogoAnimation";
-import {
-  BookWithPageTurns,
-  FrenchFoldSeasonPoster,
-  S06_EnsrqBarrelRollBrochure,
-} from "@/components/5-sections";
-import { projectOverviewData } from "@/data";
-
-
 export default function BuildPage() {
-  return (
-    <div className="build-page-container">
-      
-    </div>
-  );
+  return <div className="build-page-container"></div>;
 }
 
-
+// earlier experiments, kept for reference. they need:
+// import { RcnmLogoAnimation } from "@/components/1-atoms/RcnmLogoAnimation";
+// import { BookWithPageTurns, FrenchFoldSeasonPoster, S06_EnsrqBarrelRollBrochure } from "@/components/5-sections";
 {/* <div className="p-xl">
   <RcnmLogoAnimation
     className="p-xl mx-auto flex h-auto w-full items-center justify-center"

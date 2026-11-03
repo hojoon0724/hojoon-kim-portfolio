@@ -4,7 +4,9 @@ import { Button } from "@/demos/moindi/components/Button";
 import { useDemoAuth } from "@/demos/moindi/components/DemoAuthProvider";
 import { SvgIcon } from "@/demos/moindi/components/SvgIcon";
 import { UserProfileHeader } from "@/demos/moindi/components/UserProfileHeader";
+import { moindiDemoProjects } from "@/demos/moindi/data/projects";
 import { useRouter } from "next/navigation";
+import { CurrentProjectBlock } from "../components/CurrentProjectBlock";
 
 // the visitor's own profile, from the original's view-user page. the artist tabs (releases, products,
 // playlist, rounds) aren't ported, since the visitor isn't an artist
@@ -12,6 +14,10 @@ export function ProfilePage() {
   const { user } = useDemoAuth();
   const router = useRouter();
   if (!user) return null;
+
+  const currentProject = moindiDemoProjects.find(
+    (project) => project.id === user.currentProject,
+  );
 
   return (
     <div className="flex w-full flex-col gap-(--standard-space) p-(--standard-space)">
@@ -35,6 +41,12 @@ export function ProfilePage() {
         </Button>
       </div>
       <UserProfileHeader user={user} />
+      {currentProject && (
+        <CurrentProjectBlock
+          className="z-10 bg-(--surface-base)"
+          project={currentProject}
+        />
+      )}
     </div>
   );
 }
