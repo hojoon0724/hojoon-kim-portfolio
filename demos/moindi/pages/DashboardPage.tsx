@@ -10,7 +10,7 @@ import { useRef, useState } from "react";
 // the original's what's on feed of posts from followed artists. posts aren't ported, so this is its empty state
 function WhatsOn({ followingCount }: { followingCount: number }) {
   return (
-    <div className="space-mono flex h-full flex-col items-center justify-center gap-(--standard-space) py-16 text-center text-pretty uppercase">
+    <div className="space-mono flex h-full flex-col items-center justify-center gap-(--standard-space) text-center text-pretty uppercase">
       <p className="text-(--text-accent)">
         {followingCount === 0
           ? "You are not following any artists yet."

@@ -13,11 +13,10 @@ import { StaggeredTextReveal } from "../../1-atoms/StaggeredTextReveal";
 // title and copy are what the section shows. purpose and layout are guides for building it and are never rendered
 const notes = {
   title: "The Product Is the Brand",
+  copy: "A product that only works becomes a tool. One that makes people feel something becomes a brand. A logo can claim what a brand is.",
+  emphasis: "Only the product can make them feel it.",
   purpose:
     "State the core claim and why I'm the right person: a brand isn't a logo, it's how the product makes people feel — so I built the brand by building the product.",
-  copy: "A brand is how a product makes people feel, so with nothing built yet, I designed the brand by building the product, and each shaped the other.",
-  emphasis:
-    "The feeling was built into the product from the start. Not an afterthought.",
   layout:
     "Full-viewport opening. One short paragraph, large type, generous space, no imagery competing with it. This is the claim everything below proves — it should feel like a statement, not a hero banner. Ends on a line that sets up the sections to come.",
 };
@@ -28,7 +27,7 @@ export function MoindiThesis({ id }: { id: string }) {
     <ProjectSectionSnapTargetContainer
       id={id}
       tag="header"
-      className="px-md lg:px-xl flex items-center py-16"
+      className="px-md lg:px-xl flex items-center"
     >
       <div className="gap-lg mx-auto flex w-full max-w-7xl flex-col">
         <StaggeredTextReveal tag="h1" text={notes.title} delayMs={0} />

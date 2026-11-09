@@ -56,7 +56,7 @@ export function RcnmFounding({ id }: { id: string }) {
     <ProjectSectionSnapTargetContainer
       id={id}
       tag="section"
-      className="px-md lg:px-xl gap-md mx-auto flex max-w-7xl flex-col justify-center py-16"
+      className="px-md lg:px-xl gap-md mx-auto flex max-w-7xl flex-col justify-center"
       snapToEnd
     >
       <div className="gap-sm flex flex-col">
@@ -107,8 +107,7 @@ export function RcnmFounding({ id }: { id: string }) {
             </div>
           </li>
         ))}
-        <li className="border-rcnm-black-300 gap-x-lg pt-sm pb-2xl lg:pb-sm grid grid-cols-[3ch_minmax(0,1fr)] items-baseline gap-y-1 border-t lg:grid-cols-[3ch_minmax(0,1fr)_minmax(0,65ch)] xl:grid-cols-[3ch_minmax(0,2fr)_minmax(0,3fr)_minmax(0,65ch)]">
-        </li>
+        <li className="border-rcnm-black-300 gap-x-lg pt-sm pb-2xl lg:pb-sm grid grid-cols-[3ch_minmax(0,1fr)] items-baseline gap-y-1 border-t lg:grid-cols-[3ch_minmax(0,1fr)_minmax(0,65ch)] xl:grid-cols-[3ch_minmax(0,2fr)_minmax(0,3fr)_minmax(0,65ch)]"></li>
       </StaggeredReveal>
 
       <StaggeredTextReveal

@@ -51,6 +51,17 @@ const findInnerScroller = (slide: HTMLElement, direction: Direction) => {
       continue;
     }
 
+    // skip scrollers that are off screen, like ones on another slide of a sideways scroller
+    const rect = element.getBoundingClientRect();
+    if (
+      rect.right <= 0 ||
+      rect.left >= window.innerWidth ||
+      rect.bottom <= 0 ||
+      rect.top >= window.innerHeight
+    ) {
+      continue;
+    }
+
     const { overflowY } = window.getComputedStyle(element);
     if (overflowY !== "auto" && overflowY !== "scroll") {
       continue;

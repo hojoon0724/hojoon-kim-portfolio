@@ -5,3 +5,10 @@ export type {
   ParallelScrollRow,
   ParallelScrollImage,
 } from "./ParallelScrollRows";
+export { PageScreensShowcase } from "./PageScreensShowcase";
+export type {
+  ShowcasePage,
+  ShowcaseVersion,
+  PageScreens,
+  PageScreen,
+} from "./PageScreensShowcase";

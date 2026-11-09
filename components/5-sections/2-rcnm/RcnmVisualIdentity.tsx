@@ -207,7 +207,7 @@ export function RcnmVisualIdentity({ id }: { id: string }) {
       <ProjectSectionSnapTargetContainer
         id={`${id}-logo`}
         tag="section"
-        className="px-md lg:px-xl gap-2xl flex flex-col justify-center py-16"
+        className="px-md lg:px-xl gap-2xl flex flex-col justify-center"
       >
         <Image
           src="/logos/rcnm-logo-on-dark.png"

@@ -6,8 +6,8 @@ export const DEMO_CURRENT_USER_ID = "demo-user";
 export const moindiDemoUsers: UserInterface[] = [
   {
     id: DEMO_CURRENT_USER_ID,
-    firstName: "Warren",
-    lastName: "Buffer",
+    firstName: "Luna",
+    lastName: "Veyne",
     bio: "",
     favorites: [],
     following: [],
@@ -30,9 +30,9 @@ export const moindiDemoUsers: UserInterface[] = [
       spotify: "",
       youtube: "https://www.youtube.com/",
     },
-    profileSrcSet: "/moindi/demo-assets/users/warren-buffer.png",
-    bannerSrcSet: "/moindi/demo-assets/users/warren-buffer-banner.png",
-    displayName: "Warren Buffer",
+    profileSrcSet: "/moindi/demo-assets/users/lunaveyne_profile.webp",
+    bannerSrcSet: "/moindi/demo-assets/users/lunaveyne_banner.webp",
+    displayName: "Luna Veyne",
     badges: [],
     isArtist: true,
     earningsTotalInCents: 857459678,

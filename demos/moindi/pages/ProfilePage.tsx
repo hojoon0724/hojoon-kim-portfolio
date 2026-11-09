@@ -6,17 +6,31 @@ import { SvgIcon } from "@/demos/moindi/components/SvgIcon";
 import { UserProfileHeader } from "@/demos/moindi/components/UserProfileHeader";
 import { moindiDemoProjects } from "@/demos/moindi/data/projects";
 import { useRouter } from "next/navigation";
+import { moindiDemoReleases } from "@/demos/moindi/data/releases";
 import { CurrentProjectBlock } from "../components/CurrentProjectBlock";
+import { ReleaseTile } from "../components/ReleaseTile";
+import { TabMenu } from "../components/TabMenu";
+import { useDemoStorage } from "../hooks/use-demo-storage";
 
-// the visitor's own profile, from the original's view-user page. the artist tabs (releases, products,
-// playlist, rounds) aren't ported, since the visitor isn't an artist
+const profileTabs = ["releases", "products", "projects"] as const;
+type ProfileTab = (typeof profileTabs)[number];
+
+// the visitor's own profile, from the original's view-user page. the artist tabs are trimmed to
+// releases, products and projects (playlist dropped). only releases has data so far
 export function ProfilePage() {
   const { user } = useDemoAuth();
   const router = useRouter();
+  const [selectedTab, setSelectedTab] = useDemoStorage<ProfileTab>(
+    "profile-tab",
+    "releases",
+  );
   if (!user) return null;
 
   const currentProject = moindiDemoProjects.find(
     (project) => project.id === user.currentProject,
+  );
+  const releases = moindiDemoReleases.filter(
+    (release) => release.artistId === user.id,
   );
 
   return (
@@ -47,6 +61,34 @@ export function ProfilePage() {
           project={currentProject}
         />
       )}
+      <div className="tab-menu-content-container">
+        <TabMenu
+          size="small"
+          bottomBorder={false}
+          options={profileTabs}
+          activeOption={selectedTab}
+          onSelect={setSelectedTab}
+        />
+        <div className="profile-tab-content-container relative z-20">
+          <div className="grid min-h-48 max-w-full grid-cols-1 border md:grid-cols-2">
+            {selectedTab === "releases" && releases.length > 0 ? (
+              releases.map((release) => (
+                <ReleaseTile
+                  key={release.id}
+                  className="w-full max-w-full"
+                  release={release}
+                />
+              ))
+            ) : (
+              <div className="flex h-full w-full items-center justify-center md:col-span-2">
+                <div className="space-grotesk opacity-70">
+                  No {selectedTab} available
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

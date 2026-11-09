@@ -138,7 +138,7 @@ export function RcnmLightingVideo({ id }: { id: string }) {
       <ProjectSectionSnapTargetContainer
         id={id}
         tag="header"
-        className="px-md lg:px-xl gap-lg flex flex-col justify-center py-16"
+        className="px-md lg:px-xl gap-lg flex flex-col justify-center"
       >
         <h5 className="text-rcnm-red-400">Lighting &amp; video</h5>
         <h1 className="max-w-5xl text-balance">Scored to the Music</h1>
@@ -196,7 +196,7 @@ export function RcnmLightingVideo({ id }: { id: string }) {
       <ProjectSectionSnapTargetContainer
         id={`${id}-premiere`}
         tag="section"
-        className="px-md lg:px-xl gap-lg flex flex-col justify-center py-16"
+        className="px-md lg:px-xl gap-lg flex flex-col justify-center"
       >
         <div className="gap-sm flex flex-col">
           <h5 className="text-rcnm-red-400">The result</h5>

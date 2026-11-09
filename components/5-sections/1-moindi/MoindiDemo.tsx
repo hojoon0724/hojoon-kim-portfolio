@@ -20,7 +20,7 @@ export function MoindiDemo({ id }: { id: string }) {
     <ProjectSectionSnapTargetContainer
       id={id}
       tag="section"
-      className="px-md lg:px-xl flex items-center py-16"
+      className="px-md lg:px-xl flex items-center"
       snapToEnd
     >
       <div className="gap-xl mx-auto flex w-full max-w-7xl flex-col">

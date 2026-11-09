@@ -1,179 +1,205 @@
 "use client";
 
 import {
-  ParallelScrollRows,
-  type ParallelScrollRow,
+  PageScreensShowcase,
+  type PageScreens,
+  type ShowcasePage,
 } from "@/components/3-compounds";
-import { ProjectSectionSnapTargetContainer } from "@/components/4-organisms";
-import Image from "next/image";
-import { useState } from "react";
+import { DeckSlides } from "./design-in-code/DeckSlides";
+import { LayoutTests } from "./design-in-code/LayoutTests";
+import { MotionSamples } from "./design-in-code/MotionSamples";
+import { PatternTiles } from "./design-in-code/PatternTiles";
+import { PurchaseGrowth } from "./design-in-code/PurchaseGrowth";
+import { SlideCarousel, type Slide } from "./SlideCarousel";
 
-// guides for building the section, never rendered. what it shows is in textSections
+// guides for building the section, never rendered. what it shows is in section and slides
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const notes = {
   purpose:
-    "Show the speed and why it existed: no Figma-to-dev handoff. A sketch for alignment, then straight into production code.",
+    "Show the seed and what grew from it: a few look-and-feel tests and one Figma page set the direction, and everything after was built straight in code, from the product's pages and components to the pitch deck.",
   layout:
-    "First the layout tests side by side in one color theme, with a switch that fades them all to another theme, so it's clear how the themes fit together. Then the sketch over what shipped, per device, as rows that scroll sideways together so each column compares like with like.",
+    "Title and intro stay put while the slides scroll sideways, each a subtitle and copy over the thing it talks about. A row of steps above shows how far along the story is. Slides 2 and 3 use the same frames, so moving from one to the next reads as the before and after.",
 };
 
-// every theme ran the same tests, so each one has a file per theme
-const themes = ["Light", "Dark", "Accent", "Secondary"] as const;
-const layoutTests = [
-  { file: "logo", label: "Logo" },
-  { file: "statement", label: "Statement" },
-  // { file: "text", label: "Text" },
-  { file: "text-accent", label: "Accent text" },
-  { file: "icons-buttons", label: "Icons & buttons" },
-];
-
-type Theme = (typeof themes)[number];
-
-// the test files are named by the theme's main color
-const themeFilePrefixes: Record<Theme, string> = {
-  Light: "bright",
-  Dark: "dark",
-  Accent: "orange",
-  Secondary: "blue",
+const section = {
+  title: "Design in Code",
+  intro:
+    "MOindi didn't start as a set of screens. It started as a few small tests to find how it should feel, and everything else grew out of them in code.",
 };
 
-const textSections = [
-  {
-    title: "Design in Code",
-    copy: "I started rough: style samples, a few page sketches and some larger components, just enough to find MOindi's design language to guide everything after.",
+const profileUrl = "moindi.com";
+
+// full-page screenshots at their real pixel sizes; each fills its window's width, so only the aspect ratio matters
+const profileSketch: PageScreens = {
+  desktop: { src: "/moindi/before-desktop.png", width: 1440, height: 1942 },
+  mobile: { src: "/moindi/before-mobile.png", width: 720, height: 9256 },
+};
+const profileShipped: PageScreens = {
+  desktop: { src: "/moindi/after-desktop.png", width: 1440, height: 2139 },
+  mobile: { src: "/moindi/after-mobile.png", width: 360, height: 2532 },
+};
+
+// screenshots still to add: drop the files at these paths, set their real sizes and remove placeholder
+const pendingScreens = (name: string): PageScreens => ({
+  desktop: {
+    src: `/moindi/pages/${name}-desktop.png`,
+    width: 1440,
+    height: 2400,
+    placeholder: true,
   },
-  {
-    title: "Straight to Production",
-    copy: "From there, I built the component library and the prototype in Angular, not Figma. The moment a design was finished, it was ready for production. What you saw was what shipped.",
+  mobile: {
+    src: `/moindi/pages/${name}-mobile.png`,
+    width: 360,
+    height: 2600,
+    placeholder: true,
   },
-];
+});
 
-// the padding that puts content where a "px-md lg:px-xl max-w-7xl mx-auto" container would, on a full-width element
-const contentInset =
-  "px-[calc(var(--spacing-md)+max(0px,(100%-var(--container-7xl))/2))] lg:px-[calc(var(--spacing-xl)+max(0px,(100%-var(--container-7xl))/2))]";
-
-// each tile stacks every theme's version and fades to the active one, so they're all loaded before a switch.
-// a slight stagger across the tiles makes the switch read as a wave
-function LayoutTestTile({
-  test,
-  index,
-  activeTheme,
-}: {
-  test: (typeof layoutTests)[number];
-  index: number;
-  activeTheme: Theme;
-}) {
-  return (
-    <figure className="gap-xs flex flex-col">
-      <div className="relative aspect-video w-full">
-        {themes.map((theme) => (
-          // served as-is: next's optimizer re-encodes without the color profile, which flattens display p3 to srgb
-          <Image
-            key={theme}
-            src={`/moindi/layout-tests/${themeFilePrefixes[theme]}-${test.file}.png`}
-            alt={
-              theme === activeTheme
-                ? `${test.label} test in the ${theme.toLowerCase()} theme`
-                : ""
-            }
-            fill
-            unoptimized
-            className={`object-cover transition-opacity duration-500 ${theme === activeTheme ? "opacity-100" : "opacity-0"}`}
-            style={{ transitionDelay: `${index * 60}ms` }}
-          />
-        ))}
-      </div>
-    </figure>
-  );
-}
-
-// each before and after pair is the same size, so the two rows line up
-const devices = [
-  { file: "mbp", label: "Browser", width: 1512, height: 945 },
-  { file: "ipad", label: "Tablet", width: 1180, height: 820 },
-  { file: "iphone", label: "Mobile", width: 393, height: 852 },
-];
-
-const beforeAfterRows: ParallelScrollRow[] = [
-  { stage: "before", label: "Figma, day one" },
-  { stage: "after", label: "Production, many versions later" },
-].map(({ stage, label }) => ({
-  label,
-  images: devices.map((device) => ({
-    src: `/moindi/${device.file}-${stage}.png`,
-    alt: `${device.label} layout, ${stage}`,
-    width: device.width,
-    height: device.height,
-  })),
+const otherPages: ShowcasePage[] = [
+  "Store",
+  "Project",
+  "Release",
+  "Leaderboard",
+  "Dashboard",
+  "Checkout",
+].map((title) => ({
+  title,
+  url: profileUrl,
+  versions: [
+    { label: "In production", screens: pendingScreens(title.toLowerCase()) },
+  ],
 }));
 
-// the layout tests in whichever color theme is picked, then the sketch over what it became
+const profileThemes: ShowcasePage = {
+  title: "Profile",
+  url: profileUrl,
+  versions: [
+    { label: "Light", screens: profileShipped },
+    {
+      label: "Dark",
+      screens: {
+        desktop: {
+          src: "/moindi/after-desktop-dark.png",
+          width: 1440,
+          height: 2139,
+          placeholder: true,
+        },
+        mobile: {
+          src: "/moindi/after-mobile-dark.png",
+          width: 360,
+          height: 2532,
+          placeholder: true,
+        },
+      },
+    },
+  ],
+};
+
+const slides: Slide[] = [
+  {
+    subtitle: "Planting the Seed",
+    copy: [
+      "Before any real screen, I made a handful of tests: the logo, a statement, some accent text, icons and buttons, each in four color themes.",
+      "They weren't designs to hand off. They were there to answer one question: how should MOindi feel? How loud could the orange get, did the type hold up in the dark, and what should a button feel like to press?",
+    ],
+    visualTitle: "Trying on colors",
+    visual: <LayoutTests />,
+  },
+  {
+    subtitle: "One Page to Aim At",
+    copy: [
+      "Then one page: the artist profile, sketched in Figma just far enough for the team to agree on a direction.",
+      "It worked as a compass, not a spec. Nothing in it was polished pixel by pixel, and nothing after it was drawn first.",
+    ],
+    visual: (
+      <PageScreensShowcase
+        title="The only sketch"
+        pages={[
+          {
+            title: "Profile",
+            url: profileUrl,
+            versions: [{ label: "Figma, day one", screens: profileSketch }],
+          },
+        ]}
+      />
+    ),
+  },
+  {
+    subtitle: "Straight to Production",
+    copy: [
+      "Everything after that was built in code, inside the Angular component library that became the product.",
+      "The profile page that shipped, many versions later, is still clearly the same idea. It grew into what it needed: stats, an active contract, and tabs for releases and products.",
+    ],
+    visual: (
+      <PageScreensShowcase
+        title="What actually shipped"
+        pages={[
+          {
+            title: "Profile",
+            url: profileUrl,
+            versions: [{ label: "In production", screens: profileShipped }],
+          },
+        ]}
+      />
+    ),
+  },
+  {
+    subtitle: "A Component Grows Up",
+    copy: [
+      "The purchase block shows the same growth at the scale of one component. The sketch had all the parts: a countdown, the split, the shares left, and an amount to buy.",
+      "In code they became one control. Drag the slider and the share bar, the percentage and the dollar amount all move together.",
+    ],
+    // takes its own title, so it can sit beside the column when there's room
+    visual: <PurchaseGrowth title="Drag it, it works" />,
+  },
+  {
+    subtitle: "Designed to Move",
+    copy: [
+      "When an interface moves unnaturally, people sense something is off, even if they can't say what. When it moves the way real things do, it feels familiar, and it feels like someone cared.",
+      "A prototype can show the right animation, but the product has to handle every variation. Tuning them directly in code took seconds, with no round trips.",
+    ],
+    visualTitle: "Things that move",
+    visual: <MotionSamples />,
+  },
+  {
+    subtitle: "Texture From Rules",
+    copy: [
+      "The slashes and ticks from the first tests became a pattern system. Each tile picks its pattern at random but matches its neighbors' edges.",
+      "No two screens look the same, and every one still looks like MOindi.",
+    ],
+    visualTitle: "Never the same twice",
+    visual: <PatternTiles />,
+  },
+  {
+    subtitle: "No Sketch Needed",
+    copy: [
+      "From here, the rest of the app didn't need a sketch. The store, project and release pages, the leaderboard, the dashboard and checkout were all built straight in code from the same parts.",
+      "A new page was mostly a new arrangement of components that already existed.",
+    ],
+    visual: (
+      <PageScreensShowcase title="Built without a mockup" pages={otherPages} />
+    ),
+  },
+  {
+    subtitle: "The Dark Theme Was Real",
+    copy: [
+      "One of the four test themes made it all the way into the product. The dark theme became a real setting, with auto, light and dark.",
+      "It was built on the same color tokens the tests used, so every component worked in both from day one.",
+    ],
+    visual: <PageScreensShowcase title="Lights off" pages={[profileThemes]} />,
+  },
+  {
+    subtitle: "Beyond the App",
+    copy: [
+      "The seed carried outside the product too. The pitch deck used the same type, colors, tiles and charts, so investors felt the product before they ever opened it.",
+      "And because the design was the code, the CTO and I were always working on the same thing.",
+    ],
+    visualTitle: "The pitch wore the brand",
+    visual: <DeckSlides />,
+  },
+];
+
+// the seed and everything that grew from it, as slides that scroll sideways under a fixed title
 export function MoindiDesignInCode({ id }: { id: string }) {
-  const [activeTheme, setActiveTheme] = useState<Theme>(themes[0]);
-
-  return (
-    <ProjectSectionSnapTargetContainer
-      id={id}
-      tag="section"
-      className="flex items-center py-16"
-      snapToEnd
-    >
-      <div className="gap-2xl flex w-full flex-col">
-        <div className="gap-lg px-md lg:px-xl mx-auto flex w-full max-w-7xl flex-col">
-          <h2>{textSections[0].title}</h2>
-          <p className="max-w-prose text-lg text-pretty md:text-xl">
-            {textSections[0].copy}
-          </p>
-        </div>
-
-        <div
-          className={`palette-test gap-md p-lg flex flex-col bg-(--moindi-gray-600) text-(--moindi-gray-50) transition-colors duration-500`}
-        >
-          <div className="color-picker-container px-md lg:px-xl mx-auto w-full max-w-7xl">
-            <div className="font-mono font-bold uppercase">Color Theme</div>
-            <div
-              className="gap-xs grid grid-cols-4 justify-start"
-              role="group"
-              aria-label="Color theme"
-            >
-              {themes.map((theme) => (
-                <button
-                  key={theme}
-                  type="button"
-                  aria-pressed={theme === activeTheme}
-                  onClick={() => setActiveTheme(theme)}
-                  className={`roboto-mono px-sm py-xs cursor-pointer border border-current text-xs font-bold uppercase transition-colors duration-200 md:text-sm ${theme === activeTheme ? "bg-current/20" : "hover:bg-current/10"}`}
-                >
-                  {theme}
-                </button>
-              ))}
-            </div>
-          </div>
-          <div className="gap-lg p-md lg:p-xl mx-auto grid w-full max-w-400 grid-cols-2">
-            {layoutTests.map((test, index) => (
-              <LayoutTestTile
-                key={test.file}
-                test={test}
-                index={index}
-                activeTheme={activeTheme}
-              />
-            ))}
-          </div>
-        </div>
-        <div className="text-part-2 gap-lg px-md lg:px-xl mx-auto flex w-full max-w-7xl flex-col">
-          <h2>{textSections[1].title}</h2>
-          <p className="max-w-prose text-lg text-pretty md:text-xl">
-            {textSections[1].copy}
-          </p>
-        </div>
-
-        <ParallelScrollRows
-          rows={beforeAfterRows}
-          columnLabels={devices.map((device) => device.label)}
-          rowClassName="h-[clamp(220px,32vw,420px)]"
-          insetClassName={contentInset}
-        />
-      </div>
-    </ProjectSectionSnapTargetContainer>
-  );
+  return <SlideCarousel id={id} title={section.title} slides={slides} />;
 }

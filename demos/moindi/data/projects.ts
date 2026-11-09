@@ -44,7 +44,7 @@ export const moindiDemoProjects: ProjectInterface[] = [
   {
     ...placeholderProject(
       DEMO_CURRENT_USER_ID,
-      "Compound Interest",
+      "Echos in Amber",
       "album",
       ["Jazz", "Lo-Fi"],
       20000,
@@ -59,7 +59,7 @@ export const moindiDemoProjects: ProjectInterface[] = [
       "share of streaming and sales revenue for the life of the record, plus their name in the liner " +
       'notes under "Early Investors". Funds go to mixing, mastering, and a small vinyl pressing.',
     public: false,
-    heroSrcSet: "/moindi/demo-assets/projects/compound-interest-album-cover.png",
+    heroSrcSet: "/moindi/demo-assets/projects/defaultproject.webp",
   },
 ];
 

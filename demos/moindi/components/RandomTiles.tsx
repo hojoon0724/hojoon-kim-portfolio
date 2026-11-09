@@ -86,14 +86,17 @@ const TILE_SHAPES: Record<Variant, string | null> = {
   br: "40,0 40,40 0,40",
 };
 
-function BackgroundTile({ variant }: { variant: Variant }) {
+// on a shuffle, each tile flips over around its diagonal and shows its new shape on the way back down
+const FLIP_MS = 360;
+
+function TileShape({ variant }: { variant: Variant }) {
   const shape = TILE_SHAPES[variant];
   return (
     <svg
       width={TILE_SIZE}
       height={TILE_SIZE}
       viewBox={`0 0 ${TILE_SIZE} ${TILE_SIZE}`}
-      className="shrink-0"
+      className="block"
       aria-hidden="true"
     >
       {shape && <polygon points={shape} fill="currentColor" />}
@@ -101,21 +104,100 @@ function BackgroundTile({ variant }: { variant: Variant }) {
   );
 }
 
+function BackgroundTile({
+  variant,
+  turn,
+  flipDelayMs,
+}: {
+  variant: Variant;
+  // goes up with every shuffle; each new one flips the tile, even when it lands on the same shape
+  turn: number;
+  // how long the tile waits before flipping; left out, it swaps in place
+  flipDelayMs?: number;
+}) {
+  const [shown, setShown] = useState(variant);
+  const tileRef = useRef<HTMLDivElement>(null);
+  const animate =
+    flipDelayMs !== undefined &&
+    typeof window !== "undefined" &&
+    !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (!animate && shown !== variant) setShown(variant);
+
+  useEffect(() => {
+    const tile = tileRef.current;
+    if (!animate || !tile) return;
+    const half = FLIP_MS / 2;
+    // each flip picks one of the two diagonals and a direction at random
+    const axis = Math.random() < 0.5 ? "1, 1, 0" : "1, -1, 0";
+    const dir = Math.random() < 0.5 ? 1 : -1;
+    // up to edge-on, swap the shape, then the rest of the way round
+    const up = tile.animate(
+      [
+        { transform: `rotate3d(${axis}, 0deg)` },
+        { transform: `rotate3d(${axis}, ${dir * 90}deg)` },
+      ],
+      {
+        duration: half,
+        delay: (flipDelayMs ?? 0) + Math.random() * WAVE_JITTER_MS,
+        easing: "ease-in",
+        fill: "forwards",
+      },
+    );
+    let down: Animation | undefined;
+    up.onfinish = () => {
+      setShown(variant);
+      down = tile.animate(
+        [
+          { transform: `rotate3d(${axis}, ${-dir * 90}deg)` },
+          { transform: `rotate3d(${axis}, 0deg)` },
+        ],
+        { duration: half, easing: "ease-out" },
+      );
+      up.cancel();
+    };
+    return () => {
+      up.cancel();
+      down?.cancel();
+    };
+  }, [turn, variant, animate, flipDelayMs]);
+
+  return (
+    <div
+      className="shrink-0"
+      style={{ width: TILE_SIZE, height: TILE_SIZE, perspective: 200 }}
+    >
+      <div ref={tileRef}>
+        <TileShape variant={shown} />
+      </div>
+    </div>
+  );
+}
+
 type RandomTilesProps = {
   // fixed size in px; leave out to fill the parent
   width?: number;
   height?: number;
+  // change it to deal a new pattern. the tiles turn over to it in a wave from the top-left corner
+  shuffle?: number;
   className?: string;
 };
+
+// how far apart neighboring tiles start turning, so the wave reads as moving across the pattern
+const WAVE_STEP_MS = 20;
+const WAVE_JITTER_MS = 330;
 
 export function RandomTiles({
   width,
   height,
+  shuffle = 0,
   className = "",
 }: RandomTilesProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [measured, setMeasured] = useState({ width: 0, height: 0 });
   const [grid, setGrid] = useState<Variant[][]>([]);
+  // counts the patterns dealt by a shuffle. the first pattern appears as is; shuffled ones turn over
+  const [turn, setTurn] = useState(0);
 
   const columns = Math.ceil((width ?? measured.width) / TILE_SIZE) + 1;
   const rows = Math.ceil((height ?? measured.height) / TILE_SIZE) + 1;
@@ -139,6 +221,15 @@ export function RandomTiles({
     setGrid(generatePattern(columns, rows));
   }, [columns, rows]);
 
+  useEffect(() => {
+    if (shuffle === 0) return;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setTurn((count) => count + 1);
+    setGrid((current) =>
+      generatePattern(current[0]?.length ?? 0, current.length),
+    );
+  }, [shuffle]);
+
   return (
     <div
       ref={containerRef}
@@ -147,7 +238,14 @@ export function RandomTiles({
       {grid.map((row, rowIndex) => (
         <div key={rowIndex} className="-mt-px flex gap-0 leading-0 first:mt-0">
           {row.map((variant, colIndex) => (
-            <BackgroundTile key={colIndex} variant={variant} />
+            <BackgroundTile
+              key={colIndex}
+              variant={variant}
+              turn={turn}
+              flipDelayMs={
+                turn > 0 ? (colIndex + rowIndex) * WAVE_STEP_MS : undefined
+              }
+            />
           ))}
         </div>
       ))}

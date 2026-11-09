@@ -1,4 +1,3 @@
-import { ProjectSectionSnapTargetContainer } from "@/components/4-organisms";
 import {
   CountUp,
   Icon,
@@ -7,6 +6,7 @@ import {
   StaggeredTextReveal,
 } from "@/components/1-atoms";
 import { ScrollNudge } from "@/components/2-molecules";
+import { ProjectSectionSnapTargetContainer } from "@/components/4-organisms";
 import { databaseStory } from "@/data/rcnm-db-data-masked/fixed-data";
 
 // the intro comes in from top to bottom. each value is when that part starts, in ms after the page appears
@@ -42,7 +42,7 @@ export function RcnmDatabaseIntro({ id }: { id: string }) {
     <ProjectSectionSnapTargetContainer
       id={id}
       tag="header"
-      className="database-story-intro bg-rcnm-black-500 border-rcnm-black-300 px-md lg:px-xl gap-lg flex flex-col justify-between border-b py-16"
+      className="database-story-intro bg-rcnm-black-500 border-rcnm-black-300 px-md lg:px-xl gap-lg flex flex-col justify-between border-b"
     >
       {/* keeps the intro content centered between the top and the scroll hint */}
       <div aria-hidden="true" />
