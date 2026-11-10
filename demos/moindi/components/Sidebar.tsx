@@ -76,10 +76,12 @@ function sidebarTop(user: UserInterface): (SidebarLink | "separator")[] {
       icon: "heart",
       url: "/moindi/demo/favorites",
     },
+    { name: "Store", icon: "shop", url: "/moindi/demo/store" },
     // { name: "What's On", icon: "globe", url: "/moindi/demo/whats-on" },
     // { name: "Store", icon: "shop", url: "/moindi/demo/store" },
     "separator",
     { name: "Leaderboard", icon: "chart-3d", url: "/moindi/demo/leaderboard" },
+    // { name: "DevIcons", icon: "icon", url: "/moindi/demo/icons" },
   ];
 }
 

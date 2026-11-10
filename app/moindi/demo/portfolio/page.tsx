@@ -1,5 +1,7 @@
 import { PortfolioPage } from "@/demos/moindi/pages";
 
 export default function MoindiDemoPortfolio() {
-  return <PortfolioPage />;
+  return <div className="w-full p-(--standard-space)">
+    <PortfolioPage />
+  </div>;
 }

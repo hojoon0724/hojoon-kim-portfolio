@@ -384,6 +384,9 @@ caption {
   --text-base: var(--gray-30);
   --text-secondary: var(--secondary-500);
   --text-accent: var(--primary-500);
+  /* signed money: gains and losses (always shown with a + or − too) */
+  --text-gain: var(--success-400);
+  --text-loss: var(--error-400);
   --text-on-surface-base: var(--gray-30);
   --text-on-surface-secondary: var(--gray-200);
   --text-on-surface-accent: var(--gray-970);
@@ -589,6 +592,8 @@ caption {
     --text-base: var(--gray-970);
     --text-secondary: var(--secondary-500);
     --text-accent: var(--primary-500);
+    --text-gain: var(--success-700);
+    --text-loss: var(--error-600);
     --text-on-surface-base: var(--gray-970);
     --text-on-surface-secondary: var(--gray-800);
     --text-on-surface-accent: var(--gray-970);
@@ -978,5 +983,35 @@ textarea:disabled {
 @keyframes gaugeFillDynamic {
   from {
     stroke-dashoffset: var(--gauge-empty-offset);
+  }
+}
+
+/* song-row's now-playing bars: three bars bouncing out of step */
+@keyframes moindi-wave {
+  0%,
+  100% {
+    transform: scaleY(0.3);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+.wave-bar {
+  animation: moindi-wave 0.68s ease-in-out infinite;
+  transform-origin: bottom;
+}
+
+.wave-bar:nth-child(2) {
+  animation-duration: 0.87s;
+}
+
+.wave-bar:nth-child(3) {
+  animation-duration: 1.03s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wave-bar {
+    animation: none;
   }
 }

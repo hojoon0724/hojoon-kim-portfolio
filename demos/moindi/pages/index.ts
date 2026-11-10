@@ -5,4 +5,7 @@ export * from "./FavoritesPage";
 export * from "./LeaderboardPage";
 export * from "./PortfolioPage";
 export * from "./ProfilePage";
+export * from "./ProjectPage";
+export * from "./ReleasePage";
 export * from "./SettingsPage";
+export * from "./StorePage";

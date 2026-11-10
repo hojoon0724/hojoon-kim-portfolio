@@ -19,6 +19,8 @@ function formatValue(item: ChartSeriesItem, format: FormatTypes) {
       return formatCurrency(item.count);
     case "percentage":
       return `${Math.round((item.count / item.maxCount) * 100)}%`;
+    case "change":
+      return `${item.count > 0 ? "+" : ""}${item.count.toFixed(1)}%`;
     case "fraction":
       return `${item.count.toLocaleString()} / ${item.maxCount.toLocaleString()}`;
     default:

@@ -1,0 +1,220 @@
+// mock market and streaming numbers for the leaderboard: the core artists plus a spread of the npc artists.
+// ids match reference-core-users (userId) and npc-data (id), which is where the display names come from.
+// the numbers are invented but meant to hang together: bigger catalogs stream more and are worth more,
+// while the 24h movers are mostly smaller acts having a moment
+export interface ArtistMarketStats {
+  artistId: string;
+  // what all of the artist's shares are worth, in dollars
+  marketCapInDollars: number;
+  // share price change over the last day, as a percent
+  priceChange24hPercent: number;
+  // dollar value of shares traded in the last day
+  tradingVolume24hInDollars: number;
+  monthlyListeners: number;
+  totalStreams: number;
+  // streaming royalties passed through to shareholders, all time
+  royaltiesPaidInDollars: number;
+  // times the artist's tracks were added to a listener's playlist, all time
+  playlistAdds: number;
+  // store sales, all time
+  merchSalesInDollars: number;
+  releaseSalesInDollars: number;
+}
+
+export const leaderboardStats: ArtistMarketStats[] = [
+  // core artists
+  {
+    artistId: "kanevercetti",
+    marketCapInDollars: 4_218_300,
+    priceChange24hPercent: 3.1,
+    tradingVolume24hInDollars: 286_450,
+    monthlyListeners: 2_416_870,
+    totalStreams: 184_302_115,
+    royaltiesPaidInDollars: 412_880,
+    playlistAdds: 1_284_500,
+    merchSalesInDollars: 318_420,
+    releaseSalesInDollars: 241_760,
+  },
+  {
+    artistId: "lunaveyne",
+    marketCapInDollars: 3_874_650,
+    priceChange24hPercent: 6.8,
+    tradingVolume24hInDollars: 241_120,
+    monthlyListeners: 2_108_455,
+    totalStreams: 151_877_402,
+    royaltiesPaidInDollars: 368_215,
+    playlistAdds: 1_542_870,
+    merchSalesInDollars: 276_305,
+    releaseSalesInDollars: 198_440,
+  },
+  {
+    artistId: "zaylencroix",
+    marketCapInDollars: 3_102_900,
+    priceChange24hPercent: -1.4,
+    tradingVolume24hInDollars: 198_760,
+    monthlyListeners: 1_874_210,
+    totalStreams: 196_540_310,
+    royaltiesPaidInDollars: 438_105,
+    playlistAdds: 1_198_330,
+    merchSalesInDollars: 204_910,
+    releaseSalesInDollars: 287_615,
+  },
+  {
+    artistId: "oliverhayes",
+    marketCapInDollars: 2_655_400,
+    priceChange24hPercent: 1.9,
+    tradingVolume24hInDollars: 122_385,
+    monthlyListeners: 1_542_390,
+    totalStreams: 126_418_037,
+    royaltiesPaidInDollars: 425_300,
+    playlistAdds: 1_376_920,
+    merchSalesInDollars: 158_240,
+    releaseSalesInDollars: 264_380,
+  },
+
+  // npc artists
+  {
+    artistId: "lil-circuit",
+    marketCapInDollars: 1_486_200,
+    priceChange24hPercent: 41.7,
+    tradingVolume24hInDollars: 263_910,
+    monthlyListeners: 2_684_220,
+    totalStreams: 48_215_330,
+    royaltiesPaidInDollars: 84_310,
+    playlistAdds: 1_865_410,
+    merchSalesInDollars: 96_730,
+    releaseSalesInDollars: 61_215,
+  },
+  {
+    artistId: "chrome-magnolia",
+    marketCapInDollars: 2_241_750,
+    priceChange24hPercent: 4.2,
+    tradingVolume24hInDollars: 154_870,
+    monthlyListeners: 1_948_330,
+    totalStreams: 97_506_218,
+    royaltiesPaidInDollars: 221_905,
+    playlistAdds: 1_102_660,
+    merchSalesInDollars: 342_875,
+    releaseSalesInDollars: 112_930,
+  },
+  {
+    artistId: "neon-harbor",
+    marketCapInDollars: 2_782_640,
+    priceChange24hPercent: 12.6,
+    tradingVolume24hInDollars: 171_240,
+    monthlyListeners: 1_206_775,
+    totalStreams: 88_140_962,
+    royaltiesPaidInDollars: 196_420,
+    playlistAdds: 968_140,
+    merchSalesInDollars: 121_560,
+    releaseSalesInDollars: 98_470,
+  },
+  {
+    artistId: "luna-avery",
+    marketCapInDollars: 1_718_300,
+    priceChange24hPercent: 8.9,
+    tradingVolume24hInDollars: 109_455,
+    monthlyListeners: 1_084_310,
+    totalStreams: 72_390_441,
+    royaltiesPaidInDollars: 158_760,
+    playlistAdds: 884_215,
+    merchSalesInDollars: 187_340,
+    releaseSalesInDollars: 76_825,
+  },
+  {
+    artistId: "devan-cole",
+    marketCapInDollars: 1_604_150,
+    priceChange24hPercent: -2.7,
+    tradingVolume24hInDollars: 76_330,
+    monthlyListeners: 962_845,
+    totalStreams: 141_880_215,
+    royaltiesPaidInDollars: 302_540,
+    playlistAdds: 742_590,
+    merchSalesInDollars: 88_915,
+    releaseSalesInDollars: 154_300,
+  },
+  {
+    artistId: "riot-daisy",
+    marketCapInDollars: 842_600,
+    priceChange24hPercent: 27.3,
+    tradingVolume24hInDollars: 138_605,
+    monthlyListeners: 874_120,
+    totalStreams: 29_883_175,
+    royaltiesPaidInDollars: 52_140,
+    playlistAdds: 612_480,
+    merchSalesInDollars: 226_170,
+    releaseSalesInDollars: 41_980,
+  },
+  {
+    artistId: "velvet-arcade",
+    marketCapInDollars: 1_275_900,
+    priceChange24hPercent: 0.6,
+    tradingVolume24hInDollars: 58_290,
+    monthlyListeners: 788_430,
+    totalStreams: 64_712_908,
+    royaltiesPaidInDollars: 142_615,
+    playlistAdds: 538_760,
+    merchSalesInDollars: 73_480,
+    releaseSalesInDollars: 92_615,
+  },
+  {
+    artistId: "juniper-lane",
+    marketCapInDollars: 1_398_420,
+    priceChange24hPercent: 5.4,
+    tradingVolume24hInDollars: 91_770,
+    monthlyListeners: 1_015_670,
+    totalStreams: 69_455_820,
+    royaltiesPaidInDollars: 151_280,
+    playlistAdds: 801_935,
+    merchSalesInDollars: 164_725,
+    releaseSalesInDollars: 118_540,
+  },
+  {
+    artistId: "static-oracle",
+    marketCapInDollars: 516_340,
+    priceChange24hPercent: 18.2,
+    tradingVolume24hInDollars: 64_980,
+    monthlyListeners: 402_915,
+    totalStreams: 17_604_233,
+    royaltiesPaidInDollars: 31_475,
+    playlistAdds: 296_310,
+    merchSalesInDollars: 58_260,
+    releaseSalesInDollars: 24_870,
+  },
+  {
+    artistId: "aria-sol",
+    marketCapInDollars: 988_700,
+    priceChange24hPercent: 9.8,
+    tradingVolume24hInDollars: 47_615,
+    monthlyListeners: 691_280,
+    totalStreams: 58_930_517,
+    royaltiesPaidInDollars: 128_940,
+    playlistAdds: 457_820,
+    merchSalesInDollars: 21_940,
+    releaseSalesInDollars: 133_760,
+  },
+  {
+    artistId: "ghost-metro",
+    marketCapInDollars: 694_250,
+    priceChange24hPercent: -4.9,
+    tradingVolume24hInDollars: 39_840,
+    monthlyListeners: 528_760,
+    totalStreams: 36_281_049,
+    royaltiesPaidInDollars: 74_590,
+    playlistAdds: 384_655,
+    merchSalesInDollars: 102_385,
+    releaseSalesInDollars: 49_120,
+  },
+  {
+    artistId: "blue-transit",
+    marketCapInDollars: 421_880,
+    priceChange24hPercent: 2.4,
+    tradingVolume24hInDollars: 18_265,
+    monthlyListeners: 318_445,
+    totalStreams: 27_119_862,
+    royaltiesPaidInDollars: 61_205,
+    playlistAdds: 211_470,
+    merchSalesInDollars: 34_610,
+    releaseSalesInDollars: 67_905,
+  },
+];

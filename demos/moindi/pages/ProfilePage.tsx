@@ -5,8 +5,8 @@ import { useDemoAuth } from "@/demos/moindi/components/DemoAuthProvider";
 import { SvgIcon } from "@/demos/moindi/components/SvgIcon";
 import { UserProfileHeader } from "@/demos/moindi/components/UserProfileHeader";
 import { moindiDemoProjects } from "@/demos/moindi/data/projects";
-import { useRouter } from "next/navigation";
 import { moindiDemoReleases } from "@/demos/moindi/data/releases";
+import { useRouter } from "next/navigation";
 import { CurrentProjectBlock } from "../components/CurrentProjectBlock";
 import { ReleaseTile } from "../components/ReleaseTile";
 import { TabMenu } from "../components/TabMenu";
@@ -48,7 +48,7 @@ export function ProfilePage() {
         </button>
         <Button
           size="tiny"
-          color="primary"
+          color="secondary"
           onClick={() => router.push("/moindi/demo/settings")}
         >
           Edit Profile

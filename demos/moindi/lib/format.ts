@@ -16,10 +16,9 @@ export function formatDateTime(date: Date) {
   });
 }
 
-// the original's project page (/d/e/p/:id) hasn't been ported, so project links go to trade for now.
-// change this once a project page exists
+// the original's project page (/d/e/p/:id)
 export function projectUrl(projectId: string) {
-  return `/moindi/demo/trade?project=${projectId}`;
+  return `/moindi/demo/project/${projectId}`;
 }
 
 // "US" → 🇺🇸, from the two regional-indicator letters
@@ -53,4 +52,11 @@ export function compactNumber(value: number) {
     number: Math.floor((value * 10) / unit.size) / 10,
     suffix: unit.suffix,
   };
+}
+
+// 214 → "3:34", the original's time-display
+export function formatDuration(totalSeconds: number) {
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = Math.floor(totalSeconds % 60);
+  return `${minutes}:${String(seconds).padStart(2, "0")}`;
 }

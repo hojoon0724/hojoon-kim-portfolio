@@ -38,7 +38,7 @@ export function Button({
             {/* "loading" was the angular spinner, which hasn't been ported yet */}
             {iconName !== "loading" && (
               <SvgIcon
-                className={`${iconPosition === "right" ? "ml-1" : "mr-1"} transition-colors duration-200`}
+                className={`${iconOnly ? "" : iconPosition === "right" ? "ml-1" : "mr-1"} transition-colors duration-200`}
                 iconName={iconName}
                 color={color}
                 onButton

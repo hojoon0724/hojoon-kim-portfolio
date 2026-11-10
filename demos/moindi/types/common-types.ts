@@ -13,7 +13,13 @@ export type FullColorTypes =
   | "info"
   | "inverse";
 export type ContentStatus = "draft" | "available" | "archived";
-export type FormatTypes = "fraction" | "percentage" | "string" | "currency";
+// percentage is a share of the top value; change is the value itself as a signed percent (+12.6%)
+export type FormatTypes =
+  | "fraction"
+  | "percentage"
+  | "change"
+  | "string"
+  | "currency";
 export type AlignmentTypes = "center" | "between" | "around" | "left" | "right";
 export type InputState = "default" | "loading" | "error" | "success";
 export interface ChartSeriesItem {
