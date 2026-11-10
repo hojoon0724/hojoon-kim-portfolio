@@ -1,6 +1,7 @@
 "use client";
 
 import { useNow } from "@/demos/moindi/hooks/use-now";
+import { countdownEndDate } from "@/demos/moindi/lib/countdown";
 import { formatDateTime } from "@/demos/moindi/lib/format";
 
 function formatTimeLeft(endDate: Date, now: Date) {
@@ -15,18 +16,18 @@ function formatTimeLeft(endDate: Date, now: Date) {
   return `${days}d ${hours}h ${minutes}m ${seconds}s`;
 }
 
-// time left until endDate, ticking every second, with the end date underneath
+// time left until the demo's shared countdown end (see lib/countdown), ticking every second,
+// with the end date underneath
 export function CountdownClock({
-  endDate,
   label = "Ends in:",
   showEndDate = true,
 }: {
-  endDate: Date;
   label?: string;
   showEndDate?: boolean;
 }) {
   const now = useNow();
-  const timeLeft = now ? formatTimeLeft(endDate, now) : "";
+  const endDate = now ? countdownEndDate() : null;
+  const timeLeft = now && endDate ? formatTimeLeft(endDate, now) : "";
 
   return (
     <div className="project-deadline-remaining-time space-mono flex flex-col text-left md:text-right">
@@ -39,7 +40,7 @@ export function CountdownClock({
       {showEndDate && (
         <div className="project-deadline-date text-xs opacity-50">
           {/* waits for mount, since the server's time zone may differ from the visitor's */}
-          {now && formatDateTime(endDate)}
+          {endDate && formatDateTime(endDate)}
         </div>
       )}
     </div>

@@ -39,35 +39,51 @@ const profileShipped: PageScreens = {
   mobile: { src: "/moindi/after-mobile.png", width: 360, height: 2532 },
 };
 
-// screenshots still to add: drop the files at these paths, set their real sizes and remove placeholder
-const pendingScreens = (name: string): PageScreens => ({
+// the rest of the app's pages, at their real pixel sizes (2x captures, so only the aspect ratio matters)
+const screens = (
+  file: string,
+  desktopHeight: number,
+  mobileHeight: number,
+): PageScreens => ({
   desktop: {
-    src: `/moindi/pages/${name}-desktop.png`,
-    width: 1440,
-    height: 2400,
-    placeholder: true,
+    src: `/moindi/${file}-desktop.png`,
+    width: 2880,
+    height: desktopHeight,
   },
   mobile: {
-    src: `/moindi/pages/${name}-mobile.png`,
-    width: 360,
-    height: 2600,
-    placeholder: true,
+    src: `/moindi/${file}-mobile.png`,
+    width: 720,
+    height: mobileHeight,
   },
 });
 
 const otherPages: ShowcasePage[] = [
-  "Store",
-  "Project",
-  "Release",
-  "Leaderboard",
-  "Checkout",
-].map((title) => ({
+  { title: "Store", screens: screens("store", 3109, 2789) },
+  { title: "Project", screens: screens("project", 2362, 3596) },
+  { title: "Release", screens: screens("release", 2157, 3076) },
+  { title: "Leaderboard", screens: screens("leaderboards", 3915, 8432) },
+].map(({ title, screens }) => ({
   title,
   url: profileUrl,
-  versions: [
-    { label: "In production", screens: pendingScreens(title.toLowerCase()) },
-  ],
+  versions: [{ label: "In production", screens }],
 }));
+
+// slides 2 and 3 share this one showcase: the frames stay put and the screenshots inside cross-fade from the
+// figma sketch to the shipped page as the slide changes
+const profileVisual = (shownInGroup: number) => (
+  <PageScreensShowcase
+    pages={[
+      {
+        url: profileUrl,
+        versions: [
+          { label: "Figma, day one", screens: profileSketch },
+          { label: "In production", screens: profileShipped },
+        ],
+      },
+    ]}
+    version={shownInGroup}
+  />
+);
 
 const profileThemes: ShowcasePage = {
   url: profileUrl,
@@ -109,16 +125,7 @@ const slides: Slide[] = [
       "Then one page: the artist profile, sketched in Figma just far enough for the team to agree on a direction.",
       "It worked as a compass, not a spec. Nothing in it was polished pixel by pixel, and nothing after it was drawn first.",
     ],
-    visual: (
-      <PageScreensShowcase
-        pages={[
-          {
-            url: profileUrl,
-            versions: [{ label: "Figma, day one", screens: profileSketch }],
-          },
-        ]}
-      />
-    ),
+    visual: profileVisual,
   },
   {
     subtitle: "Built to Ship",
@@ -128,16 +135,7 @@ const slides: Slide[] = [
       "Everything after that was built in code, inside the Angular component library that became the product.",
       "The profile page that shipped, many versions later, is still clearly the same idea. It grew into what it needed: stats, an active contract, and tabs for releases and products.",
     ],
-    visual: (
-      <PageScreensShowcase
-        pages={[
-          {
-            url: profileUrl,
-            versions: [{ label: "In production", screens: profileShipped }],
-          },
-        ]}
-      />
-    ),
+    visual: profileVisual,
   },
   {
     subtitle: "Revisions without Handoff",
@@ -170,7 +168,7 @@ const slides: Slide[] = [
       "From here, the rest of the app didn't need a sketch. The store, project and release pages, the leaderboard, the dashboard and checkout were all built straight in code from the same parts.",
       "A new page was mostly a new arrangement of components that already existed.",
     ],
-    visual: <PageScreensShowcase pages={otherPages} />,
+    visual: <PageScreensShowcase pages={otherPages} cyclePagesMs={4000} />,
   },
   {
     subtitle: "Lights Off",

@@ -6,7 +6,9 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 export interface Slide {
   subtitle: string;
   copy: string[];
-  visual: ReactNode;
+  // in a visual group, a function gets the group's whole visual instead: it's drawn once, and told which of the
+  // group's slides is showing (0 for the first), so it can change its own contents while its frame stays put
+  visual: ReactNode | ((shownInGroup: number) => ReactNode);
   // the heading over the visual. it's set here with the slide's other text and drawn by the carousel, so no
   // visual draws its own
   visualTitle?: string;
@@ -160,14 +162,16 @@ export function SlideCarousel({
   const visualSlotClass =
     "min-h-0 flex-1 [--showcase-phone-w:min(100cqw,calc((100cqh-2.5rem)*71.9/150))] max-md:@container-[size] max-md:overflow-y-auto md:[--showcase-phone-w:min(280px,calc((100svh-24rem)*71.9/150))]";
 
-  const visualBody = (slide: Slide) => (
+  const visualBody = (slide: Slide, shownInGroup = 0) => (
     <div className="gap-sm flex h-full flex-col">
       <h3 className="roboto-mono shrink-0 text-sm font-bold uppercase md:text-base">
         {slide.visualTitle}
       </h3>
       {/* its own size container, so the visual fits the height left under the heading */}
       <div className="min-h-0 flex-1 max-md:@container-[size]">
-        {slide.visual}
+        {typeof slide.visual === "function"
+          ? slide.visual(shownInGroup)
+          : slide.visual}
       </div>
     </div>
   );
@@ -246,15 +250,28 @@ export function SlideCarousel({
             <div
               className={`${visualSlotClass} grid [grid-template-areas:'stack']`}
             >
-              {indexes.map((index) => (
-                <div
-                  key={slides[index].subtitle}
-                  className={`min-h-0 transition-opacity duration-500 ease-in-out [grid-area:stack] motion-reduce:transition-none ${index === shown ? "opacity-100" : "pointer-events-none opacity-0"}`}
-                  aria-hidden={index !== shown || undefined}
-                >
-                  {visualBody(slides[index])}
+              {typeof slides[indexes[0]].visual === "function" ? (
+                // one visual for the whole group, told which slide is showing
+                <div className="min-h-0 [grid-area:stack]">
+                  {visualBody(
+                    {
+                      ...slides[indexes[0]],
+                      visualTitle: slides[shown].visualTitle,
+                    },
+                    shown - indexes[0],
+                  )}
                 </div>
-              ))}
+              ) : (
+                indexes.map((index) => (
+                  <div
+                    key={slides[index].subtitle}
+                    className={`min-h-0 transition-opacity duration-500 ease-in-out [grid-area:stack] motion-reduce:transition-none ${index === shown ? "opacity-100" : "pointer-events-none opacity-0"}`}
+                    aria-hidden={index !== shown || undefined}
+                  >
+                    {visualBody(slides[index])}
+                  </div>
+                ))
+              )}
             </div>
           </div>
         </div>

@@ -33,7 +33,7 @@ export function Button({
       <button type={type} className={buttonClasses} {...buttonProps}>
         {iconName && (
           <div
-            className={`icon-width-container flex aspect-square h-[200%] items-center justify-center transition-all delay-0 ease-in-out ${showIcon ? "max-w-50 duration-1000" : "max-w-0 duration-200"} ${iconPosition === "right" ? "order-2" : ""}`}
+            className={`icon-width-container flex aspect-square h-[150%] items-center justify-center transition-all delay-0 ease-in-out ${showIcon ? "max-w-50 duration-1000" : "max-w-0 duration-200"} ${iconPosition === "right" ? "order-2" : ""}`}
           >
             {/* "loading" was the angular spinner, which hasn't been ported yet */}
             {iconName !== "loading" && (

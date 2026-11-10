@@ -4,7 +4,7 @@ import { Icon, SegmentedControl } from "@/components/1-atoms";
 import { useInView } from "@/hooks";
 import Image from "next/image";
 import type { CSSProperties } from "react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export interface PageScreen {
   src: string;
@@ -84,6 +84,40 @@ function ScreenPlaceholder({ screen }: { screen: PageScreen }) {
 
 // every version stacked from the top, so a switch fades between them at the same scroll spot. only the showing one
 // takes up space, so the window scrolls exactly as far as that version's page; the rest overlay it, clipped
+// how long a new screenshot takes to fade in over the old one
+const PAGE_FADE_MS = 500;
+
+// the layer that was showing before the latest change, kept solid underneath while the new one fades in over
+// it, then dropped once the fade is done. that way nothing ever shows through mid-fade
+function useOutgoingLayer(active: number) {
+  const [layers, setLayers] = useState<{
+    active: number;
+    outgoing: number | null;
+  }>({ active, outgoing: null });
+  // adjusting state during render on a change, rather than in an effect, so the fade starts the same frame
+  if (layers.active !== active) setLayers({ active, outgoing: layers.active });
+
+  useEffect(() => {
+    if (layers.outgoing === null) return;
+    const timeout = setTimeout(
+      () => setLayers((current) => ({ ...current, outgoing: null })),
+      PAGE_FADE_MS,
+    );
+    return () => clearTimeout(timeout);
+  }, [layers]);
+  return layers.outgoing;
+}
+
+// the incoming layer sits on top and fades in; the outgoing one stays solid under it; the rest are hidden.
+// hidden layers stay mounted, so their images are already decoded the next time they're shown
+function layerState(index: number, active: number, outgoing: number | null) {
+  if (index === active)
+    return "relative z-10 opacity-100 transition-opacity ease-in-out motion-reduce:transition-none";
+  if (index === outgoing)
+    return "pointer-events-none absolute inset-x-0 top-0 z-0 opacity-100";
+  return "pointer-events-none invisible absolute inset-x-0 top-0 opacity-0";
+}
+
 function ScreenLayers({
   page,
   device,
@@ -93,11 +127,12 @@ function ScreenLayers({
   device: Device;
   version: number;
 }) {
+  const outgoing = useOutgoingLayer(version);
   return (
     <div className="relative overflow-hidden">
       {page.versions.map((option, index) => {
         const screen = option.screens[device];
-        const layerClass = `w-full transition-opacity duration-500 ${index === version ? "relative opacity-100" : "absolute inset-x-0 top-0 opacity-0"}`;
+        const layerClass = `w-full duration-500 ${layerState(index, version, outgoing)}`;
         return screen.placeholder ? (
           <div key={index} className={layerClass}>
             <ScreenPlaceholder screen={screen} />
@@ -124,14 +159,59 @@ function ScreenLayers({
   );
 }
 
-// the collaboration section's editor window, as a browser: same corners, shadow, ring and title bar
-function DesktopFrame({
-  page,
+// after the visitor scrolls or touches the frames, how long they must be left alone before cycling resumes
+const CYCLE_IDLE_MS = 5000;
+
+// every page's screenshots stacked in one screen, cross-fading as the page changes. the shown page sets the
+// height (so the frame scrolls through it); the hidden ones sit over its top and can't be focused or read
+function PageLayers({
+  pages,
+  pageIndex,
+  device,
   version,
 }: {
-  page: ShowcasePage;
+  pages: ShowcasePage[];
+  pageIndex: number;
+  device: Device;
   version: number;
 }) {
+  // overflow-hidden: the hidden pages sit absolutely over the shown one, and without the clip a taller one
+  // would still stretch the scroll area, leaving blank space under a short page
+  const outgoing = useOutgoingLayer(pageIndex);
+  return (
+    <div className="relative overflow-hidden">
+      {pages.map((option, index) => {
+        const isActive = index === pageIndex;
+        return (
+          <div
+            key={index}
+            inert={!isActive}
+            className={layerState(index, pageIndex, outgoing)}
+            style={{ transitionDuration: `${PAGE_FADE_MS}ms` }}
+          >
+            <ScreenLayers
+              page={option}
+              device={device}
+              version={Math.min(version, option.versions.length - 1)}
+            />
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+// the collaboration section's editor window, as a browser: same corners, shadow, ring and title bar
+function DesktopFrame({
+  pages,
+  pageIndex,
+  version,
+}: {
+  pages: ShowcasePage[];
+  pageIndex: number;
+  version: number;
+}) {
+  const page = pages[pageIndex];
   return (
     // the window behind the screenshot takes the page's own background, like the phone's screen
     <div
@@ -148,9 +228,15 @@ function DesktopFrame({
       <div
         tabIndex={0}
         aria-label={`${page.title ?? "Page"}, desktop. Scrolls to show the full page.`}
+        data-page-scroll
         className="min-h-0 flex-1 overflow-y-auto"
       >
-        <ScreenLayers page={page} device="desktop" version={version} />
+        <PageLayers
+          pages={pages}
+          pageIndex={pageIndex}
+          device="desktop"
+          version={version}
+        />
       </div>
     </div>
   );
@@ -273,12 +359,15 @@ function SafariToolbar({
 // an iphone 17 pro running safari. the page scrolls under the status bar and the floating toolbar, and its padding
 // lets the top and bottom of the page clear them
 function PhoneFrame({
-  page,
+  pages,
+  pageIndex,
   version,
 }: {
-  page: ShowcasePage;
+  pages: ShowcasePage[];
+  pageIndex: number;
   version: number;
 }) {
+  const page = pages[pageIndex];
   return (
     <div className="@container w-(--phone-w)">
       <div
@@ -298,13 +387,19 @@ function PhoneFrame({
           <div
             tabIndex={0}
             aria-label={`${page.title ?? "Page"}, mobile. Scrolls to show the full page.`}
+            data-page-scroll
             className="absolute inset-0 overflow-y-auto [scrollbar-width:none]"
             style={{
               paddingTop: pt(STATUS_BAR_PT),
               paddingBottom: pt(TOOLBAR_PT),
             }}
           >
-            <ScreenLayers page={page} device="mobile" version={version} />
+            <PageLayers
+              pages={pages}
+              pageIndex={pageIndex}
+              device="mobile"
+              version={version}
+            />
           </div>
           <SafariToolbar url={page.url} dark={page.versions[version]?.dark} />
         </div>
@@ -319,14 +414,21 @@ function PhoneFrame({
 export function PageScreensShowcase({
   pages,
   defaultVersion = 0,
+  version: controlledVersion,
   autoSwitchMs,
+  cyclePagesMs,
   className = "",
 }: {
   pages: ShowcasePage[];
   defaultVersion?: number;
+  // when set, the parent picks the version (it cross-fades inside the frames) and the version toggle is hidden
+  version?: number;
   // when set, each time the showcase comes into view it starts on the default version and moves to the next
   // one after this long. picking a version by hand stops it
   autoSwitchMs?: number;
+  // when set, moves to the next page this often while the showcase is in view, looping back to the first.
+  // picking a page by hand stops it
+  cyclePagesMs?: number;
   className?: string;
 }) {
   const [pageIndex, setPageIndex] = useState(0);
@@ -343,8 +445,56 @@ export function PageScreensShowcase({
     );
     return () => clearTimeout(timeout);
   }, [autoSwitchMs, defaultVersion, isInView, pickedByHand]);
+
+  const [pagePickedByHand, setPagePickedByHand] = useState(false);
+  const canCycle =
+    !!cyclePagesMs && !pagePickedByHand && isInView && pages.length > 1;
+  const cycleTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const scheduleNextPage = useCallback(
+    (delayMs: number) => {
+      clearTimeout(cycleTimer.current);
+      if (!canCycle) return;
+      cycleTimer.current = setTimeout(
+        () => setPageIndex((index) => (index + 1) % pages.length),
+        delayMs,
+      );
+    },
+    [canCycle, pages.length],
+  );
+  // each page gets the full interval, counted from when it appears
+  useEffect(() => {
+    scheduleNextPage(cyclePagesMs ?? 0);
+    return () => clearTimeout(cycleTimer.current);
+  }, [scheduleNextPage, cyclePagesMs, pageIndex]);
+  // scrolling or touching the frames holds the page until they've been left alone this long.
+  // a ref timer rather than state, so a stream of scroll events doesn't re-render
+  const holdForActivity = () => scheduleNextPage(CYCLE_IDLE_MS);
+  // the scroll-to-top below fires scroll events too; those aren't the visitor, so they're ignored
+  const scrollResetAt = useRef(0);
+  const onFramesScroll = () => {
+    if (performance.now() - scrollResetAt.current > 200) holdForActivity();
+  };
+
+  // every page change starts both frames at the top of the new page
+  const framesRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    scrollResetAt.current = performance.now();
+    framesRef.current
+      ?.querySelectorAll<HTMLElement>("[data-page-scroll]")
+      .forEach((element) => (element.scrollTop = 0));
+  }, [pageIndex]);
+  const pickPage = (index: number) => {
+    setPagePickedByHand(true);
+    setPageIndex(index);
+  };
+
   const page = pages[pageIndex];
-  const shownVersion = Math.min(version, page.versions.length - 1);
+  const shownVersion = Math.min(
+    controlledVersion ?? version,
+    page.versions.length - 1,
+  );
+  const showVersionToggle =
+    page.versions.length > 1 && controlledVersion === undefined;
   // below md there's room for one frame at a time, so a toggle picks which
   const [narrowDevice, setNarrowDevice] = useState<"desktop" | "mobile">(
     "mobile",
@@ -365,7 +515,7 @@ export function PageScreensShowcase({
           right */}
       <div
         // on md and up the device switch is gone, so a single page with a single version has no row at all
-        className={`h-7 items-center gap-2 ${pages.length > 1 || page.versions.length > 1 ? "flex" : "flex md:hidden"}`}
+        className={`h-7 items-center gap-2 ${pages.length > 1 || showVersionToggle ? "flex" : "flex md:hidden"}`}
       >
         {pages.length > 1 && (
           <>
@@ -377,14 +527,14 @@ export function PageScreensShowcase({
                 content: option.title,
               }))}
               value={pageIndex}
-              onChange={setPageIndex}
+              onChange={pickPage}
             />
             {/* phones: the pages fold into a dropdown instead of a row of tabs */}
             <label className="relative h-7 min-w-0 md:hidden">
               <span className="sr-only">Page</span>
               <select
                 value={pageIndex}
-                onChange={(event) => setPageIndex(+event.target.value)}
+                onChange={(event) => pickPage(+event.target.value)}
                 className="roboto-mono h-full max-w-full cursor-pointer appearance-none border border-current bg-transparent pr-7 pl-2.5 text-[11px] font-bold uppercase"
               >
                 {pages.map((option, index) => (
@@ -407,7 +557,7 @@ export function PageScreensShowcase({
           </>
         )}
         <div className="ml-auto flex shrink-0 items-center gap-2">
-          {page.versions.length > 1 && (
+          {showVersionToggle && (
             <SegmentedControl
               label={page.title ? `${page.title} version` : "Version"}
               options={page.versions.map((option, index) => ({
@@ -433,21 +583,31 @@ export function PageScreensShowcase({
       </div>
       {/* md and up: side by side. phones: both frames stacked in one spot, cross-fading as the device switch
           changes */}
-      <div className="gap-lg grid grid-cols-1 justify-items-center [grid-template-areas:'stack'] md:grid-cols-[minmax(0,1fr)_var(--phone-w)] md:[grid-template-areas:none]">
+      <div
+        ref={framesRef}
+        onScrollCapture={onFramesScroll}
+        onWheelCapture={holdForActivity}
+        onPointerDownCapture={holdForActivity}
+        onTouchMoveCapture={holdForActivity}
+        className="gap-lg grid grid-cols-1 justify-items-center [grid-template-areas:'stack'] md:grid-cols-[minmax(0,1fr)_var(--phone-w)] md:[grid-template-areas:none]"
+      >
         {(["desktop", "mobile"] as const).map((device) => (
           <figure
             key={device}
             className={`gap-xs flex min-w-0 flex-col transition-[opacity,scale] duration-300 ease-out motion-reduce:transition-none max-md:[grid-area:stack] ${device === "mobile" ? "w-(--phone-w)" : "w-full"} ${device === narrowDevice ? "" : "max-md:pointer-events-none max-md:scale-95 max-md:opacity-0"}`}
           >
-            {/* keyed by page, so a new page starts at its top */}
             {device === "desktop" ? (
               <DesktopFrame
-                key={pageIndex}
-                page={page}
+                pages={pages}
+                pageIndex={pageIndex}
                 version={shownVersion}
               />
             ) : (
-              <PhoneFrame key={pageIndex} page={page} version={shownVersion} />
+              <PhoneFrame
+                pages={pages}
+                pageIndex={pageIndex}
+                version={shownVersion}
+              />
             )}
             <figcaption className="roboto-mono text-xs uppercase opacity-70 max-md:hidden">
               {deviceLabels[device]}

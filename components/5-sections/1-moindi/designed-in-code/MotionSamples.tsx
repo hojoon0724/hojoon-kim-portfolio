@@ -345,7 +345,7 @@ function OdometerText({ text }: { text: string }) {
 }
 
 function LiveCountdown() {
-  const countdown = useCountdown(52 * 86400 * 1000 + 2 * 3600 * 1000);
+  const countdown = useCountdown((((7 * 24 + 2) * 60 + 47) * 60 + 15) * 1000); // 7d 2h 47m 15s;
   return (
     <div className="flex flex-col items-center gap-1 font-mono">
       <span className="text-xs uppercase opacity-60">Ends in</span>

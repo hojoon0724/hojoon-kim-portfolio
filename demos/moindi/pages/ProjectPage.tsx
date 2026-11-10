@@ -36,7 +36,7 @@ export function ProjectPage({ project }: { project: ProjectInterface }) {
 
       <div className="flex flex-col">
         <div className="current-project-block mx-auto grid w-full grid-cols-1 border">
-          <ProjectHeader title={project.title} endDate={project.endDate} />
+          <ProjectHeader title={project.title} />
 
           <div className="grid w-full grid-cols-1 md:grid-cols-5">
             <div className="flex h-full flex-col justify-between border p-(--standard-space) md:col-span-2">
@@ -113,7 +113,7 @@ export function ProjectPage({ project }: { project: ProjectInterface }) {
         {backers.length > 0 && (
           <div className="backers-container border">
             <div className="flex w-full items-center justify-start border p-(--standard-space-half)">
-              <h5 className="text-left mb-0!">Recent Backers</h5>
+              <h5 className="mb-0! text-left">Recent Backers</h5>
             </div>
             <div className="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-(--standard-space-half) border p-(--standard-space-half)">
               {backers.map((backer) => (

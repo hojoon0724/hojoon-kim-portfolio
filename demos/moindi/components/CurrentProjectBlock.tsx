@@ -1,6 +1,7 @@
 "use client";
 
 import { useNow } from "@/demos/moindi/hooks/use-now";
+import { countdownEndDate } from "@/demos/moindi/lib/countdown";
 import { projectUrl } from "@/demos/moindi/lib/format";
 import type { ProjectInterface } from "@/demos/moindi/types";
 import { CollapsibleParagraph } from "./CollapsibleParagraph";
@@ -18,13 +19,13 @@ export function CurrentProjectBlock({
   className?: string;
 }) {
   const now = useNow();
-  const isProjectEnded = now !== null && project.endDate < now;
+  const isProjectEnded = now !== null && countdownEndDate() < now;
 
   return (
     <div
       className={`current-project-block mx-auto grid w-full grid-cols-1 border ${className}`}
     >
-      <ProjectHeader title="Active Contract" endDate={project.endDate} />
+      <ProjectHeader title="Active Contract" />
       <div className="current-project-block__main grid w-full grid-cols-1 lg:grid-cols-[1fr_min(320px,30%)]">
         <div className="current-project-block__info col-span-1 grid w-full grid-cols-1 gap-(--standard-space) border p-(--standard-space) md:grid-cols-5">
           <ImageContainer
