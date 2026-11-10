@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { moindiBrandLayers } from "./data";
-import { Stage, visualHeight } from "./frame";
+import { FitStage } from "@/components/2-molecules";
+import { visualHeight } from "./frame";
 
 // outermost ring first. each ring is drawn smaller than the one before it
 const ringSizeClassNames = ["size-full", "size-2/3", "size-1/3"];
@@ -20,7 +21,7 @@ export function BrandRings() {
     <div
       className={`gap-md grid grid-cols-1 grid-rows-[minmax(0,1fr)_auto] md:grid-cols-2 md:grid-rows-1 md:items-center ${visualHeight}`}
     >
-      <Stage w={1} h={1}>
+      <FitStage w={1} h={1}>
         {moindiBrandLayers.map((layer, index) => {
           const isActive = layer.id === activeLayerId;
           const isInnermost = index === moindiBrandLayers.length - 1;
@@ -44,7 +45,7 @@ export function BrandRings() {
             </button>
           );
         })}
-      </Stage>
+      </FitStage>
 
       <div
         className="gap-xs md:gap-sm pt-sm flex flex-col border-t border-current text-sm md:text-base"

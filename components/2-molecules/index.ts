@@ -3,3 +3,4 @@ export * from "./ScrollIndicator";
 export * from "./FullScreenSlide";
 export * from "./HoverTooltip";
 export * from "./ScrollNudge";
+export * from "./FitStage";

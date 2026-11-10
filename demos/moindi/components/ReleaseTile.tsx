@@ -33,7 +33,7 @@ export function ReleaseTile({
           >
             {release.releaseType}
           </div>
-          <div className="release-title space-grotesk line-clamp-3 max-w-full text-2xl font-normal break-words">
+          <div className="release-title space-grotesk line-clamp-3 max-w-full text-2xl font-normal wrap-break-word">
             {release.title}
           </div>
           <div className="release-date text-sm opacity-60">

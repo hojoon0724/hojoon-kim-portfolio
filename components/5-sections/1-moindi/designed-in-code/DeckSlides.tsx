@@ -1,4 +1,4 @@
-import { AssetImage, type SlideAsset } from "./shared";
+import { AssetImage, type SlideAsset } from "@/components/1-atoms";
 
 // pitch deck slides, 16:9. drop each file into public/moindi/deck/, set its real size and remove placeholder
 const deckSlides: SlideAsset[] = [

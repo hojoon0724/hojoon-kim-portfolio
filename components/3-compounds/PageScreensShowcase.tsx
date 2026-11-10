@@ -1,9 +1,9 @@
 "use client";
 
-import { Icon } from "@/components/1-atoms";
+import { Icon, SegmentedControl } from "@/components/1-atoms";
 import { useInView } from "@/hooks";
 import Image from "next/image";
-import type { CSSProperties, ReactNode } from "react";
+import type { CSSProperties } from "react";
 import { useEffect, useState } from "react";
 
 export interface PageScreen {
@@ -313,43 +313,6 @@ function PhoneFrame({
   );
 }
 
-// a row of options joined into one control: one outline, a hairline between options, the picked one filled
-function Segmented<T extends string | number>({
-  label,
-  options,
-  value,
-  onChange,
-  className = "",
-}: {
-  label: string;
-  options: { value: T; content: ReactNode; title?: string }[];
-  value: T;
-  onChange: (value: T) => void;
-  className?: string;
-}) {
-  return (
-    <div
-      className={`roboto-mono flex h-7 shrink-0 border border-current text-[11px] font-bold uppercase md:text-xs ${className}`}
-      role="group"
-      aria-label={label}
-    >
-      {options.map((option, index) => (
-        <button
-          key={option.value}
-          type="button"
-          aria-pressed={option.value === value}
-          aria-label={option.title}
-          title={option.title}
-          onClick={() => onChange(option.value)}
-          className={`flex cursor-pointer items-center px-2.5 whitespace-nowrap transition-colors duration-200 ${index > 0 ? "border-l border-current" : ""} ${option.value === value ? "bg-current/20" : "hover:bg-current/10"}`}
-        >
-          {option.content}
-        </button>
-      ))}
-    </div>
-  );
-}
-
 // pages' desktop and mobile screenshots side by side at the same height, each scrolling on its own.
 // more than one page gets tabs to pick between them; a page with more than one version gets a toggle that fades
 // both frames between them
@@ -406,7 +369,7 @@ export function PageScreensShowcase({
       >
         {pages.length > 1 && (
           <>
-            <Segmented
+            <SegmentedControl
               label="Page"
               className="max-md:hidden"
               options={pages.map((option, index) => ({
@@ -445,7 +408,7 @@ export function PageScreensShowcase({
         )}
         <div className="ml-auto flex shrink-0 items-center gap-2">
           {page.versions.length > 1 && (
-            <Segmented
+            <SegmentedControl
               label={page.title ? `${page.title} version` : "Version"}
               options={page.versions.map((option, index) => ({
                 value: index,
@@ -455,7 +418,7 @@ export function PageScreensShowcase({
               onChange={pickVersion}
             />
           )}
-          <Segmented
+          <SegmentedControl
             label="Device"
             className="md:hidden"
             options={(["mobile", "desktop"] as const).map((device) => ({

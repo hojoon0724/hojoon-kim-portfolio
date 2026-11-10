@@ -213,7 +213,7 @@ export function MoindiCollaboration({ id }: { id: string }) {
               title bar and padding the editor's font sizing allows for). it spans every row, so when the text beside
               it runs taller, it stretches to match; the code stays at 13px */}
           <div
-            className="[container-type:size] min-h-16 [grid-area:editor] md:min-h-(--editor-h)"
+            className="@container-[size] min-h-16 [grid-area:editor] md:min-h-(--editor-h)"
             style={
               {
                 "--editor-h": `calc(${MAX_LINES * 1.4 * 13}px + 3.25rem)`,

@@ -872,7 +872,7 @@ export function MoindiCollaborationV1({ id }: { id: string }) {
           ref={stageRef}
           className="gap-sm md:gap-md grid min-h-0 flex-1 grid-cols-1 max-md:overflow-y-auto md:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]"
         >
-          <div className="[container-type:size] h-full min-h-60">
+          <div className="@container-[size] h-full min-h-60">
             <MockEditor
               key={relay.id}
               views={views}

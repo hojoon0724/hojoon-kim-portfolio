@@ -510,7 +510,7 @@ export function TypemarkLayer({
           empty, sitting on the bottom of that row. it's always here so it can fade in and out in place */}
       <svg
         viewBox={`0 0 ${2 * PITCH - (PITCH - GLYPH)} ${GLYPH}`}
-        className="absolute aspect-[120/56] overflow-visible"
+        className="absolute aspect-120/56 overflow-visible"
         style={{
           ...wordmarkPlace,
           opacity: layout.wordmark ? 1 : 0,

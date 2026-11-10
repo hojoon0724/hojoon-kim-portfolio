@@ -1,11 +1,9 @@
 "use client";
 
-import { Icon } from "@/components/1-atoms";
+import { Icon, toggleButtonClass, SlashTexture } from "@/components/1-atoms";
 import { useInView } from "@/hooks";
 import { RandomTiles } from "@/demos/moindi/components/RandomTiles";
 import { Fragment, useEffect, useId, useState } from "react";
-import { toggleButtonClass } from "../designed-in-code/shared";
-import { SlashTexture } from "../designed-in-code/MotionSamples";
 import { visualHeight } from "./frame";
 import { GLYPH, LETTERS, PITCH, TYPEMARK_PATH } from "./typemark";
 

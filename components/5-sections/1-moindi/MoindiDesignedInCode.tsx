@@ -10,7 +10,7 @@ import { LayoutTests } from "./designed-in-code/LayoutTests";
 import { MotionSamples } from "./designed-in-code/MotionSamples";
 import { PatternTiles } from "./designed-in-code/PatternTiles";
 import { PurchaseGrowth } from "./designed-in-code/PurchaseGrowth";
-import { SlideCarousel, type Slide } from "./SlideCarousel";
+import { SlideCarousel, type Slide } from "@/components/4-organisms";
 
 // guides for building the section, never rendered. what it shows is in section and slides
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

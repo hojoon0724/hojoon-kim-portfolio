@@ -9,7 +9,7 @@ import { IdentitySystem } from "./brand/IdentitySystem";
 import { MotionComparison } from "./brand/MotionComparison";
 import { TypemarkPicker } from "./brand/TypemarkPicker";
 import { VoiceExamples } from "./brand/VoiceExamples";
-import { SlideCarousel, type Slide } from "./SlideCarousel";
+import { SlideCarousel, type Slide } from "@/components/4-organisms";
 
 // guides for building the section, never rendered. the source is public/moindi/brand-guidelines-v1.pdf
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

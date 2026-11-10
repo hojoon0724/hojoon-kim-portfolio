@@ -55,7 +55,6 @@ export function ExpandedProjectSummary({
                 (img) => `${project.imagePath}/${img}`,
               )}
               pause={activeTargetKey !== animationKey}
-              
               indicatorBgClassName={project.backgroundClassName}
             />
           </StaggeredReveal>
@@ -87,7 +86,7 @@ export function ExpandedProjectSummary({
                   </div>
 
                   <StaggeredReveal
-                    className="tools-container flex flex-row flex-wrap w-full"
+                    className="tools-container flex w-full flex-row flex-wrap"
                     delayMs={storyAnimationDelayMs / 2}
                     resetOnLeave={false}
                     threshold={0}

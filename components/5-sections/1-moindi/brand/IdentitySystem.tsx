@@ -2,7 +2,8 @@
 
 import { useInView } from "@/hooks";
 import { useEffect, useState } from "react";
-import { Stage, visualHeight } from "./frame";
+import { FitStage } from "@/components/2-molecules";
+import { visualHeight } from "./frame";
 import {
   APPEAR_LAST_START_MS,
   finalStep,
@@ -191,7 +192,7 @@ export function IdentitySystem() {
       className={`p-sm md:p-md flex flex-col bg-(--moindi-gray-950) text-(--moindi-primary-500) ${visualHeight}`}
     >
       <div className="min-h-0 flex-1">
-        <Stage w={STAGE.w} h={STAGE.h}>
+        <FitStage w={STAGE.w} h={STAGE.h}>
           <div
             role="img"
             aria-label="The MOindi typemark, each letter built from the icon"
@@ -209,7 +210,7 @@ export function IdentitySystem() {
               phase={frame.phase}
             />
           </div>
-        </Stage>
+        </FitStage>
       </div>
       <p className="sr-only" aria-live="polite">
         {frame.caption}

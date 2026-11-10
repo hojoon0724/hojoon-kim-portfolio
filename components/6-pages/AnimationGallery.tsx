@@ -6,8 +6,7 @@ export function AnimationGallery() {
     <Section className="mb-xl">
       <h1>Animations</h1>
 
-      <div className="animations-container grid grid-cols-1 md:grid-cols-2 gap-sm">
-        
+      <div className="animations-container gap-sm grid grid-cols-1 md:grid-cols-2">
         <AnimationTrigger
           animationClass="animation-fade-in"
           animationName="fade-in"

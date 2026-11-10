@@ -442,7 +442,7 @@ export function FrenchFoldSeasonPoster({
     "flex h-8 w-12 items-center justify-center rounded-full border transition-opacity";
 
   return (
-    <div className="french-fold-poster-container h-full w-full  max-h-dvh">
+    <div className="french-fold-poster-container h-full max-h-dvh w-full">
       {dev && (
         <div className="dev-container flex min-h-120 items-start justify-start gap-4 border">
           {posterSrcs.map((src, index) => {

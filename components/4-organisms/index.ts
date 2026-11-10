@@ -8,3 +8,4 @@ export * from "./ProjectSectionNav";
 export * from "./ProjectSectionSnapTargetContainer";
 export * from "./TimelineScroll";
 export * from "./WorkGallery";
+export * from "./SlideCarousel";

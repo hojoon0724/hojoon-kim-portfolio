@@ -477,7 +477,7 @@ function Part({
   // over it once their transitions settle
   const frame = `relative after:pointer-events-none after:absolute after:-inset-1 after:border-2 after:border-dashed after:border-(--moindi-gray-950) after:transition-opacity after:duration-700 max-md:after:border ${
     isFramed
-      ? "z-10 [transform:translateZ(0)] after:opacity-100"
+      ? "z-10 transform-[translateZ(0)] after:opacity-100"
       : "after:opacity-0"
   }`;
   const effect = isNested

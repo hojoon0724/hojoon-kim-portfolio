@@ -1,8 +1,8 @@
 "use client";
 
+import { toggleButtonClass } from "@/components/1-atoms";
 import Image from "next/image";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
-import { toggleButtonClass } from "./shared";
 
 // every theme ran the same tests, so each one has a file per theme
 export const themes = ["Light", "Dark", "Accent", "Secondary"] as const;
@@ -78,7 +78,12 @@ const columnOptions = [1, 2, 4];
 // column, a 2x2 grid or one row
 function bestArrangement(width: number, height: number): Arrangement {
   const GAP = gapFor(width);
-  let best: Arrangement = { buttons: "top", columns: 2, tileWidth: 0, gap: GAP };
+  let best: Arrangement = {
+    buttons: "top",
+    columns: 2,
+    tileWidth: 0,
+    gap: GAP,
+  };
   for (const buttons of ["top", "side"] as const) {
     const areaW = buttons === "side" ? width - BUTTON_COLUMN_W - GAP : width;
     const areaH = buttons === "top" ? height - BUTTON_ROW_H - GAP : height;
@@ -131,7 +136,7 @@ export function LayoutTests() {
   // fills the height it's given: the slide's visual area on phones, and as tall as the showcase frames on md
   // and up (an iphone 17 pro at most 280px wide, or what the viewport leaves)
   return (
-    <div className="md:p-md h-full p-1.5 bg-(--moindi-gray-600) text-(--moindi-gray-50) md:h-[min(calc(280px*150/71.9),calc(100svh-24rem))]">
+    <div className="md:p-md h-full bg-(--moindi-gray-600) p-1.5 text-(--moindi-gray-50) md:h-[min(calc(280px*150/71.9),calc(100svh-24rem))]">
       {/* the room to fill. the buttons and tiles sit together as one group, centered in it */}
       <div
         ref={areaRef}

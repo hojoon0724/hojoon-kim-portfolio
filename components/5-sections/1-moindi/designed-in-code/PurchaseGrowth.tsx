@@ -1,16 +1,10 @@
 "use client";
 
+import { Collapse, CrossFade, ReplayIcon } from "@/components/1-atoms";
+import { useCountdown } from "@/hooks";
 import { useInView } from "@/hooks";
 import { Space_Grotesk, Space_Mono } from "next/font/google";
-import {
-  memo,
-  useEffect,
-  useRef,
-  useState,
-  type CSSProperties,
-  type ReactNode,
-} from "react";
-import { useCountdown } from "./shared";
+import { memo, useEffect, useRef, useState, type CSSProperties } from "react";
 
 // moindi's own type, as the shipped page sets it: Space Grotesk for text, Space Mono for numbers and labels
 const spaceGrotesk = Space_Grotesk({ subsets: ["latin"] });
@@ -55,52 +49,6 @@ const STEP_MS = 500;
 
 const ease =
   "ease-[cubic-bezier(0.36,0.07,0.19,0.97)] duration-450 motion-reduce:transition-none";
-
-// a block that grows in or collapses away
-function Reveal({
-  show,
-  children,
-  className = "",
-}: {
-  show: boolean;
-  children: ReactNode;
-  className?: string;
-}) {
-  return (
-    <div
-      className={`grid transition-[grid-template-rows,opacity] ${ease} ${show ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"} ${className}`}
-      aria-hidden={!show || undefined}
-    >
-      <div className="min-h-0 overflow-hidden">{children}</div>
-    </div>
-  );
-}
-
-// two versions of the same spot, cross-fading
-function Swap({
-  showSecond,
-  first,
-  second,
-  className = "",
-}: {
-  showSecond: boolean;
-  first: ReactNode;
-  second: ReactNode;
-  className?: string;
-}) {
-  const layer = (shown: boolean) =>
-    `[grid-area:stack] transition-opacity ${ease} ${shown ? "opacity-100" : "pointer-events-none opacity-0"}`;
-  return (
-    <div className={`grid [grid-template-areas:'stack'] ${className}`}>
-      <div className={layer(!showSecond)} aria-hidden={showSecond || undefined}>
-        {first}
-      </div>
-      <div className={layer(showSecond)} aria-hidden={!showSecond || undefined}>
-        {second}
-      </div>
-    </div>
-  );
-}
 
 // every box has the same 1px line in the shipped border color, shared between neighbors so the lines stay
 // even: one box on the outside, and each inner box drawn against it, like a bento box
@@ -160,7 +108,8 @@ function PurchaseCard({
       <div
         className={`flex justify-between gap-(--pad) border-b p-(--pad) ${narrow ? "flex-col items-start gap-[0.25em]" : "items-center"} ${line}`}
       >
-        <Swap
+        <CrossFade
+          transitionClassName={ease}
           showSecond={step >= 1}
           first={<div className={`${mono} text-[1.6em]`}>Record Deal</div>}
           second={
@@ -190,9 +139,9 @@ function PurchaseCard({
           </div>
 
           <div className={`flex flex-col border-t p-(--pad) ${line}`}>
-            <Reveal show={step < 1}>
+            <Collapse transitionClassName={ease} open={step < 1}>
               <div className="pb-[0.5em] text-[1.5em]">{round.title}</div>
-            </Reveal>
+            </Collapse>
             {/* the full text, then a preview that clamps to a few lines */}
             <p
               className={`text-[0.75em] leading-snug ${step >= 2 ? "overflow-hidden" : "text-justify"}`}
@@ -209,15 +158,15 @@ function PurchaseCard({
               {round.description}
             </p>
             {/* as the shipped collapsible paragraph: "keep reading" right under the text, on the right */}
-            <Reveal show={step >= 2}>
+            <Collapse transitionClassName={ease} open={step >= 2}>
               <span
                 className={`${mono} block pt-(--pad) text-end text-[0.75em] font-bold uppercase opacity-60`}
               >
                 Keep reading
               </span>
-            </Reveal>
+            </Collapse>
             {/* and the favorite button at the bottom of the box, on the left */}
-            <Reveal show={step >= 2}>
+            <Collapse transitionClassName={ease} open={step >= 2}>
               <div className="flex pt-(--pad)">
                 <span
                   className={`${mono} flex items-center gap-[0.4em] border-2 border-(--moindi-primary-500) px-[1.5em] py-[0.5em] text-[0.8em] font-bold text-(--moindi-primary-600) uppercase`}
@@ -228,15 +177,15 @@ function PurchaseCard({
                   Favorite
                 </span>
               </div>
-            </Reveal>
+            </Collapse>
           </div>
 
           {/* the sketch's time left, split and total */}
-          <Reveal show={step < 3}>
+          <Collapse transitionClassName={ease} open={step < 3}>
             <div
               className={`flex flex-col gap-(--pad) border-t p-(--pad) ${line}`}
             >
-              <Reveal show={step < 1}>
+              <Collapse transitionClassName={ease} open={step < 1}>
                 <div className="flex flex-col items-center gap-[0.3em]">
                   <span className={`${mono} text-[0.75em]`}>
                     Time Remaining
@@ -247,7 +196,7 @@ function PurchaseCard({
                     {countdownText}
                   </span>
                 </div>
-              </Reveal>
+              </Collapse>
               <div className="flex flex-col gap-[0.3em]">
                 <div className="flex justify-between text-[0.7em]">
                   <span>Artist</span>
@@ -272,10 +221,10 @@ function PurchaseCard({
                 </div>
               </div>
             </div>
-          </Reveal>
+          </Collapse>
 
           {/* the artist, then the goal, as the shipped phone page stacks them */}
-          <Reveal show={step >= 3}>
+          <Collapse transitionClassName={ease} open={step >= 3}>
             <div
               className={`flex items-center gap-(--pad) border-t p-(--pad) ${line}`}
             >
@@ -295,7 +244,7 @@ function PurchaseCard({
               <span>Goal:</span>
               <span className={mono}>{dollars(round.total)}.00</span>
             </div>
-          </Reveal>
+          </Collapse>
         </div>
       ) : (
         <div
@@ -315,14 +264,14 @@ function PurchaseCard({
           </div>
 
           <div
-            // sized by the cover, not its own text ([contain:size]), so the row is only as tall as the art.
+            // sized by the cover, not its own text (contain-[size]), so the row is only as tall as the art.
             // the sketch has no line between the cover and the text; the shipped page draws one
-            className={`flex min-w-0 flex-col justify-between overflow-hidden transition-[border-width] [contain:size] ${ease} ${line} ${step >= 3 ? "border-l" : "border-l-0"}`}
+            className={`flex min-w-0 flex-col justify-between overflow-hidden transition-[border-width] contain-[size] ${ease} ${line} ${step >= 3 ? "border-l" : "border-l-0"}`}
           >
             <div className="flex min-h-0 flex-1 flex-col p-(--pad) pb-0">
-              <Reveal show={step < 1}>
+              <Collapse transitionClassName={ease} open={step < 1}>
                 <div className="pb-[0.6em] text-[1.6em]">{round.title}</div>
-              </Reveal>
+              </Collapse>
               {/* the full text, then a preview that clamps to a few lines */}
               <p
                 className={`leading-snug ${step >= 2 ? "overflow-hidden text-[1em]" : "text-[0.72em]"}`}
@@ -339,15 +288,19 @@ function PurchaseCard({
                 {round.description}
               </p>
               {/* as the shipped collapsible paragraph: "keep reading" right under the text, on the right */}
-              <Reveal show={step >= 2}>
+              <Collapse transitionClassName={ease} open={step >= 2}>
                 <span
                   className={`${mono} block pt-(--pad) text-end text-[0.75em] font-bold uppercase opacity-60`}
                 >
                   Keep reading
                 </span>
-              </Reveal>
+              </Collapse>
               {/* and the favorite button at the bottom of the box, on the left */}
-              <Reveal show={step >= 2} className="mt-auto">
+              <Collapse
+                transitionClassName={ease}
+                open={step >= 2}
+                className="mt-auto"
+              >
                 <div className="flex pt-(--pad) pb-(--pad)">
                   <span
                     className={`${mono} flex items-center gap-[0.4em] border-2 border-(--moindi-primary-500) px-[1.5em] py-[0.5em] text-[0.8em] font-bold text-(--moindi-primary-600) uppercase`}
@@ -358,10 +311,10 @@ function PurchaseCard({
                     Favorite
                   </span>
                 </div>
-              </Reveal>
+              </Collapse>
             </div>
             {/* the artist and the goal, where the split was */}
-            <Reveal show={step >= 3}>
+            <Collapse transitionClassName={ease} open={step >= 3}>
               <div className={`grid grid-cols-[1fr_auto] border-t ${line}`}>
                 <div
                   className={`flex items-center gap-(--pad) border-r p-(--pad) ${line}`}
@@ -381,16 +334,16 @@ function PurchaseCard({
                   <span className={mono}>{dollars(round.total)}.00</span>
                 </div>
               </div>
-            </Reveal>
+            </Collapse>
           </div>
 
           {/* the sketch's right column: time left, the artist/investor split and the total */}
           <div
-            className={`flex min-w-0 flex-col justify-between overflow-hidden transition-opacity [contain:size] ${ease} ${step >= 3 ? "opacity-0" : "opacity-100"}`}
+            className={`flex min-w-0 flex-col justify-between overflow-hidden transition-opacity contain-[size] ${ease} ${step >= 3 ? "opacity-0" : "opacity-100"}`}
             aria-hidden={step >= 3 || undefined}
           >
             <div className="flex w-[19em] flex-col justify-between gap-(--pad) p-(--pad)">
-              <Reveal show={step < 1}>
+              <Collapse transitionClassName={ease} open={step < 1}>
                 <div className="flex flex-col items-center gap-[0.4em]">
                   <span className="text-[0.75em]">Time Remaining</span>
                   <span
@@ -399,7 +352,7 @@ function PurchaseCard({
                     {countdownText}
                   </span>
                 </div>
-              </Reveal>
+              </Collapse>
               <div className="flex flex-col gap-[0.4em]">
                 <div className="flex justify-between text-[0.75em]">
                   <span>Artist</span>
@@ -444,7 +397,7 @@ function PurchaseCard({
             </div>
           ))}
         </div>
-        <Reveal show={!compactBar}>
+        <Collapse transitionClassName={ease} open={!compactBar}>
           <div className={`${mono} flex pt-[0.4em] text-[0.8em]`}>
             {segments.slice(0, 3).map((segment) => (
               <span
@@ -456,8 +409,8 @@ function PurchaseCard({
               </span>
             ))}
           </div>
-        </Reveal>
-        <Reveal show={isFinal}>
+        </Collapse>
+        <Collapse transitionClassName={ease} open={isFinal}>
           <input
             type="range"
             min={0}
@@ -467,11 +420,12 @@ function PurchaseCard({
             onChange={(event) => setPurchase(+event.target.value)}
             tabIndex={isFinal ? 0 : -1}
             aria-label="Shares to buy"
-            className="my-[0.75em] h-[1.5em] w-full cursor-pointer appearance-none bg-transparent [&::-moz-range-thumb]:size-[1.5em] [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:bg-(--moindi-primary-500) [&::-moz-range-thumb]:shadow-[0_0_0.75em_0.3em_hsl(30_100%_50%/0.35)] [&::-moz-range-track]:h-[0.75em] [&::-moz-range-track]:rounded-full [&::-moz-range-track]:bg-(--moindi-gray-200) [&::-webkit-slider-runnable-track]:h-[0.75em] [&::-webkit-slider-runnable-track]:rounded-full [&::-webkit-slider-runnable-track]:bg-(--moindi-gray-200) [&::-webkit-slider-thumb]:-mt-[0.375em] [&::-webkit-slider-thumb]:size-[1.5em] [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-(--moindi-primary-500) [&::-webkit-slider-thumb]:shadow-[0_0_0.75em_0.3em_hsl(30_100%_50%/0.35)]"
+            className="my-[0.75em] h-[1.5em] w-full cursor-pointer appearance-none bg-transparent [&::-moz-range-thumb]:size-[1.5em] [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:bg-(--moindi-primary-500) [&::-moz-range-thumb]:shadow-[0_0_0.75em_0.3em_hsl(30_100%_50%/0.35)] [&::-moz-range-track]:h-[0.75em] [&::-moz-range-track]:rounded-full [&::-moz-range-track]:bg-(--moindi-gray-200) [&::-webkit-slider-runnable-track]:h-[0.75em] [&::-webkit-slider-runnable-track]:rounded-full [&::-webkit-slider-runnable-track]:bg-(--moindi-gray-200) [&::-webkit-slider-thumb]:mt-[-0.375em] [&::-webkit-slider-thumb]:size-[1.5em] [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-(--moindi-primary-500) [&::-webkit-slider-thumb]:shadow-[0_0_0.75em_0.3em_hsl(30_100%_50%/0.35)]"
           />
-        </Reveal>
+        </Collapse>
         {/* typing an amount, then the calculator the slider drives */}
-        <Swap
+        <CrossFade
+          transitionClassName={ease}
           showSecond={isFinal}
           className={isFinal ? "" : "pt-(--pad)"}
           first={
@@ -520,7 +474,7 @@ function PurchaseCard({
       </div>
 
       {/* revenue potential, which the shipped card leaves out */}
-      <Reveal show={step < 5}>
+      <Collapse transitionClassName={ease} open={step < 5}>
         <div
           className={`${mono} p-(--pad) text-[0.8em] ${narrow ? "grid grid-cols-3 gap-[0.6em]" : "flex items-center justify-between"}`}
         >
@@ -538,26 +492,8 @@ function PurchaseCard({
             </span>
           ))}
         </div>
-      </Reveal>
+      </Collapse>
     </div>
-  );
-}
-
-// a circular arrow: restart from the beginning
-function ReplayIcon({ className = "" }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="square"
-      className={className}
-      aria-hidden="true"
-    >
-      <path d="M4 12a8 8 0 1 0 2.34-5.66" />
-      <path d="M4 4v5h5" />
-    </svg>
   );
 }
 

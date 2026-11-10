@@ -1,6 +1,6 @@
 "use client";
 
-import { ProjectSectionSnapTargetContainer } from "@/components/4-organisms";
+import { ProjectSectionSnapTargetContainer } from "./ProjectSectionSnapTargetContainer";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
 export interface Slide {
@@ -158,7 +158,7 @@ export function SlideCarousel({
   // to it (cqh); anything that still doesn't fit scrolls here rather than growing the section. md and up: every
   // slide is as tall as the tallest one needs, and visuals size to the viewport
   const visualSlotClass =
-    "min-h-0 flex-1 [--showcase-phone-w:min(100cqw,calc((100cqh-2.5rem)*71.9/150))] max-md:[container-type:size] max-md:overflow-y-auto md:[--showcase-phone-w:min(280px,calc((100svh-24rem)*71.9/150))]";
+    "min-h-0 flex-1 [--showcase-phone-w:min(100cqw,calc((100cqh-2.5rem)*71.9/150))] max-md:@container-[size] max-md:overflow-y-auto md:[--showcase-phone-w:min(280px,calc((100svh-24rem)*71.9/150))]";
 
   const visualBody = (slide: Slide) => (
     <div className="gap-sm flex h-full flex-col">
@@ -166,7 +166,7 @@ export function SlideCarousel({
         {slide.visualTitle}
       </h3>
       {/* its own size container, so the visual fits the height left under the heading */}
-      <div className="min-h-0 flex-1 max-md:[container-type:size]">
+      <div className="min-h-0 flex-1 max-md:@container-[size]">
         {slide.visual}
       </div>
     </div>

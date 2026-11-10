@@ -1,7 +1,7 @@
 "use client";
 
+import { toggleButtonClass } from "@/components/1-atoms";
 import { useState } from "react";
-import { toggleButtonClass } from "../designed-in-code/shared";
 import { voiceExamples } from "./data";
 import { visualHeight } from "./frame";
 

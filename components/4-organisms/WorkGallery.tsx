@@ -15,19 +15,19 @@ const items: WorkItem[] = [
     title: "MOindi",
     description: "Description for project one.",
     imageUrl: "/svg/moindi.svg",
-    bgColor: "red"
+    bgColor: "red",
   },
   {
     title: "enSRQ",
     description: "Description for project two.",
     imageUrl: "/svg/ensrq.svg",
-    bgColor: "blue"
+    bgColor: "blue",
   },
   {
     title: "Rocket City New Music",
     description: "Description for project three.",
     imageUrl: "/svg/rcnm.svg",
-    bgColor: "green"
+    bgColor: "green",
   },
 ];
 
@@ -45,21 +45,23 @@ export function WorkGallery() {
             src={selectedItem.imageUrl}
             alt={selectedItem.title}
             fill
-            style={{ objectFit: "cover", backgroundColor: selectedItem.bgColor }}
+            style={{
+              objectFit: "cover",
+              backgroundColor: selectedItem.bgColor,
+            }}
           />
         )}
       </div>
 
-      <Section className="lg:pt-[calc(var(--spacing-nav)+(var(--spacing-md)*2))] z-20">
-        <div className="work-items-container relative z-10 grid grid-cols-1 gap-lg md:grid-cols-2 border">
+      <Section className="z-20 lg:pt-[calc(var(--spacing-nav)+(var(--spacing-md)*2))]">
+        <div className="work-items-container gap-lg relative z-10 grid grid-cols-1 border md:grid-cols-2">
           {items.map((item) => (
             <div
               key={item.title}
-              className="work-item aspect-4/3 flex flex-col items-center justify-center text-accent gap-sm"
-              
+              className="work-item text-accent gap-sm flex aspect-4/3 flex-col items-center justify-center"
               onMouseEnter={() => handleItemHover(item)}
             >
-              <div className="item-image-container w-full h-full relative border overflow-hidden">
+              <div className="item-image-container relative h-full w-full overflow-hidden border">
                 <Image
                   src={item.imageUrl}
                   alt={item.title}

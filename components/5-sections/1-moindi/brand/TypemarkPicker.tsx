@@ -1,8 +1,10 @@
 "use client";
 
+import { useElementSize } from "@/hooks";
 import { useInView } from "@/hooks";
-import { useEffect, useRef, useState, useSyncExternalStore } from "react";
-import { Stage, visualHeight } from "./frame";
+import { useEffect, useState, useSyncExternalStore } from "react";
+import { FitStage } from "@/components/2-molecules";
+import { visualHeight } from "./frame";
 import {
   GLYPH,
   layouts,
@@ -68,22 +70,6 @@ const behind = (
   y: front.y + (front.h - size.h) / 2,
   ...size,
 });
-
-// an element's size, kept up to date
-function useSize<T extends HTMLElement>() {
-  const ref = useRef<T>(null);
-  const [size, setSize] = useState({ w: 0, h: 0 });
-  useEffect(() => {
-    const element = ref.current;
-    if (!element) return;
-    const observer = new ResizeObserver(([entry]) =>
-      setSize({ w: entry.contentRect.width, h: entry.contentRect.height }),
-    );
-    observer.observe(element);
-    return () => observer.disconnect();
-  }, []);
-  return [ref, size] as const;
-}
 
 const subscribeToWidth = (onChange: () => void) => {
   const query = window.matchMedia("(min-width: 768px)");
@@ -690,7 +676,7 @@ export function TypemarkPicker() {
     () => window.matchMedia("(min-width: 768px)").matches,
     () => false,
   );
-  const [previewRef, preview] = useSize<HTMLDivElement>();
+  const [previewRef, preview] = useElementSize<HTMLDivElement>();
   const scale = letterScale(preview, isMd);
   const frameFor = (mark: VariantId) => {
     const units = unitsFor(mark);
@@ -810,7 +796,7 @@ export function TypemarkPicker() {
         <div className="flex min-h-0 flex-col bg-(--moindi-gray-950)">
           <div ref={previewRef} className="min-h-0 flex-1">
             {preview.w > 0 && preview.h > 0 && (
-              <Stage w={STAGE.w} h={STAGE.h}>
+              <FitStage w={STAGE.w} h={STAGE.h}>
                 <div
                   role="img"
                   aria-label={
@@ -853,7 +839,7 @@ export function TypemarkPicker() {
                     );
                   })}
                 </div>
-              </Stage>
+              </FitStage>
             )}
           </div>
         </div>

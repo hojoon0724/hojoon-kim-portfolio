@@ -4,3 +4,5 @@ export { useInView } from "./use-in-view";
 export { useArrowKeyNavigation } from "./use-arrow-key-navigation";
 export { useActiveScrollStep } from "./use-active-scroll-step";
 export { useTooltipDelay } from "./use-tooltip-delay";
+export { useCountdown } from "./use-countdown";
+export { useElementSize } from "./use-element-size";

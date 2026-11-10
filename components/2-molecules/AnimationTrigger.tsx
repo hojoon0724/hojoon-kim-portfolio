@@ -19,7 +19,9 @@ export function AnimationTrigger({
   startVisible = false,
   onComplete,
 }: AnimationTriggerProps) {
-  const [animationState, setAnimationState] = useState<"idle" | "animating" | "completed">("idle");
+  const [animationState, setAnimationState] = useState<
+    "idle" | "animating" | "completed"
+  >("idle");
   const [animationKey, setAnimationKey] = useState(0);
 
   const resetToInitial = () => {
@@ -38,12 +40,13 @@ export function AnimationTrigger({
     }, 500);
   };
 
-  const shouldApplyAnimation = animationState === "animating" || animationState === "completed";
+  const shouldApplyAnimation =
+    animationState === "animating" || animationState === "completed";
   const isDisabled = animationState === "animating";
 
   return (
     <div className="grid grid-cols-[auto_1fr] items-center border">
-      <div className="name-button-container flex flex-col items-end border-r px-xs py-xs h-full">
+      <div className="name-button-container px-xs py-xs flex h-full flex-col items-end border-r">
         <span className="capitalize">{animationName}</span>
         <div className="buttons-container grid grid-cols-2">
           <Button
@@ -54,15 +57,24 @@ export function AnimationTrigger({
             color="neutral"
             size="sm"
           />
-          <Button onClick={handleTrigger} disabled={isDisabled} text="play" variant="filled" color="accent" size="sm" />
+          <Button
+            onClick={handleTrigger}
+            disabled={isDisabled}
+            text="play"
+            variant="filled"
+            color="accent"
+            size="sm"
+          />
         </div>
       </div>
-      <div className="overflow-hidden pl-2 pr-26 py-2">
+      <div className="overflow-hidden py-2 pr-26 pl-2">
         <div
           key={animationKey}
           className={`${shouldApplyAnimation ? animationClass : startVisible ? "" : "invisible"}`}
         >
-          {children || <div className="w-24 h-12 bg-surface-accent-on-inverted border rounded" />}
+          {children || (
+            <div className="bg-surface-accent-on-inverted h-12 w-24 rounded border" />
+          )}
         </div>
       </div>
     </div>

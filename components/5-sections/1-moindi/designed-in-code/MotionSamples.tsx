@@ -1,10 +1,9 @@
 "use client";
 
-import { ScrambleRevealText } from "@/components/1-atoms";
-import { useInView } from "@/hooks";
+import { ScrambleRevealText, SlashTexture } from "@/components/1-atoms";
+import { useCountdown, useInView } from "@/hooks";
 import { applyBezier, type BezierPoints } from "@/lib/bezier";
 import { useEffect, useId, useRef, useState, type ReactNode } from "react";
-import { useCountdown } from "./shared";
 
 // the angular project's curves: bars grow and values count on cubic-bezier(0, 0, 0.25, 1) (growToTop and the
 // count-up atom), and the gauge's tick reveal and fill run on cubic-bezier(0.4, 0, 0.2, 1)
@@ -160,7 +159,7 @@ function GaugeReading({
       <div className="relative size-24 md:size-32 lg:size-40">
         <svg
           viewBox={`0 0 ${GAUGE_SIZE} ${GAUGE_SIZE}`}
-          className="size-full rotate-[135deg]"
+          className="size-full rotate-135"
           aria-hidden="true"
         >
           {/* the arc that sweeps in and reveals the track and its ticks */}
@@ -534,48 +533,6 @@ export const cumulativeStreams = (week: number) =>
 export const CHART_MAX = 450;
 const CHART_CYCLE_MS = 2500;
 
-// the original's slash-texture: two thin diagonal strokes repeated as a pattern, in the bar's color
-export function SlashTexture({
-  color,
-  scale = 0.35,
-}: {
-  color: string;
-  scale?: number;
-}) {
-  // useId can include characters a url(#...) reference trips over
-  const id = `slash-${useId().replace(/[^a-zA-Z0-9_-]/g, "")}`;
-  return (
-    <svg className="absolute inset-0 size-full" aria-hidden="true">
-      <defs>
-        <pattern
-          id={id}
-          patternUnits="userSpaceOnUse"
-          width={16 * scale}
-          height={36 * scale}
-        >
-          <g fill={color} transform={`scale(${scale})`}>
-            <rect
-              x="-21.8"
-              y="17"
-              width="41.4"
-              height="2"
-              transform="rotate(-66.04 -1.1 18)"
-            />
-            <rect
-              x="-5.8"
-              y="17"
-              width="41.4"
-              height="2"
-              transform="rotate(-66.04 14.9 18)"
-            />
-          </g>
-        </pattern>
-      </defs>
-      <rect width="100%" height="100%" fill={`url(#${id})`} />
-    </svg>
-  );
-}
-
 // one bar of the series: a slash-textured track the full height of the chart, with the solid fill rising
 // inside it to the value, and the value itself underneath
 function ChartBar({
@@ -605,7 +562,7 @@ function ChartBar({
           // put while they're revealed. growing its height instead would drag the pattern along with the top
           // its own compositing layer the whole time: chrome runs the clip-path wipe on the gpu, and without this the
           // slash pattern is redrawn a hair differently when the wipe ends, which flickers bar by bar
-          className="absolute inset-0 [transform:translateZ(0)] overflow-hidden bg-(--moindi-gray-100)"
+          className="absolute inset-0 transform-[translateZ(0)] overflow-hidden bg-(--moindi-gray-100)"
           style={{
             clipPath: isInView ? "inset(0% 0 0 0)" : "inset(100% 0 0 0)",
             transition: isInView

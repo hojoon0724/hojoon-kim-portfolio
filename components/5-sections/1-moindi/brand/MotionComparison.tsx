@@ -1,6 +1,10 @@
 "use client";
 
-import { ScrambleRevealText } from "@/components/1-atoms";
+import {
+  ScrambleRevealText,
+  SegmentedControl,
+  SlashTexture,
+} from "@/components/1-atoms";
 import { useInView } from "@/hooks";
 import { applyBezier, type BezierPoints } from "@/lib/bezier";
 import { useEffect, useId, useState } from "react";
@@ -13,7 +17,6 @@ import {
   GAUGE_SIZE,
   GAUGE_STROKE,
   SCRAMBLE_BEZIER,
-  SlashTexture,
   TICK_LENGTH,
   gaugeReadings,
 } from "../designed-in-code/MotionSamples";
@@ -254,13 +257,13 @@ function CurvePlot({
             units in from the plot's edges, so 94.6% from the far side. progress is set vertically rather than
             rotated, so its box is as narrow as the text and the gap stays true */}
         <span
-          className="roboto-mono absolute left-[calc(50%+2.7%)] -translate-x-1/2 text-[9px] leading-none uppercase opacity-60"
+          className="roboto-mono absolute left-[52.7%] -translate-x-1/2 text-[9px] leading-none uppercase opacity-60"
           style={{ top: "calc(94.6% + 6px)" }}
         >
           Time
         </span>
         <span
-          className="roboto-mono absolute top-[calc(50%-2.7%)] -translate-y-1/2 rotate-180 text-[9px] leading-none uppercase opacity-60 [writing-mode:vertical-rl]"
+          className="roboto-mono absolute top-[47.3%] -translate-y-1/2 rotate-180 text-[9px] leading-none uppercase opacity-60 [writing-mode:vertical-rl]"
           style={{ right: "calc(94.6% + 6px)" }}
         >
           Progress
@@ -293,7 +296,7 @@ function SingleBar({ motion, started }: { motion: Motion; started: boolean }) {
         <div
           // its own compositing layer the whole time: chrome runs the clip-path wipe on the gpu, and without this the
           // slash pattern is redrawn a hair differently when the wipe ends, which flickers
-          className="absolute inset-0 [transform:translateZ(0)] overflow-hidden bg-(--moindi-gray-100)"
+          className="absolute inset-0 transform-[translateZ(0)] overflow-hidden bg-(--moindi-gray-100)"
           style={{
             clipPath: started ? "inset(0% 0 0 0)" : "inset(100% 0 0 0)",
             transition: started
@@ -364,7 +367,7 @@ function SingleGauge({
       <div className="relative aspect-square w-full">
         <svg
           viewBox={`0 0 ${GAUGE_SIZE} ${GAUGE_SIZE}`}
-          className="size-full rotate-[135deg]"
+          className="size-full rotate-135"
           aria-hidden="true"
         >
           <mask id={maskId}>
@@ -416,7 +419,7 @@ function SingleGauge({
           <span className="text-[1.4em]">{shownValue}%</span>
         </div>
       </div>
-      <div className="-mt-[6%]">
+      <div className="mt-[-6%]">
         {started ? (
           <ScrambleRevealText
             text={label}
@@ -530,23 +533,16 @@ export function MotionComparison() {
       {/* the control area: which motion, what it means, and its curve */}
       <div className={`gap-sm flex min-h-0 min-w-0 flex-col ${cardClass}`}>
         <div className="flex shrink-0 flex-wrap items-center justify-between gap-2">
-          <div
-            className="roboto-mono flex h-7 border border-current text-[11px] font-bold uppercase md:text-xs"
-            role="group"
-            aria-label="Motion"
-          >
-            {motions.map((option, index) => (
-              <button
-                key={option.label}
-                type="button"
-                aria-pressed={index === motionIndex}
-                onClick={() => show(index)}
-                className={`flex cursor-pointer items-center px-3 transition-colors duration-200 ${index > 0 ? "border-l border-current" : ""} ${index === motionIndex ? "bg-(--moindi-gray-900) text-(--moindi-gray-30)" : "hover:bg-current/10"}`}
-              >
-                {option.label}
-              </button>
-            ))}
-          </div>
+          <SegmentedControl
+            label="Motion"
+            options={motions.map((option, index) => ({
+              value: index,
+              content: option.label,
+            }))}
+            value={motionIndex}
+            onChange={show}
+            activeClassName="bg-(--moindi-gray-900) text-(--moindi-gray-30)"
+          />
           <span
             className="roboto-mono text-xs uppercase opacity-60 md:text-sm"
             aria-live="polite"

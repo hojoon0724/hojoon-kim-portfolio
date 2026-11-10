@@ -1,8 +1,7 @@
 "use client";
 
+import { toggleButtonClass, AssetImage } from "@/components/1-atoms";
 import { useState } from "react";
-import { AssetImage } from "../designed-in-code/shared";
-import { toggleButtonClass } from "../designed-in-code/shared";
 import { visualHeight } from "./frame";
 
 // pages from the guidelines' do / don't section, where choices are ranked rather than just marked right or wrong
@@ -50,7 +49,7 @@ export function AppliedExamples() {
         ))}
       </div>
       {/* every page stacked in one cell, so switching fades without a layout jump */}
-      <div className="[container-type:size] grid min-h-0 flex-1 [grid-template-areas:'page']">
+      <div className="@container-[size] grid min-h-0 flex-1 [grid-template-areas:'page']">
         {pages.map((page) => (
           <div
             key={page.id}
