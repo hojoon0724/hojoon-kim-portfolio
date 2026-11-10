@@ -1,5 +1,6 @@
 "use client";
 
+import { useInView } from "@/hooks";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { Stage, visualHeight } from "./frame";
 import {
@@ -655,8 +656,24 @@ function FlowEdgeView({
 // the cheatsheet as something to use: pick a placement and its path through the flowchart lights up, one question
 // at a time, while the space beside it takes the placement's shape and the letters rearrange into the variant the
 // chart lands on
+// how long each placement stays before the next: its path takes about two seconds to light up, then it rests
+const ADVANCE_MS = 4500;
+
 export function TypemarkPicker() {
   const [placementId, setPlacementId] = useState(placements[0].id);
+  const [inViewRef, isInView] = useInView<HTMLDivElement>(0.4);
+
+  // steps through the placements on its own while on screen. a timeout per placement rather than one interval,
+  // so a pick gets its full turn before the cycle carries on from it. held still for reduced motion
+  useEffect(() => {
+    if (!isInView) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const timeout = setTimeout(() => {
+      const index = placements.findIndex((option) => option.id === placementId);
+      setPlacementId(placements[(index + 1) % placements.length].id);
+    }, ADVANCE_MS);
+    return () => clearTimeout(timeout);
+  }, [isInView, placementId]);
   const placement =
     placements.find((option) => option.id === placementId) ?? placements[0];
   const { path, variant } = runCheatsheet(placement);
@@ -697,7 +714,7 @@ export function TypemarkPicker() {
   const percent = (value: number, total: number) => `${(value / total) * 100}%`;
 
   return (
-    <div className={`gap-sm flex flex-col ${visualHeight}`}>
+    <div ref={inViewRef} className={`gap-sm flex flex-col ${visualHeight}`}>
       {/* every button the same size: four across and two rows, or all eight in one row when there's room for it */}
       <div className="@container shrink-0">
         <div

@@ -22,7 +22,7 @@ const verdict = notes.copy.slice(verdictStart);
 const evidence = [
   {
     sectionId: "no-handoff",
-    section: "Design in Code",
+    section: "Designed in Code",
     line: "The interface wasn't drawn and handed off — it was designed the way it would ship.",
   },
   {

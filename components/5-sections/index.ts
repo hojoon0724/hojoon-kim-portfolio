@@ -2,7 +2,7 @@ export * from "./1-moindi/MoindiBrand";
 export * from "./1-moindi/MoindiCollaboration";
 export * from "./1-moindi/MoindiConclusion";
 export * from "./1-moindi/MoindiDemo";
-export * from "./1-moindi/MoindiDesignInCode";
+export * from "./1-moindi/MoindiDesignedInCode";
 export * from "./1-moindi/MoindiIntro";
 export * from "./1-moindi/MoindiThesis";
 export * from "./2-rcnm/RcnmDatabaseIntro";

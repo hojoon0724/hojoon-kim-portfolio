@@ -29,6 +29,15 @@ const I_TEMPO = 0.5;
 // and waiting it out reads as a pause. every piece picks up from wherever it is, so cutting in is seamless
 const OVERLAP = 0.55;
 
+// how long one step of a build holds the screen, before any tempo
+const stepMs = (step: { drawMs: number; moveMs: number }) =>
+  Math.max(step.drawMs, step.moveMs) * OVERLAP;
+// a letter's whole build at its own pace
+const buildMs = (index: number) =>
+  letterBuilds[index].slice(1).reduce((sum, step) => sum + stepMs(step), 0);
+// the n runs at whatever pace makes its build last exactly as long as the d's
+const N_TEMPO = buildMs(LETTERS.indexOf("d")) / buildMs(LETTERS.indexOf("n"));
+
 interface Frame {
   variant: VariantId;
   // how far along its build each letter is
@@ -95,7 +104,7 @@ const frames: Frame[] = [
     ms: 800 * OVERLAP,
   },
   ...LETTERS.flatMap((letter, index): Frame[] => {
-    const tempo = letter === "i" ? I_TEMPO : 1;
+    const tempo = letter === "i" ? I_TEMPO : letter === "n" ? N_TEMPO : 1;
     const stepsWith = (step: number) =>
       LETTERS.map((_, other) =>
         other < index ? finalStep(other) : other === index ? step : 0,
@@ -109,8 +118,9 @@ const frames: Frame[] = [
           tempo,
           phase: "shown",
           caption: `${letter}: ${step.caption}`,
-          // a move can be cut into as it settles; a line being drawn is seen through to the end
-          ms: Math.max(step.drawMs, step.moveMs * OVERLAP) * tempo,
+          // moves and lines can both be cut into as they settle: on the inertia curve a line is nearly drawn
+          // well before its time is up, and waiting out the tail reads as a stall
+          ms: stepMs(step) * tempo,
         }),
       ),
     ];
@@ -139,12 +149,25 @@ const frames: Frame[] = [
 // where reduced motion holds: the finished typemark
 const FINISHED_FRAME = frames.length - 2;
 
-// plays the frames in a loop while the slide is on screen. reduced motion skips the build and shows the finished
-// typemark
+// plays the frames in a loop while the slide is on screen, and starts over from the first frame each time it
+// comes back into view. reduced motion skips the build and shows the finished typemark
 export function IdentitySystem() {
   const [frameIndex, setFrameIndex] = useState(0);
+  // bumped each time it leaves the screen, so the typemark remounts at the first frame instead of animating
+  // back to it, and the next visit plays from the start
+  const [run, setRun] = useState(0);
   const [ref, inView] = useInView<HTMLDivElement>(0.4);
   const frame = frames[frameIndex];
+
+  // off screen: back to the start, ready for the next time it comes into view
+  useEffect(() => {
+    if (inView || frameIndex === 0) return;
+    const timeout = setTimeout(() => {
+      setFrameIndex(0);
+      setRun((count) => count + 1);
+    }, 0);
+    return () => clearTimeout(timeout);
+  }, [inView, frameIndex]);
 
   useEffect(() => {
     if (!inView) return;
@@ -175,6 +198,7 @@ export function IdentitySystem() {
             className="absolute inset-0"
           >
             <TypemarkLayer
+              key={run}
               variant={frame.variant}
               stage={STAGE}
               box={{ x: 0, y: 0, ...STAGE }}

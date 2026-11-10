@@ -17,7 +17,7 @@ const notes = {
   purpose:
     "Continue the story: once the product existed, the brand grew from it. Show the guidelines as a system an engineer would recognize: rules traced to a reason, sorted by what they cost to break, a mark built like a component with a fixed set of variants picked by a decision tree, and rules specific enough to build and test.",
   layout:
-    "Same slides as Design in Code. Each point gets a live visual built from the product's own parts (the typemark path, the tile pattern, the color tokens, the motion curve) rather than screenshots, except the last slide, which shows real pages from the guidelines.",
+    "Same slides as Designed in Code. Each point gets a live visual built from the product's own parts (the typemark path, the tile pattern, the color tokens, the motion curve) rather than screenshots, except the last slide, which shows real pages from the guidelines.",
 };
 
 const title = "A Coder's Brand";
@@ -69,12 +69,12 @@ const slides: Slide[] = [
     visual: <BrandPatterns />,
   },
   {
-    subtitle: "Every Color Has a Job",
+    subtitle: "Color Isn't Decoration",
     copy: [
-      "Grays carry the hierarchy, the secondary blue is the everyday accent, and orange is saved for the one thing that matters on the screen.",
-      "Success, warning and error are only for system states. And there's no pure black or white: the grays are tinted so nothing feels harsh.",
+      "Gray does most of the work: shades of it build the hierarchy on every screen. Secondary is the accent, for anything that needs a little more weight. Primary is reserved for the one thing that matters most, usually a single action, so it still stands out when it appears.",
+      "Success, warning, error and info are only for system states. None of them are there for decoration.",
     ],
-    visualTitle: "Colors by role",
+    visualTitle: "Every color has a job",
     visual: <ColorRoles />,
   },
   {
@@ -90,7 +90,7 @@ const slides: Slide[] = [
     subtitle: "Motion With Weight",
     copy: [
       "The motion rules are specific enough to build: things move with momentum, friction and inertia, never at a constant speed, and nothing moves just for effect.",
-      "Both squares travel the same distance in the same time. Only one feels like a real object.",
+      "Both charts build in with the same timings. Only the curves differ, and only one feels like it has weight.",
     ],
     visualTitle: "Same distance, same time",
     visual: <MotionComparison />,

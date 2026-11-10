@@ -33,8 +33,8 @@ export const moindiPageStructure = [
       "Item list is a candidate set; final selection pending. Revenue model, success metrics, and go-to-market are deliberately excluded.",
   },
   {
-    id: "design-in-code",
-    navLabel: "Design in Code",
+    id: "designed-in-code",
+    navLabel: "Designed in Code",
     title: "No handoff",
     effect:
       "Shows the speed: a rough sketch only to align with the CTO, then design happened directly in production code. No Figma library, no handoff step.",
@@ -107,7 +107,7 @@ export const moindiPageStructure = [
       "Short prose, optionally a four-line recap where each line points back to a section (interface designed as it shipped, engineering wasn't a wall, the product wasn't a screenshot, the brand is a system).",
     data: [
       "Conclusion copy",
-      "Back-references to Design in Code, Collaboration, Try It, Brand",
+      "Back-references to Designed in Code, Collaboration, Try It, Brand",
     ],
   },
 ];

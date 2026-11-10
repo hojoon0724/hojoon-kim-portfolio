@@ -11,6 +11,12 @@ html {
 body {
   @apply bg-surface-base text-on-base roboto-flex;
 }
+html {
+  @apply scroll-smooth;
+  @media (width < 48rem){
+    font-size:14px;
+  }
+}
 
 /* main > :first-child:not(.no-main-spacing) {
   @apply pt-md lg:pt-[calc(var(--spacing-nav)+(var(--spacing-md)*2))];

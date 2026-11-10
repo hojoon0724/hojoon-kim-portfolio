@@ -8,18 +8,20 @@ import { useCountdown } from "./shared";
 
 // the angular project's curves: bars grow and values count on cubic-bezier(0, 0, 0.25, 1) (growToTop and the
 // count-up atom), and the gauge's tick reveal and fill run on cubic-bezier(0.4, 0, 0.2, 1)
-const COUNT_UP_BEZIER: BezierPoints = [0, 0, 0.25, 1];
-const GROW_EASE = "cubic-bezier(0, 0, 0.25, 1)";
-const GAUGE_EASE = "cubic-bezier(0.4, 0, 0.2, 1)";
+export const COUNT_UP_BEZIER: BezierPoints = [0, 0, 0.25, 1];
+export const GROW_EASE = "cubic-bezier(0, 0, 0.25, 1)";
+export const GAUGE_EASE = "cubic-bezier(0.4, 0, 0.2, 1)";
+// the scramble-reveal atom's pace: characters settle slowly at first and faster toward the end
+export const SCRAMBLE_BEZIER: BezierPoints = [0, 0, 1, 0.75];
 // the original's updates use tailwind's ease-in-out class, which is this curve rather than css's own
 // ease-in-out keyword (0.42, 0, 0.58, 1)
 const UPDATE_EASE = "cubic-bezier(0.4, 0, 0.2, 1)";
 
 // the original's timings: bars and gauges build in over 1s, bars staggered 50ms apart, fills follow 300ms
 // later, and later changes take 300ms
-const BUILD_MS = 1000;
-const STAGGER_MS = 50;
-const FILL_DELAY_MS = 400;
+export const BUILD_MS = 1000;
+export const STAGGER_MS = 50;
+export const FILL_DELAY_MS = 400;
 const UPDATE_MS = 750;
 
 // counts from the number it last showed to the new one, as the original's chart-value does on each update
@@ -57,7 +59,7 @@ function useTweenedNumber(
 // gauges from around the app. every tick is one unit of what the gauge counts, so a ten-track album gets ten
 // ticks and the fill lands on the tick of the last track done
 type GaugeFormat = "percentage" | "fraction" | "currency";
-const gaugeReadings: {
+export const gaugeReadings: {
   label: string;
   count: number;
   maxCount: number;
@@ -109,12 +111,12 @@ const gaugeReadings: {
 ];
 const GAUGE_CYCLE_MS = 4000;
 // the original's ring: a 270° arc with ticks 1 unit long
-const GAUGE_SIZE = 160;
-const GAUGE_STROKE = 14;
-const GAUGE_ARC_ANGLE = 270;
-const TICK_LENGTH = 1;
+export const GAUGE_SIZE = 160;
+export const GAUGE_STROKE = 14;
+export const GAUGE_ARC_ANGLE = 270;
+export const TICK_LENGTH = 1;
 
-const formatWhole = (value: number) =>
+export const formatWhole = (value: number) =>
   Math.round(value).toLocaleString("en-US");
 
 // one reading, built from nothing: the ring sweeps in over its pale track, the fill runs to the value 300ms
@@ -230,6 +232,7 @@ function GaugeReading({
       <ScrambleRevealText
         text={reading.label.toUpperCase()}
         durationMs={BUILD_MS}
+        bezier={SCRAMBLE_BEZIER}
         className="font-mono text-xs font-bold whitespace-nowrap"
       />
     </div>
@@ -478,7 +481,7 @@ function RevealSample() {
 // echoes in amber's eight tracks and the streams each picked up in its first eight weeks out, in thousands.
 // the chart shows the running total, so every week the bars climb: the title track leads from the start, and
 // afterglow letters sits near the bottom until a playlist pick in week 5 sends it up the order
-const albumTrackWeeks = [
+export const albumTrackWeeks = [
   {
     number: "01",
     title: "Echoes in Amber",
@@ -520,15 +523,15 @@ const albumTrackWeeks = [
     weekly: [29, 25, 22, 20, 18, 16, 15, 14],
   },
 ];
-const WEEK_COUNT = 8;
+export const WEEK_COUNT = 8;
 // each track's running total at the end of a week
-const cumulativeStreams = (week: number) =>
+export const cumulativeStreams = (week: number) =>
   albumTrackWeeks.map((track) =>
     track.weekly.slice(0, week + 1).reduce((sum, streams) => sum + streams, 0),
   );
 // every bar's track is the same ceiling, as the original's maxCount: just over the biggest final total, so the
 // bars have room to climb all the way through week 8
-const CHART_MAX = 450;
+export const CHART_MAX = 450;
 const CHART_CYCLE_MS = 2500;
 
 // the original's slash-texture: two thin diagonal strokes repeated as a pattern, in the bar's color
@@ -600,7 +603,9 @@ function ChartBar({
         <div
           // the track is always full height and gets wiped into view from the bottom, so the slashes stay
           // put while they're revealed. growing its height instead would drag the pattern along with the top
-          className="absolute inset-0 overflow-hidden bg-(--moindi-gray-100)"
+          // its own compositing layer the whole time: chrome runs the clip-path wipe on the gpu, and without this the
+          // slash pattern is redrawn a hair differently when the wipe ends, which flickers bar by bar
+          className="absolute inset-0 [transform:translateZ(0)] overflow-hidden bg-(--moindi-gray-100)"
           style={{
             clipPath: isInView ? "inset(0% 0 0 0)" : "inset(100% 0 0 0)",
             transition: isInView

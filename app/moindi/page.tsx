@@ -6,7 +6,7 @@ import {
   MoindiBrand,
   MoindiCollaboration,
   MoindiConclusion,
-  MoindiDesignInCode,
+  MoindiDesignedInCode,
   MoindiThesis,
 } from "@/components/5-sections";
 
@@ -15,7 +15,7 @@ export default function MoindiPage() {
     { id: "thesis", fullNavLabel: "Thesis", shortNavLabel: "Thesis" },
     {
       id: "no-handoff",
-      fullNavLabel: "Design in Code",
+      fullNavLabel: "Designed in Code",
       shortNavLabel: "Design",
     },
     {
@@ -37,7 +37,7 @@ export default function MoindiPage() {
         shortLabels={moindiSections.map((section) => section.shortNavLabel)}
       />
       <MoindiThesis id="thesis" />
-      <MoindiDesignInCode id="no-handoff" />
+      <MoindiDesignedInCode id="no-handoff" />
       <MoindiCollaboration id="collaboration" />
       {/* <MoindiDemo id="demo" /> */}
       <MoindiBrand id="brand" />

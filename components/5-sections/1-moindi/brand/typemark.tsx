@@ -16,12 +16,23 @@ import {
   TWEEN_MS,
 } from "./letters";
 
+// the motion curve, --bezier-movement-inertia-1000: cubic-bezier(0.44, 0.7, 0.12, 1). the guides drawing in, the
+// pieces scaling and the letters moving all use it. the points are for the requestAnimationFrame tweens, which
+// can't read css
+const MOTION_BEZIER: BezierPoints = [0.44, 0.7, 0.12, 1];
+const MOTION_EASE = "var(--bezier-movement-inertia-1000)";
+
 const GUIDE_COLOR = "var(--moindi-secondary-400)";
 // round caps on near-zero dashes make dots
 const DOTS = "0.01 2.2";
 
 // the construction rectangle. when it appears it's dragged out from its first corner to the opposite one; when it
 // goes, it only fades
+// rounds a computed coordinate before it's rendered. the server and the browser can work out the same trig a
+// hair apart (Safari and Node differ around the 15th digit), which React reports as a hydration mismatch.
+// a thousandth of a unit is far below a pixel
+const round = (value: number) => Math.round(value * 1000) / 1000;
+
 function ConstructionRect({
   points,
   isShown,
@@ -41,6 +52,7 @@ function ConstructionRect({
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const animation = element.animate(
       [{ transform: "scale(0)" }, { transform: "scale(1)" }],
+      // the curve spelled out: element.animate can't read a css variable
       { duration: DRAW_MS * tempo, easing: "cubic-bezier(0.44, 0.7, 0.12, 1)" },
     );
     return () => animation.cancel();
@@ -49,7 +61,7 @@ function ConstructionRect({
   return (
     <polygon
       ref={ref}
-      points={points.map(([x, y]) => `${x},${y}`).join(" ")}
+      points={points.map(([x, y]) => `${round(x)},${round(y)}`).join(" ")}
       fill={GUIDE_COLOR}
       fillOpacity={0.2}
       className={className}
@@ -62,8 +74,8 @@ function ConstructionRect({
 }
 
 const LINE_FADE_MS = 500;
-// an even pace with soft ends, the way a hand draws a line with a ruler
-const PEN_BEZIER: BezierPoints = [0.45, 0, 0.35, 1];
+// the guides draw on the same curve as everything else here
+const PEN_BEZIER = MOTION_BEZIER;
 
 // a dotted construction line. when it appears it's drawn from one end to the other; when it goes, it only fades
 function ConstructionLine({
@@ -103,10 +115,10 @@ function ConstructionLine({
 
   return (
     <line
-      x1={from[0]}
-      y1={from[1]}
-      x2={from[0] + (to[0] - from[0]) * progress}
-      y2={from[1] + (to[1] - from[1]) * progress}
+      x1={round(from[0])}
+      y1={round(from[1])}
+      x2={round(from[0] + (to[0] - from[0]) * progress)}
+      y2={round(from[1] + (to[1] - from[1]) * progress)}
       strokeDasharray={DOTS}
       strokeWidth={1}
       // no fade in: the drawing is the entrance. it only fades on the way out
@@ -141,8 +153,8 @@ const WORDMARK_EM = 37;
 export const PITCH = 64;
 export const LETTERS = ["M", "O", "i", "n", "d", "i"] as const;
 
-// --bezier-movement-inertia-1000, which a requestAnimationFrame tween can't read from css
-const TWEEN_BEZIER: BezierPoints = [0.44, 0.7, 0.12, 1];
+// the pieces scale and morph on the shared curve too, as points for the requestAnimationFrame tween
+const TWEEN_BEZIER = MOTION_BEZIER;
 
 // every piece partway to its new state: it waits out its own delay, then eases over the tween's duration
 const lerpPieces = (
@@ -252,7 +264,9 @@ export function Glyph({
       {Object.entries(pieces).map(([id, piece]) => (
         <polygon
           key={id}
-          points={piece.points.map(([x, y]) => `${x},${y}`).join(" ")}
+          points={piece.points
+            .map(([x, y]) => `${round(x)},${round(y)}`)
+            .join(" ")}
           fill="currentColor"
           // a hairline in the same color closes the seams where pieces meet
           stroke="currentColor"
@@ -291,8 +305,8 @@ export function Glyph({
             return (
               <circle
                 key={item.id}
-                cx={item.at[0]}
-                cy={item.at[1]}
+                cx={round(item.at[0])}
+                cy={round(item.at[1])}
                 r={1.6}
                 fill={GUIDE_COLOR}
                 stroke="none"
@@ -400,7 +414,7 @@ export interface Box {
 }
 
 const MOVE_MS = 800;
-const MOVE_EASE = "var(--bezier-movement-inertia-1000)";
+const MOVE_EASE = MOTION_EASE;
 
 // the typemark laid out in a variant, fitted inside a box with one letter of clearspace on every side. the stage
 // is measured in units (stage.w by stage.h) and everything is placed in percentages of it, so it scales with the

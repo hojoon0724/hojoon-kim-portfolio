@@ -1,9 +1,10 @@
 "use client";
 
 import { Icon } from "@/components/1-atoms";
+import { useInView } from "@/hooks";
 import Image from "next/image";
-import type { CSSProperties } from "react";
-import { useState } from "react";
+import type { CSSProperties, ReactNode } from "react";
+import { useEffect, useState } from "react";
 
 export interface PageScreen {
   src: string;
@@ -22,10 +23,13 @@ export interface ShowcaseVersion {
   // the toggle's label, and how the alt text names this version
   label: string;
   screens: PageScreens;
+  // a dark-mode screenshot: the phone's safari toolbar switches to its dark look to match
+  dark?: boolean;
 }
 
 export interface ShowcasePage {
-  title: string;
+  // the page's name, for its tab and the alt text. only needed when there's more than one page to pick from
+  title?: string;
   // one version shows no toggle; more get a toggle that fades between them at the same scroll spot
   versions: ShowcaseVersion[];
   // shown in both address bars
@@ -53,7 +57,7 @@ const SCREEN_RADIUS_PT = 62;
 const BODY_RADIUS = `calc(${pt(SCREEN_RADIUS_PT)} + ${BEZEL_CQW}cqw)`;
 
 const STATUS_BAR_PT = 54;
-const TOOLBAR_PT = 96;
+const TOOLBAR_PT = 80;
 
 // the phone's width sets both frames' height: the phone is as tall as an iphone 17 pro at that width, and the
 // desktop window matches it. capped by the viewport height so a whole phone fits on screen.
@@ -106,7 +110,7 @@ function ScreenLayers({
             src={screen.src}
             alt={
               index === version
-                ? `${page.title} page on ${deviceLabels[device].toLowerCase()}, ${option.label.toLowerCase()}`
+                ? `${page.title ? `${page.title} page` : "Page"} on ${deviceLabels[device].toLowerCase()}, ${option.label.toLowerCase()}`
                 : ""
             }
             width={screen.width}
@@ -129,18 +133,21 @@ function DesktopFrame({
   version: number;
 }) {
   return (
-    <div className="flex h-(--frame-h) flex-col overflow-hidden rounded-lg bg-white shadow-xl ring-1 ring-black/10">
-      <div className="relative flex h-7 shrink-0 items-center gap-1.5 bg-[#252526] px-3">
-        <span className="h-2.5 w-2.5 rounded-full bg-[#F85149]/80" />
-        <span className="h-2.5 w-2.5 rounded-full bg-[#D29922]/80" />
-        <span className="h-2.5 w-2.5 rounded-full bg-[#2EA043]/80" />
-        <span className="absolute left-1/2 flex h-4.5 w-[min(40%,16rem)] -translate-x-1/2 items-center justify-center rounded-sm bg-[#1E1E1E] font-mono text-[10px] text-[#9D9D9D]">
+    // the window behind the screenshot takes the page's own background, like the phone's screen
+    <div
+      className={`flex h-(--frame-h) flex-col overflow-hidden rounded-lg shadow-xl ring-1 ring-black/10 transition-colors duration-500 ${page.versions[version]?.dark ? "bg-(--moindi-gray-850)" : "bg-white"}`}
+    >
+      <div className="relative flex h-5 shrink-0 items-center gap-1.25 bg-[#252526] px-3 md:h-7 md:gap-1.5">
+        <span className="h-2 w-2 rounded-full bg-[#F85149]/80 md:h-2.5 md:w-2.5" />
+        <span className="h-2 w-2 rounded-full bg-[#D29922]/80 md:h-2.5 md:w-2.5" />
+        <span className="h-2 w-2 rounded-full bg-[#2EA043]/80 md:h-2.5 md:w-2.5" />
+        <span className="absolute left-1/2 flex h-4.5 w-[min(40%,16rem)] -translate-x-1/2 items-center justify-center rounded-sm bg-[#1E1E1E] font-mono text-[8px] text-[#9D9D9D] md:text-[10px]">
           {page.url}
         </span>
       </div>
       <div
         tabIndex={0}
-        aria-label={`${page.title}, desktop. Scrolls to show the full page.`}
+        aria-label={`${page.title ?? "Page"}, desktop. Scrolls to show the full page.`}
         className="min-h-0 flex-1 overflow-y-auto"
       >
         <ScreenLayers page={page} device="desktop" version={version} />
@@ -208,14 +215,24 @@ function StatusBar() {
 }
 
 // safari's compact bottom bar: back, the address pill and more, floating over the page, then the home indicator
-function SafariToolbar({ url }: { url?: string }) {
-  const glass =
-    "flex items-center justify-center rounded-full bg-white/75 text-black shadow-[0_2px_12px_rgba(0,0,0,0.15)] ring-1 ring-black/5 backdrop-blur-md";
+function SafariToolbar({
+  url,
+  dark = false,
+}: {
+  url?: string;
+  dark?: boolean;
+}) {
+  // safari's floating glass, light or dark to match the page under it
+  const glass = `flex items-center justify-center rounded-full shadow-[0_2px_12px_rgba(0,0,0,0.15)] ring-1 backdrop-blur-md transition-colors duration-500 ${
+    dark
+      ? "bg-[#1C1C1E]/75 text-white ring-white/10"
+      : "bg-white/75 text-black ring-black/5"
+  }`;
   const circle = { width: pt(48), height: pt(48) };
   return (
     <div
       className="absolute inset-x-0 bottom-0 z-10 flex flex-col items-center"
-      style={{ paddingInline: pt(12), height: pt(TOOLBAR_PT) }}
+      style={{ paddingInline: pt(26), height: pt(TOOLBAR_PT) }}
     >
       <div className="flex w-full items-center" style={{ gap: pt(8) }}>
         <span className={glass} style={circle}>
@@ -246,7 +263,7 @@ function SafariToolbar({ url }: { url?: string }) {
         </span>
       </div>
       <span
-        className="absolute rounded-full bg-black"
+        className="absolute hidden rounded-full bg-black"
         style={{ bottom: pt(8), width: pt(134), height: pt(5) }}
       />
     </div>
@@ -265,17 +282,22 @@ function PhoneFrame({
   return (
     <div className="@container w-(--phone-w)">
       <div
-        className="relative aspect-[71.9/150] w-full bg-[#1C1C1E] shadow-xl ring-1 ring-black/10"
+        // an explicit height rather than aspect-ratio: safari adds the bezel's padding on top of an aspect-ratio
+        // height, which made the phone taller than the desktop window. --frame-h is that same ratio, so the two
+        // always match
+        className="relative h-(--frame-h) w-full bg-[#1C1C1E] shadow-xl ring-1 ring-black/10"
         style={{ borderRadius: BODY_RADIUS, padding: `${BEZEL_CQW}cqw` }}
       >
         <div
-          className="relative h-full w-full overflow-hidden bg-white"
+          // the screen behind the screenshot takes the page's own background, so its edges can't show as a light
+          // hairline around a dark screenshot
+          className={`relative h-full w-full overflow-hidden transition-colors duration-500 ${page.versions[version]?.dark ? "bg-(--moindi-gray-850)" : "bg-white"}`}
           style={{ borderRadius: pt(SCREEN_RADIUS_PT) }}
         >
           <StatusBar />
           <div
             tabIndex={0}
-            aria-label={`${page.title}, mobile. Scrolls to show the full page.`}
+            aria-label={`${page.title ?? "Page"}, mobile. Scrolls to show the full page.`}
             className="absolute inset-0 overflow-y-auto [scrollbar-width:none]"
             style={{
               paddingTop: pt(STATUS_BAR_PT),
@@ -284,15 +306,49 @@ function PhoneFrame({
           >
             <ScreenLayers page={page} device="mobile" version={version} />
           </div>
-          <SafariToolbar url={page.url} />
+          <SafariToolbar url={page.url} dark={page.versions[version]?.dark} />
         </div>
       </div>
     </div>
   );
 }
 
-const toggleClass = (active: boolean) =>
-  `roboto-mono px-sm py-xs cursor-pointer border border-current text-xs font-bold uppercase transition-colors duration-200 md:text-sm ${active ? "bg-current/20" : "hover:bg-current/10"}`;
+// a row of options joined into one control: one outline, a hairline between options, the picked one filled
+function Segmented<T extends string | number>({
+  label,
+  options,
+  value,
+  onChange,
+  className = "",
+}: {
+  label: string;
+  options: { value: T; content: ReactNode; title?: string }[];
+  value: T;
+  onChange: (value: T) => void;
+  className?: string;
+}) {
+  return (
+    <div
+      className={`roboto-mono flex h-7 shrink-0 border border-current text-[11px] font-bold uppercase md:text-xs ${className}`}
+      role="group"
+      aria-label={label}
+    >
+      {options.map((option, index) => (
+        <button
+          key={option.value}
+          type="button"
+          aria-pressed={option.value === value}
+          aria-label={option.title}
+          title={option.title}
+          onClick={() => onChange(option.value)}
+          className={`flex cursor-pointer items-center px-2.5 whitespace-nowrap transition-colors duration-200 ${index > 0 ? "border-l border-current" : ""} ${option.value === value ? "bg-current/20" : "hover:bg-current/10"}`}
+        >
+          {option.content}
+        </button>
+      ))}
+    </div>
+  );
+}
 
 // pages' desktop and mobile screenshots side by side at the same height, each scrolling on its own.
 // more than one page gets tabs to pick between them; a page with more than one version gets a toggle that fades
@@ -300,17 +356,30 @@ const toggleClass = (active: boolean) =>
 export function PageScreensShowcase({
   pages,
   defaultVersion = 0,
-  title,
+  autoSwitchMs,
   className = "",
 }: {
-  // a heading for the whole showcase; without one, a single page's title is used
-  title?: string;
   pages: ShowcasePage[];
   defaultVersion?: number;
+  // when set, each time the showcase comes into view it starts on the default version and moves to the next
+  // one after this long. picking a version by hand stops it
+  autoSwitchMs?: number;
   className?: string;
 }) {
   const [pageIndex, setPageIndex] = useState(0);
   const [version, setVersion] = useState(defaultVersion);
+  const [ref, isInView] = useInView<HTMLDivElement>(0.6);
+  const [pickedByHand, setPickedByHand] = useState(false);
+
+  useEffect(() => {
+    if (autoSwitchMs === undefined || pickedByHand) return;
+    // in view: wait, then switch. out of view: back to the default, ready for the next time it appears
+    const timeout = setTimeout(
+      () => setVersion(isInView ? defaultVersion + 1 : defaultVersion),
+      isInView ? autoSwitchMs : 0,
+    );
+    return () => clearTimeout(timeout);
+  }, [autoSwitchMs, defaultVersion, isInView, pickedByHand]);
   const page = pages[pageIndex];
   const shownVersion = Math.min(version, page.versions.length - 1);
   // below md there's room for one frame at a time, so a toggle picks which
@@ -318,98 +387,104 @@ export function PageScreensShowcase({
     "mobile",
   );
 
-  const pageTabs = (tabsClass: string) => (
-    <div
-      className={`gap-xs flex shrink-0 ${tabsClass}`}
-      role="group"
-      aria-label="Page"
-    >
-      {pages.map((option, index) => (
-        <button
-          key={option.title}
-          type="button"
-          aria-pressed={index === pageIndex}
-          onClick={() => setPageIndex(index)}
-          className={`${toggleClass(index === pageIndex)} shrink-0 whitespace-nowrap`}
-        >
-          {option.title}
-        </button>
-      ))}
-    </div>
-  );
+  const pickVersion = (index: number) => {
+    setPickedByHand(true);
+    setVersion(index);
+  };
 
   return (
-    <div className={`gap-sm flex flex-col ${className}`} style={frameSizes}>
-      {/* heading on the left, the toggles on the right; never wraps */}
-      <div className="gap-sm flex items-center justify-between">
-        {(title ?? (pages.length === 1 ? page.title : undefined)) && (
-          <h3 className="roboto-mono min-w-0 truncate text-sm font-bold uppercase md:text-base">
-            {title ?? page.title}
-          </h3>
-        )}
-        {pages.length > 1 && pageTabs("hidden md:ml-auto md:flex")}
-        <div className="gap-xs flex shrink-0 items-center">
-          {page.versions.length > 1 && (
-            <div
-              className="gap-xs flex"
-              role="group"
-              aria-label={`${page.title} version`}
-            >
-              {page.versions.map((option, index) => (
-                <button
-                  key={option.label}
-                  type="button"
-                  aria-pressed={index === shownVersion}
-                  onClick={() => setVersion(index)}
-                  className={toggleClass(index === shownVersion)}
-                >
-                  {option.label}
-                </button>
-              ))}
-            </div>
-          )}
-          <div
-            className="gap-xs flex md:hidden"
-            role="group"
-            aria-label="Device"
-          >
-            {(["mobile", "desktop"] as const).map((device) => (
-              <button
-                key={device}
-                type="button"
-                aria-pressed={device === narrowDevice}
-                onClick={() => setNarrowDevice(device)}
-                aria-label={deviceLabels[device]}
-                title={deviceLabels[device]}
-                className={`${toggleClass(device === narrowDevice)} flex items-center`}
+    <div
+      ref={ref}
+      className={`gap-sm relative flex flex-col ${className} h-full overflow-x-clip`}
+      style={frameSizes}
+    >
+      {/* every control in one row: which page on the left; light or dark, and on phones which device, on the
+          right */}
+      <div
+        // on md and up the device switch is gone, so a single page with a single version has no row at all
+        className={`h-7 items-center gap-2 ${pages.length > 1 || page.versions.length > 1 ? "flex" : "flex md:hidden"}`}
+      >
+        {pages.length > 1 && (
+          <>
+            <Segmented
+              label="Page"
+              className="max-md:hidden"
+              options={pages.map((option, index) => ({
+                value: index,
+                content: option.title,
+              }))}
+              value={pageIndex}
+              onChange={setPageIndex}
+            />
+            {/* phones: the pages fold into a dropdown instead of a row of tabs */}
+            <label className="relative h-7 min-w-0 md:hidden">
+              <span className="sr-only">Page</span>
+              <select
+                value={pageIndex}
+                onChange={(event) => setPageIndex(+event.target.value)}
+                className="roboto-mono h-full max-w-full cursor-pointer appearance-none border border-current bg-transparent pr-7 pl-2.5 text-[11px] font-bold uppercase"
               >
-                <Icon icon={device} className="size-5" />
-              </button>
-            ))}
-          </div>
+                {pages.map((option, index) => (
+                  <option key={index} value={index}>
+                    {option.title}
+                  </option>
+                ))}
+              </select>
+              <svg
+                viewBox="0 0 10 6"
+                className="pointer-events-none absolute top-1/2 right-2.5 w-2.5 -translate-y-1/2"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                aria-hidden="true"
+              >
+                <path d="m1 1 4 4 4-4" />
+              </svg>
+            </label>
+          </>
+        )}
+        <div className="ml-auto flex shrink-0 items-center gap-2">
+          {page.versions.length > 1 && (
+            <Segmented
+              label={page.title ? `${page.title} version` : "Version"}
+              options={page.versions.map((option, index) => ({
+                value: index,
+                content: option.label,
+              }))}
+              value={shownVersion}
+              onChange={pickVersion}
+            />
+          )}
+          <Segmented
+            label="Device"
+            className="md:hidden"
+            options={(["mobile", "desktop"] as const).map((device) => ({
+              value: device,
+              title: deviceLabels[device],
+              content: <Icon icon={device} className="size-4" />,
+            }))}
+            value={narrowDevice}
+            onChange={setNarrowDevice}
+          />
         </div>
       </div>
-      {/* phones: the page tabs get their own row and scroll sideways rather than wrapping */}
-      {pages.length > 1 && (
-        <div className="-mx-md px-md overflow-x-auto [scrollbar-width:none] md:hidden [&::-webkit-scrollbar]:hidden">
-          {pageTabs("w-max")}
-        </div>
-      )}
-      <div className="gap-lg grid grid-cols-1 justify-items-center md:grid-cols-[minmax(0,1fr)_var(--phone-w)]">
+      {/* md and up: side by side. phones: both frames stacked in one spot, cross-fading as the device switch
+          changes */}
+      <div className="gap-lg grid grid-cols-1 justify-items-center [grid-template-areas:'stack'] md:grid-cols-[minmax(0,1fr)_var(--phone-w)] md:[grid-template-areas:none]">
         {(["desktop", "mobile"] as const).map((device) => (
           <figure
             key={device}
-            className={`gap-xs flex min-w-0 flex-col ${device === "mobile" ? "w-(--phone-w)" : "w-full"} ${device === narrowDevice ? "" : "max-md:hidden"}`}
+            className={`gap-xs flex min-w-0 flex-col transition-[opacity,scale] duration-300 ease-out motion-reduce:transition-none max-md:[grid-area:stack] ${device === "mobile" ? "w-(--phone-w)" : "w-full"} ${device === narrowDevice ? "" : "max-md:pointer-events-none max-md:scale-95 max-md:opacity-0"}`}
           >
             {/* keyed by page, so a new page starts at its top */}
             {device === "desktop" ? (
               <DesktopFrame
-                key={page.title}
+                key={pageIndex}
                 page={page}
                 version={shownVersion}
               />
             ) : (
-              <PhoneFrame key={page.title} page={page} version={shownVersion} />
+              <PhoneFrame key={pageIndex} page={page} version={shownVersion} />
             )}
             <figcaption className="roboto-mono text-xs uppercase opacity-70 max-md:hidden">
               {deviceLabels[device]}

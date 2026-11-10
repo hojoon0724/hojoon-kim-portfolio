@@ -12,6 +12,22 @@ export function useScrollContext() {
   return useContext(ScrollContext);
 }
 
+const isTransparent = (color: string) =>
+  !color || color === "transparent" || color === "rgba(0, 0, 0, 0)";
+
+// the first solid background on an element or its ancestors, up to (not including) the body
+function backgroundBehind(element: HTMLElement): string | null {
+  for (
+    let node: HTMLElement | null = element;
+    node && node !== document.body;
+    node = node.parentElement
+  ) {
+    const color = window.getComputedStyle(node).backgroundColor;
+    if (!isTransparent(color)) return color;
+  }
+  return null;
+}
+
 export function ScrollProvider({ children }: { children: React.ReactNode }) {
   const [activeTargetKey, setActiveTargetKey] = useState<string | null>(null);
   const pathname = usePathname();
@@ -88,14 +104,10 @@ export function ScrollProvider({ children }: { children: React.ReactNode }) {
         setActiveTargetKey(nextTargetKey);
       }
 
-      const backgroundColor =
-        window.getComputedStyle(activeTarget).backgroundColor;
-
-      if (
-        !backgroundColor ||
-        backgroundColor === "transparent" ||
-        backgroundColor === "rgba(0, 0, 0, 0)"
-      ) {
+      // the section's own background, or, when it has none (project pages color the page, not each section),
+      // the nearest one behind it
+      const backgroundColor = backgroundBehind(activeTarget);
+      if (!backgroundColor) {
         return;
       }
 

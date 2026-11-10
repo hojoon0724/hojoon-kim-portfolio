@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { AssetImage } from "../design-in-code/shared";
-import { toggleButtonClass } from "../design-in-code/shared";
+import { AssetImage } from "../designed-in-code/shared";
+import { toggleButtonClass } from "../designed-in-code/shared";
 import { visualHeight } from "./frame";
 
 // pages from the guidelines' do / don't section, where choices are ranked rather than just marked right or wrong

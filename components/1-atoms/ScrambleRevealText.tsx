@@ -1,7 +1,7 @@
 "use client";
 
 import { useInView } from "@/hooks";
-import { applyBezier, readBezier } from "@/lib/bezier";
+import { applyBezier, readBezier, type BezierPoints } from "@/lib/bezier";
 import { useEffect, useState } from "react";
 
 interface ScrambleRevealTextProps {
@@ -12,6 +12,8 @@ interface ScrambleRevealTextProps {
   finishByMs?: number;
   threshold?: number;
   easeOut?: boolean;
+  // a curve for the reveal's pace, overriding easeOut
+  bezier?: BezierPoints;
   startAnimation?: boolean;
   resetOnLeave?: boolean;
   characters?: string;
@@ -43,6 +45,7 @@ export function ScrambleRevealText({
   finishByMs = 0,
   threshold = 0.3,
   easeOut = false,
+  bezier: revealBezier,
   startAnimation = false,
   resetOnLeave = false,
   characters = defaultCharacters,
@@ -65,7 +68,8 @@ export function ScrambleRevealText({
     const reduceMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
-    const bezier = easeOut ? readBezier("--bezier-count-up") : null;
+    const bezier =
+      revealBezier ?? (easeOut ? readBezier("--bezier-count-up") : null);
     let frameId = 0;
     let startTime = 0;
     let lastScrambleTime = 0;
@@ -114,6 +118,7 @@ export function ScrambleRevealText({
     calculatedDurationMs,
     delayMs,
     easeOut,
+    revealBezier,
     characters,
     scrambleLength,
     scrambleIntervalMs,
