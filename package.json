@@ -11,8 +11,8 @@
   },
   "dependencies": {
     "markdown-it": "^15.0.3",
-    "next": "^16.4.1",
-    "nodemailer": "^9.0.6",
+    "next": "^16.4.5",
+    "nodemailer": "^10.1.4",
     "react": "19.2.5",
     "react-dom": "19.2.5"
   },
@@ -22,7 +22,7 @@
     "@types/nodemailer": "^8.0.1",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "baseline-browser-mapping": "^2.10.22",
+    "baseline-browser-mapping": "^2.11.37",
     "eslint": "^9",
     "eslint-config-next": "16.2.4",
     "prettier": "^3.8.4",
